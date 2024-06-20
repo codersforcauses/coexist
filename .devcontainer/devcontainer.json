@@ -1,0 +1,24 @@
+// Pasted from https://github.com/codersforcauses/automated-setups
+
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-outside-of-docker
+{
+  "name": "CFC - Devenv",
+  // You can get the sha256 here https://github.com/codersforcauses/automated-setups/pkgs/container/cfc-devenv
+  // Pin it to a specific version to avoid unnecessary breaking changes
+  "image": "ghcr.io/codersforcauses/cfc-devenv@sha256:8e6cb34e04f912d40235b02b7080869bb2083e4328f209d852d91db5cf19482b",
+
+  "features": {},
+
+  // Use this environment variable if you need to bind mount your local source code into a new container.
+  "remoteEnv": {
+    "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
+  },
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [3000, 8000, 8080]
+
+  // Use 'postCreateCommand' to run commands after the container is created.
+  // Note: Useful for when they open it and want everything to just start
+  // "postCreateCommand": "docker compose up -d && yarn dev"
+}
