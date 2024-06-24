@@ -21,11 +21,28 @@ export default function Home() {
   return (
     <main
       className={cn(
-        "flex min-h-screen flex-col items-center gap-4 p-24 font-sans",
+        "m-0 flex min-h-screen flex-col items-center p-0 font-sans",
         fontSans.variable,
       )}
     >
-      <Navbar />
+      <div id="header">
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <Navbar />
+
+          <div
+            className=""
+            id="inspiring_div"
+            style={{ marginTop: "auto", maxWidth: "540px" }}
+          >
+            <div style={{ fontWeight: "519", fontSize: "2rem" }}>
+              Inspiring generations to co-exist
+            </div>
+            <div style={{ fontSize: "1rem" }}>
+              recreation, education, conservation
+            </div>
+          </div>
+        </div>
+      </div>
       <h1 className="text-3xl text-primary">Test title</h1>
       <Button onClick={() => setClicked(true)}>
         {isLoading ? "Loading" : "Ping"}
