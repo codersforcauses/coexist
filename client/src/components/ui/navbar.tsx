@@ -11,9 +11,9 @@ export default function Navbar() {
 
   function dropdown() {
     if (drop && buttonRef.current) {
-      buttonRef.current.classList.add("show");
-    } else if (buttonRef.current) {
       buttonRef.current.classList.remove("show");
+    } else if (buttonRef.current) {
+      buttonRef.current.classList.add("show");
     }
     setDrop(!drop);
   }
