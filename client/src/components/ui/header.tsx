@@ -1,23 +1,29 @@
 import React from "react";
 
 import Navbar from "./navbar";
+/*
 
+not responsive under ~400px
+
+*/
 export default function Header() {
   return (
-    <div id="header">
-      <div id="nav_header" style={{ display: "flex", flexDirection: "column" }}>
+    <div
+      id="header"
+      className="flex h-[350px] w-full justify-center bg-[url('/logo-background.png')] p-10 text-white"
+    >
+      <div id="nav_header" className="flex w-[75vw] flex-col">
         <Navbar />
 
         <div
           id="inspiring_div"
-          style={{ marginTop: "auto", maxWidth: "540px" }}
+          className="mt-auto text-center sm:text-start"
+          style={{ maxWidth: "600px" }}
         >
-          <div style={{ fontWeight: "519", fontSize: "2rem" }}>
+          <div className="text-4xl" style={{ fontWeight: "519" }}>
             Inspiring generations to co-exist
           </div>
-          <div style={{ fontSize: "1.25rem" }}>
-            recreation, education, conservation
-          </div>
+          <div className="text-xl">recreation, education, conservation</div>
         </div>
       </div>
     </div>

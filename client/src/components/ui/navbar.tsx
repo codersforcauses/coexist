@@ -1,3 +1,4 @@
+import { AlignJustify } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
@@ -10,34 +11,25 @@ export default function Navbar() {
   }, []);
 
   function dropdown() {
-    if (drop && buttonRef.current) {
-      buttonRef.current.classList.remove("show");
-    } else if (buttonRef.current) {
-      buttonRef.current.classList.add("show");
+    if (buttonRef.current) {
+      setDrop(!drop);
     }
-    setDrop(!drop);
   }
 
   return (
     <div
-      style={{
-        fontFamily: "Work Sans",
-        fontStyle: "normal",
-        lineHeight: "28px",
-        fontSize: "24px",
-        fontWeight: "300",
-        whiteSpace: "nowrap",
-      }}
+      className="whitespace-nowrap font-sans text-2xl font-light"
+      style={{ fontFamily: '"Work Sans", sans-serif', lineHeight: "28px" }}
     >
       <div
         id="navbar"
-        className="bg-white-500 grid h-[50px] w-[70vw]"
+        className="bg-white-500 flex h-[50px] w-full items-center justify-between px-0 xl:grid"
         style={{
           gridTemplateColumns: "1fr 3fr 1fr",
         }}
       >
         <div
-          id="pop"
+          id="logo"
           className="bg-white-500 flex w-full items-center justify-start"
           style={{ minWidth: "200px" }}
         >
@@ -48,50 +40,39 @@ export default function Navbar() {
 
         <div
           id="responsive-full"
-          className="bg-white-500 flex w-full items-center justify-end px-10"
-          style={{ textAlign: "center", paddingRight: "50px" }}
+          className="bg-white-500 flex w-full items-center justify-end px-10 pr-[50px] text-center"
         >
-          <div>
-            <a className="" style={{ marginRight: "50px" }} href="">
+          <div className="hidden lg:flex">
+            <a className="mr-12" href="">
               About us
             </a>
 
-            <a className="" href="">
-              Upcoming Events
-            </a>
+            <a href="">Upcoming Events</a>
           </div>
         </div>
 
         <div
           id="responsive-full"
-          className="flex w-full items-center justify-center text-white"
-          style={{ minWidth: "200px" }}
+          className="hidden w-full min-w-52 items-center justify-center text-white lg:flex"
         >
-          <button className="rounded px-5" style={{ width: "auto" }}>
-            Log in
-          </button>
-
-          <button
-            className="rounded text-white"
-            style={{
-              padding: "0px 20px",
-              height: "48px",
-              border: "2px solid white",
-              borderRadius: "10px",
-            }}
-          >
+          <button className="w-auto rounded px-5">Log in</button>
+          <button className="m-0 h-12 rounded-lg border-2 border-white px-5 text-white">
             Sign up
           </button>
         </div>
 
-        <div id="responsive-phone">
+        <div id="responsive-phone" className="flex lg:hidden">
           <button onClick={() => dropdown()}>
-            <i className="fa fa-bars" style={{ fontSize: "30px" }}></i>
+            <AlignJustify className="p-0" size={30} color="currentColor" />
           </button>
         </div>
       </div>
 
-      <div id="dropdown">
+      <div
+        id="dropdown"
+        className={`${drop ? "flex" : "hidden"} " absolute mt-3 w-[75vw] flex-col bg-black bg-opacity-90 p-5 px-12 lg:hidden`}
+        style={{ lineHeight: "55px" }}
+      >
         <ul>
           <li>
             <a href="">About us</a>
@@ -102,19 +83,11 @@ export default function Navbar() {
           </li>
 
           <li>
-            <button className="mr-5 rounded" style={{ width: "auto" }}>
-              Log in
-            </button>
+            <button className="mr-5 w-auto rounded">Log in</button>
 
             <button
-              className="rounded text-white"
-              style={{
-                lineHeight: "20px",
-                padding: "2px 20px",
-                height: "48px",
-                border: "2px solid white",
-                borderRadius: "10px",
-              }}
+              style={{ lineHeight: "15px" }}
+              className="h-12 rounded-lg border-2 border-white px-5 py-0.5 text-white"
             >
               Sign up
             </button>
