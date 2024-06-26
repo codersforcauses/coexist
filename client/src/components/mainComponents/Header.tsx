@@ -1,18 +1,12 @@
-import React from "react";
+import Navbar from "./Navbar";
 
-import Navbar from "./navbar";
-/*
-
-not responsive under ~400px
-
-*/
 export default function Header() {
   return (
     <div
       id="header"
-      className="flex h-[350px] w-full justify-center bg-[url('/logo-background.png')] p-10 text-white"
+      className="flex h-[350px] w-full justify-center bg-[url('/logo-background.png')] p-10 px-16 text-white"
     >
-      <div id="nav_header" className="flex w-[75vw] flex-col">
+      <div id="nav_header" className="flex w-full flex-col">
         <Navbar />
 
         <div
