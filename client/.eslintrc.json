@@ -4,7 +4,7 @@
     "plugin:@tanstack/eslint-plugin-query/recommended"
   ],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["simple-import-sort", "import"],
+  "plugins": ["simple-import-sort", "import","@typescript-eslint" ],
   "rules": {
     "simple-import-sort/imports": "warn",
     "simple-import-sort/exports": "warn",

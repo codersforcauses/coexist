@@ -33,7 +33,7 @@ export default function Navbar() {
           className="bg-white-500 flex w-full items-center justify-start"
           style={{ minWidth: "200px" }}
         >
-          <a href="">
+          <a className="hover:opacity-80" href="">
             <Image src="/logo.png" width={155} height={100} alt="logo" />{" "}
           </a>
         </div>
@@ -43,11 +43,19 @@ export default function Navbar() {
           className="bg-white-500 flex w-full items-center justify-end px-10 pr-[50px] text-center"
         >
           <div className="hidden lg:flex">
-            <a className="mr-12" href="">
+            <a
+              className="mr-12 border-b-4 border-transparent hover:border-[#5C764B] hover:opacity-80"
+              href=""
+            >
               About us
             </a>
 
-            <a href="">Upcoming Events</a>
+            <a
+              className="border-b-4 border-transparent hover:border-[#5C764B] hover:opacity-80"
+              href=""
+            >
+              Upcoming Events
+            </a>
           </div>
         </div>
 
@@ -55,8 +63,10 @@ export default function Navbar() {
           id="responsive-full"
           className="hidden w-full min-w-52 items-center justify-center text-white lg:flex"
         >
-          <button className="w-auto rounded px-5">Log in</button>
-          <button className="m-0 h-12 rounded-lg border-2 border-white px-5 text-white">
+          <button className="mx-4 w-auto rounded border-b-4 border-transparent px-2 hover:border-[#5C764B] hover:opacity-80">
+            Log in
+          </button>
+          <button className="m-0 mb-2 h-12 rounded-lg border-2 border-white px-5 text-white hover:opacity-70">
             Sign up
           </button>
         </div>
@@ -75,19 +85,34 @@ export default function Navbar() {
       >
         <ul>
           <li>
-            <a href="">About us</a>
+            <a
+              className="border-b-4 border-transparent hover:border-[#5C764B]"
+              href=""
+            >
+              About us
+            </a>
           </li>
 
           <li>
-            <a href="">Upcoming Events </a>
+            <a
+              className="border-b-4 border-transparent hover:border-[#5C764B]"
+              href=""
+            >
+              Upcoming Events{" "}
+            </a>
           </li>
 
           <li>
-            <button className="mr-5 w-auto rounded">Log in</button>
+            <button
+              style={{ lineHeight: "auto" }}
+              className="m-0 mr-5 border-b-4 border-transparent p-0 hover:border-[#5C764B]"
+            >
+              Log in
+            </button>
 
             <button
               style={{ lineHeight: "15px" }}
-              className="h-12 rounded-lg border-2 border-white px-5 py-0.5 text-white"
+              className="h-12 rounded-lg border-2 border-white px-5 py-0.5 text-white hover:opacity-70"
             >
               Sign up
             </button>
