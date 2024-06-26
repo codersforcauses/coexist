@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "api.healthcheck",
+    "api.users",
     "corsheaders",
     "rest_framework",
 ]
