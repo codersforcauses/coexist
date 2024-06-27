@@ -1,4 +1,4 @@
-#stolen from https://github.com/codersforcauses/csf/pull/24/files
+# stolen from https://github.com/codersforcauses/csf/pull/24/files
 
 from django.test import TestCase
 from django.urls import reverse
