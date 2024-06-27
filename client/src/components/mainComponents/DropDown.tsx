@@ -17,7 +17,7 @@ export function DropDownNav({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="lg:hidden">
-          <AlignJustify size={30} />
+          <AlignJustify className="border-none" size={30} />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="m-1 w-48">

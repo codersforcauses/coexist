@@ -33,13 +33,9 @@ export default function Navbar() {
   return (
     <div
       id="navbar"
-      className="flex w-full items-center justify-between whitespace-nowrap text-xl font-medium lg:text-2xl"
+      className="flex w-full items-center justify-between whitespace-nowrap text-xl lg:text-2xl"
     >
-      <div
-        id="logo"
-        className="flex w-full items-center justify-start"
-        style={{ minWidth: "200px" }}
-      >
+      <div id="logo" className="flex w-full items-center justify-start">
         <a className="hover:opacity-80" href="">
           <Image src="/logo.png" width={155} height={100} alt="logo" />{" "}
         </a>
