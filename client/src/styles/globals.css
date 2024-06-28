@@ -13,6 +13,7 @@
   }
   .dark {
     --text: 0 0% 86%;
+    --text-secondary: 0 1% 65%;
     --background: 0 0% 0%;
     --primary: 96 22% 62%;
     --secondary: 100 15% 12%;
