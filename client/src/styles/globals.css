@@ -5,6 +5,7 @@
 @layer base {
   :root {
     --text: 0 0% 14%;
+    --text-secondary: 0 1% 35%;
     --background: 0 0% 100%;
     --primary: 96 22% 38%;
     --secondary: 100 15% 88%;
