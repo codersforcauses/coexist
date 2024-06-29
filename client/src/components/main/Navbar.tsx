@@ -1,6 +1,8 @@
 import Image from "next/image";
 
 import { DropDownNav } from "./DropDown";
+// import NewEvent from "../components/main/new-event";
+
 
 const onHoverStyle =
   "rounded border-b-4 border-transparent px-2 hover:border-[#5C764B] hover:opacity-80";
@@ -13,6 +15,10 @@ function ButtonsContainer({ isHiddenWhenLg }: { isHiddenWhenLg: boolean }) {
     >
       <a className={`${onHoverStyle}`} href="">
         Upcoming Events
+      </a>
+
+      <a className={`${onHoverStyle}`} href="/new_event">
+        New Event
       </a>
 
       <a className={`${onHoverStyle}`} href="">
