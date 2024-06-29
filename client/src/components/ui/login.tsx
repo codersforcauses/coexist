@@ -32,23 +32,30 @@ const LoginModal = () => {
   return (
     <Dialog open={openLogin} onOpenChange={setOpenLogin}>
       <DialogTrigger>Login</DialogTrigger>
-      <DialogContent>
+      <DialogContent className="bg-[#5C764B]">
         <DialogHeader>
-          <Button variant="default" onClick={(e) => setOpenLogin(false)}>
-            {" "}
-            Back
-          </Button>
-          <img></img>
-          <Button
-            variant="default"
-            onClick={() => {
-              setOpenSignup(true);
-            }}
-          >
-            {" "}
-            Sign up{" "}
-          </Button>
-          <DialogTitle>Log in with your account</DialogTitle>
+          <div className="flex items-center justify-between">
+            <Button
+              variant="link"
+              className="text p-4 text-left"
+              onClick={(e) => setOpenLogin(false)}
+            >
+              Back
+            </Button>
+            <img></img>
+            <Button
+              className="text p-4 text-right"
+              variant="link"
+              onClick={() => {
+                setOpenSignup(true);
+              }}
+            >
+              Sign up
+            </Button>
+          </div>
+          <DialogTitle className="p-4 text-center text-black">
+            Log in
+          </DialogTitle>
           <Label htmlFor="loginemail">Email</Label>
           <Input id="loginemail" onChange={(e) => setEmail(e.target.value)} />
           <Label htmlFor="loginpassword">Password</Label>

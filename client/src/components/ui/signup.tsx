@@ -8,6 +8,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -22,7 +28,7 @@ const SignUpModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [open,setOpenSignup] = useState(false);
+  const [confirmpassword, setConfirmPassword] = useState("");
 
   const handleLogin = async () => {
     if (!email || !password || !username || !firstname || !lastname) {
@@ -37,18 +43,26 @@ const SignUpModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogTrigger>Sign up</DialogTrigger>
-      <DialogContent>
+      <DialogContent className="bg-[#5C764B]">
         <DialogHeader>
-          <DialogTitle>Sign up</DialogTitle>
+          <img></img>
+          <DialogTitle className="p-4 text-center text-black">
+            Sign up
+          </DialogTitle>
           <Label htmlFor="username">Username</Label>
           <Input id="username" onChange={(e) => setUsername(e.target.value)} />
-          <Label htmlFor="firstname">First name</Label>
-          <Input
-            id="firstname"
-            onChange={(e) => setFirstname(e.target.value)}
-          />
-          <Label htmlFor="lastname">Last name</Label>
-          <Input id="lastname" onChange={(e) => setLastname(e.target.value)} />
+          <div className="flex">
+            <Label htmlFor="firstname">First name</Label>
+            <Input
+              id="firstname"
+              onChange={(e) => setFirstname(e.target.value)}
+            />
+            <Label htmlFor="lastname">Last name</Label>
+            <Input
+              id="lastname"
+              onChange={(e) => setLastname(e.target.value)}
+            />
+          </div>
           <Label htmlFor="signupemail">Email</Label>
           <Input id="signupemail" onChange={(e) => setEmail(e.target.value)} />
           <Label htmlFor="signuppassword">Password</Label>
@@ -56,11 +70,30 @@ const SignUpModal: React.FC<SignupModalProps> = ({ isOpen, onClose }) => {
             id="signuppassword"
             onChange={(e) => setPassword(e.target.value)}
           />
+          <Label htmlFor="signupconfirmpassword">Confirm Password</Label>
+          <Input
+            id="signupconfirmpassword"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <Label htmlFor="choosecity">Main city</Label>
+          <DropdownMenu>
+            <DropdownMenuTrigger>Choose a city</DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Perth</DropdownMenuLabel>
+
+              <DropdownMenuLabel>Sydney</DropdownMenuLabel>
+              <DropdownMenuLabel>Melbourne</DropdownMenuLabel>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </DialogHeader>
 
-        <Button variant="outline" onClick={handleLogin}>
+        <Button
+          variant="outline"
+          className="bg-[#0F441C] text-white"
+          onClick={handleLogin}
+        >
           {" "}
-          Submit
+          Sign Up
         </Button>
       </DialogContent>
     </Dialog>
