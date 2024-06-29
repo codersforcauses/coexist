@@ -5,7 +5,7 @@ import Header from "@/components/main/Header";
 import { usePings } from "@/hooks/pings";
 import { cn } from "@/lib/utils";
 
-// import NewEvent from "../components/main/new_event";
+import NewEvent from "../components/main/NewEvent";
 import { Button } from "../components/ui/button";
 
 const fontSans = FontSans({
@@ -28,6 +28,8 @@ export default function Home() {
     >
       <Header />
 
+      <NewEvent />
+
       <h1 className="text-3xl text-primary">Test title</h1>
       <Button onClick={() => setClicked(true)}>
         {isLoading ? "Loading" : "Ping"}
@@ -35,7 +37,6 @@ export default function Home() {
       <p>
         Response from server: <span>{data as string}</span>
       </p>
-
     </main>
   );
 }
