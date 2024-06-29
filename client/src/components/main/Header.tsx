@@ -8,7 +8,6 @@ export default function Header() {
     >
       <div id="nav_header" className="flex w-full flex-col">
         <Navbar />
-
         <div id="inspiring_div" className="mt-auto text-center sm:text-start">
           <div className="text-4xl" style={{ fontWeight: "519" }}>
             Inspiring generations to co-exist

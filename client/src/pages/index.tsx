@@ -1,7 +1,6 @@
 import { Work_Sans as FontSans } from "next/font/google";
 import { useState } from "react";
 
-import Header from "@/components/main/Header";
 import { usePings } from "@/hooks/pings";
 import { cn } from "@/lib/utils";
 
@@ -25,8 +24,6 @@ export default function Home() {
         fontSans.variable,
       )}
     >
-      <Header />
-
       <h1 className="text-3xl text-primary">Test title</h1>
       <Button onClick={() => setClicked(true)}>
         {isLoading ? "Loading" : "Ping"}
