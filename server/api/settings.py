@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     "api.healthcheck",
     "corsheaders",
     "rest_framework",
-    "api.event"
+    "api.event",
     "rest_framework_simplejwt",
 ]
 
