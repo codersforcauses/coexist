@@ -23,6 +23,8 @@
 
 @layer base {
   body {
-    @apply text-text bg-background;
+    @apply bg-background text-foreground;
+    padding: 0;
+    margin: 0;
   }
 }
