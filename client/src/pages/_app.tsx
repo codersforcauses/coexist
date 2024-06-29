@@ -5,7 +5,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { AppProps } from "next/app";
 import { fontFamily } from "tailwindcss/defaultTheme";
 
-import Layout from "@/components/main/layout";
+import Layout from "@/components/main/header/Layout";
 
 const queryClient = new QueryClient();
 
