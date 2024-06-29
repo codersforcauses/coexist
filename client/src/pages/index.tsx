@@ -5,6 +5,8 @@ import { usePings } from "@/hooks/pings";
 import { cn } from "@/lib/utils";
 
 import { Button } from "../components/ui/button";
+import LoginModal from "../components/ui/login";
+import SignUpModal from "../components/ui/signup";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -28,6 +30,7 @@ export default function Home() {
       <Button onClick={() => setClicked(true)}>
         {isLoading ? "Loading" : "Ping"}
       </Button>
+      <LoginModal />
       <p>
         Response from server: <span>{data as string}</span>
       </p>
