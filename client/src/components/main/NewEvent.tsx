@@ -1,8 +1,10 @@
 import { CalendarCheck, Image, X } from "lucide-react";
 
+import addEvent from "../../hooks/addEvent";
+
 export default function NewEvent() {
   return (
-    <div className="h-[700px] w-[85vw] rounded-[13px] border-2 border-[#000] p-5">
+    <div className="my-8 min-h-[500px] w-[85vw] rounded-[13px] border-2 border-[#000] p-5">
       <div className="flex justify-between border-b-2 border-[#7D916F] p-1">
         <h1 className="text-lg font-semibold"> Create Event </h1>
 
@@ -54,7 +56,7 @@ export default function NewEvent() {
         </div>
 
         <div className="flex h-full flex-col items-center">
-          <div className="h-full max-h-[325px] w-4/5 rounded-[10px] border-2 border-[#7D916F] p-5 text-start">
+          <div className="h-full min-h-[325px] w-4/5 rounded-[10px] border-2 border-[#7D916F] p-5 text-start">
             <h1 className="text-m flex">
               {" "}
               Upload Image <Image className="mx-1" />
@@ -63,8 +65,11 @@ export default function NewEvent() {
             <input type="file" />
           </div>
 
-          <div className="my-auto w-full px-5 text-end">
-            <button className="rounded-[13px] border-2 border-[#181818] p-1 px-2">
+          <div className="my-auto mt-5 w-full px-5 text-end">
+            <button
+              className="rounded-[13px] border-2 border-[#181818] p-1 px-2"
+              onClick={addEvent}
+            >
               <h1 className="text-m flex">
                 {" "}
                 Add Event <CalendarCheck className="mx-1 text-[#7D916F]" />
