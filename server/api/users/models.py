@@ -7,9 +7,6 @@ from django.contrib.auth.models import \
 
 class UserManager(BaseUserManager):
     def _create_user(self, username, email, password, **extra_fields):
-        """
-        Create and save a user with the given username, email, and password.
-        """
         if not username:
             raise ValueError("The given username must be set")
 
@@ -49,12 +46,12 @@ class User(AbstractUser, PermissionsMixin):
 
     id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=200, unique=True)
-    first_name = models.CharField(max_length=100, blank=True)
-    last_name = models.CharField(max_length=100, blank=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    last_login = models.DateTimeField(auto_now_add=True)
+    last_login = models.DateTimeField(auto_now=True)
     role = models.CharField(
         max_length=8,
         choices=Role.choices,
@@ -62,6 +59,7 @@ class User(AbstractUser, PermissionsMixin):
     )
 
     USERNAME_FIELD = 'username'
+    EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = ['password']
     objects = UserManager()
 
