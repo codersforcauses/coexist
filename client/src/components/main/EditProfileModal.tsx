@@ -1,4 +1,5 @@
 import { Copy } from "lucide-react";
+import { FaRegEdit } from "react-icons/fa";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,7 +17,10 @@ export default function EditProfileModal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Share</Button>
+        {/* <Button variant="outline">Share</Button> */}
+        <Button>
+          <FaRegEdit></FaRegEdit>
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>

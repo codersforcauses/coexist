@@ -16,15 +16,15 @@ const fontSans = FontSans({
 
 export default function Home() {
   const [clicked, setClicked] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
   const { data, isLoading } = usePings({
     enabled: clicked,
   });
 
-  const onClickHandler = () => {
-    showModal ? setShowModal(false) : setShowModal(true);
-    setClicked(true);
-  };
+  // const onClickHandler = () => {
+  //   showModal ? setShowModal(false) : setShowModal(true);
+  //   setClicked(true);
+  // };
 
   return (
     <main
@@ -36,9 +36,8 @@ export default function Home() {
       <Header />
 
       <h1 className="text-3xl text-primary">Test title</h1>
-      <Button onClick={onClickHandler}>{isLoading ? "Loading" : "Ping"}</Button>
-      <FaRegEdit></FaRegEdit>
-      {showModal && <EditProfileModal />}
+      {/* <Button onClick={onClickHandler}>{isLoading ? "Loading" : "Ping"}</Button> */}
+      <EditProfileModal />
     </main>
   );
 }
