@@ -1,5 +1,6 @@
 import { Work_Sans as FontSans } from "next/font/google";
 import { useState } from "react";
+import { FaRegEdit } from "react-icons/fa";
 
 import EditProfileModal from "@/components/main/EditProfileModal";
 import Header from "@/components/main/Header";
@@ -36,7 +37,7 @@ export default function Home() {
 
       <h1 className="text-3xl text-primary">Test title</h1>
       <Button onClick={onClickHandler}>{isLoading ? "Loading" : "Ping"}</Button>
-
+      <FaRegEdit></FaRegEdit>
       {showModal && <EditProfileModal />}
     </main>
   );
