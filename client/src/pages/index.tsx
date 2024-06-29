@@ -28,8 +28,6 @@ export default function Home() {
     >
       <Header />
 
-      <NewEvent />
-
       <h1 className="text-3xl text-primary">Test title</h1>
       <Button onClick={() => setClicked(true)}>
         {isLoading ? "Loading" : "Ping"}
