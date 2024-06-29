@@ -26,7 +26,7 @@ export default function Home() {
         fontSans.variable,
       )}
     >
-      <Header />
+      <Header bottomdiv={true} />
 
       <h1 className="text-3xl text-primary">Test title</h1>
       <Button onClick={() => setClicked(true)}>

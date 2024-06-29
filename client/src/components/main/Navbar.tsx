@@ -1,8 +1,6 @@
 import Image from "next/image";
 
 import { DropDownNav } from "./DropDown";
-// import NewEvent from "../components/main/new-event";
-
 
 const onHoverStyle =
   "rounded border-b-4 border-transparent px-2 hover:border-[#5C764B] hover:opacity-80";
@@ -41,8 +39,11 @@ export default function Navbar() {
       id="navbar"
       className="flex w-full items-center justify-between whitespace-nowrap text-xl lg:text-2xl"
     >
-      <div id="logo" className="flex w-full items-center justify-start">
-        <a className="hover:opacity-80" href="">
+      <div
+        id="logo"
+        className="flex w-full min-w-[155px] items-center justify-start"
+      >
+        <a className="hover:opacity-80" href="/">
           <Image src="/logo.png" width={155} height={100} alt="logo" />{" "}
         </a>
       </div>

@@ -1,14 +1,34 @@
 import { CalendarCheck, Image, X } from "lucide-react";
+import { useRef } from "react";
 
 import addEvent from "../../hooks/addEvent";
 
 export default function NewEvent() {
+  let title = useRef<HTMLInputElement>(null);
+
+  let description = useRef<HTMLInputElement>(null);
+  let paymenturl = useRef<HTMLInputElement>(null);
+  let location = useRef<HTMLInputElement>(null);
+  let city = useRef<HTMLInputElement>(null);
+
+  function getInfo() {
+    let data = {
+      title: title.current?.value,
+      description: description.current?.value,
+      location: location.current?.value,
+      city: city.current?.value,
+      paymenturl: paymenturl.current?.value,
+    };
+    alert(JSON.stringify(data, null, 2));
+    // addEvent(data);
+  }
+
   return (
     <div className="my-8 min-h-[500px] w-[85vw] rounded-[13px] border-2 border-[#000] p-5">
       <div className="flex justify-between border-b-2 border-[#7D916F] p-1">
         <h1 className="text-lg font-semibold"> Create Event </h1>
 
-        <a href="">
+        <a href="/">
           <X />
         </a>
       </div>
@@ -22,6 +42,7 @@ export default function NewEvent() {
                 type="text"
                 className="rounded border-2 bg-[#EFF1ED] px-1 placeholder-black"
                 placeholder="Enter text"
+                ref={title}
               ></input>
             </div>
 
@@ -31,16 +52,20 @@ export default function NewEvent() {
                 type="text"
                 className="rounded border-2 bg-[#EFF1ED] px-1 py-10 placeholder-black"
                 placeholder="Enter text"
+                ref={description}
               ></input>
             </div>
 
             <div className="flex justify-between px-1 py-3">
               <label>City</label>
-              <select className="rounded-[20px] border-2 bg-[#7D916F] p-1 px-2">
+              <select
+                ref={city}
+                className="rounded-[20px] border-2 bg-[#7D916F] p-1 px-2"
+              >
                 <option value="">Select</option>
-                <option value="city1">Perth</option>
-                <option value="city2">Syndney</option>
-                <option value="city3">Canberra</option>
+                <option value="Perth">Perth</option>
+                <option value="Sydney">Sydney</option>
+                <option value="Canberra">Canberra</option>
               </select>
             </div>
 
@@ -50,6 +75,17 @@ export default function NewEvent() {
                 type="text"
                 className="rounded border-2 bg-[#EFF1ED] px-1 placeholder-black"
                 placeholder="Enter text"
+                ref={location}
+              ></input>
+            </div>
+
+            <div className="flex justify-between px-1 py-3">
+              <label>Payment Url</label>
+              <input
+                type="text"
+                className="rounded border-2 bg-[#EFF1ED] px-1 placeholder-black"
+                placeholder="Enter text"
+                ref={paymenturl}
               ></input>
             </div>
           </form>
@@ -68,7 +104,7 @@ export default function NewEvent() {
           <div className="my-auto mt-5 w-full px-5 text-end">
             <button
               className="rounded-[13px] border-2 border-[#181818] p-1 px-2"
-              onClick={addEvent}
+              onClick={getInfo}
             >
               <h1 className="text-m flex">
                 {" "}
