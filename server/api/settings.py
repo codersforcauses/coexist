@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
 ]
 
+# tet
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
