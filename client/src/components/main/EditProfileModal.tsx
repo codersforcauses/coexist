@@ -22,26 +22,26 @@ export default function EditProfileModal() {
           <FaRegEdit></FaRegEdit>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="w-11/12 rounded-lg bg-blue-300 md:max-2xl:w-96">
         <DialogHeader>
           <DialogTitle>Edit Profile</DialogTitle>
-          <DialogDescription>
+          {/* <DialogDescription>
             Anyone who has this link will be able to view this.
-          </DialogDescription>
+          </DialogDescription> */}
         </DialogHeader>
-        <div className="flex items-center space-x-2">
-          <Button type="submit" size="sm" className="px-3">
-            <span className="sr-only">Copy</span>
-            <Copy className="h-4 w-4" />
-          </Button>
+        <div className="h-28 w-full place-self-center bg-pink-400">
+          <form>
+            <label htmlFor="fname">First name:</label>
+            <input type="text" id="fname" name="fname" />
+          </form>
         </div>
-        <DialogFooter className="sm:justify-start">
+        {/* <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
             <Button type="button" variant="secondary">
               Close
             </Button>
           </DialogClose>
-        </DialogFooter>
+        </DialogFooter> */}
       </DialogContent>
     </Dialog>
   );
