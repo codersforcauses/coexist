@@ -1,7 +1,7 @@
 import { Work_Sans as FontSans } from "next/font/google";
 import { useState } from "react";
 
-import Header from "@/components/mainComponents/Header";
+import Header from "@/components/main/Header";
 import { usePings } from "@/hooks/pings";
 import { cn } from "@/lib/utils";
 

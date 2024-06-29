@@ -20,8 +20,8 @@ export function DropDownNav({
           <AlignJustify className="border-none" size={30} />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="m-1 w-48">
-        <div className="flex justify-center"> Menu </div>
+      <DropdownMenuContent className="m-1 w-48 lg:hidden">
+        <div className="flex justify-center font-medium"> Menu </div>
         <DropdownMenuSeparator />
         {ButtonsContainer}
       </DropdownMenuContent>
