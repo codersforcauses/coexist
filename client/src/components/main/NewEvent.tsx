@@ -1,5 +1,5 @@
 import { CalendarCheck, Image, X } from "lucide-react";
-import { useRef } from "react";
+import React, { useRef } from "react";
 
 import addEvent from "../../hooks/addEvent";
 
@@ -19,12 +19,23 @@ export default function NewEvent() {
       city: city.current?.value,
       paymenturl: paymenturl.current?.value,
     };
+
+    if (
+      data.title === "" ||
+      data.description === "" ||
+      data.location === "" ||
+      data.city === ""
+    ) {
+      alert("Please fill all required fields");
+      return;
+    }
+
     alert(JSON.stringify(data, null, 2));
     // addEvent(data);
   }
 
   return (
-    <div className="my-8 min-h-[500px] w-[85vw] rounded-[13px] border-2 border-[#000] p-5">
+    <div className="my-8 min-h-[500px] w-[95%] rounded-[13px] border-2 border-[#000] p-5 md:w-[85vw]">
       <div className="flex justify-between border-b-2 border-[#7D916F] p-1">
         <h1 className="text-lg font-semibold"> Create Event </h1>
 
@@ -35,29 +46,29 @@ export default function NewEvent() {
 
       <div className="grid-col-1 my-4 grid h-full text-center lg:grid-cols-2">
         <div className="mx-auto h-full w-4/5 lg:w-full">
-          <form className="flex flex-col">
-            <div className="flex justify-between px-1 py-3">
-              <label>Title</label>
+          <form className="flex flex-col text-start">
+            <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
+              <label>Title *</label>
               <input
                 type="text"
-                className="rounded border-2 bg-[#EFF1ED] px-1 placeholder-black"
+                className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
                 ref={title}
               ></input>
             </div>
 
-            <div className="flex justify-between px-1 py-3 text-start">
-              <label>Description</label>
+            <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
+              <label>Description *</label>
               <input
                 type="text"
-                className="rounded border-2 bg-[#EFF1ED] px-1 py-10 placeholder-black"
+                className="w-full rounded border-2 bg-[#EFF1ED] px-1 py-10 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
                 ref={description}
               ></input>
             </div>
 
-            <div className="flex justify-between px-1 py-3">
-              <label>City</label>
+            <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
+              <label>City (Co-Exist Branch) *</label>
               <select
                 ref={city}
                 className="rounded-[20px] border-2 bg-[#7D916F] p-1 px-2"
@@ -69,21 +80,21 @@ export default function NewEvent() {
               </select>
             </div>
 
-            <div className="flex justify-between px-1 py-3">
-              <label>Location</label>
+            <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
+              <label>Location *</label>
               <input
                 type="text"
-                className="rounded border-2 bg-[#EFF1ED] px-1 placeholder-black"
+                className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
                 ref={location}
               ></input>
             </div>
 
-            <div className="flex justify-between px-1 py-3">
+            <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
               <label>Payment Url</label>
               <input
                 type="text"
-                className="rounded border-2 bg-[#EFF1ED] px-1 placeholder-black"
+                className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
                 ref={paymenturl}
               ></input>
@@ -104,7 +115,7 @@ export default function NewEvent() {
           <div className="my-auto mt-5 w-full px-5 text-end">
             <button
               className="rounded-[13px] border-2 border-[#181818] p-1 px-2"
-              onClick={getInfo}
+              onClick={() => getInfo()}
             >
               <h1 className="text-m flex">
                 {" "}
