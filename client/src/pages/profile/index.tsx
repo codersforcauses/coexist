@@ -31,12 +31,12 @@ export default function Settings() {
       "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png",
   };
   return (
-    <div className="flex flex-1 flex-col items-center gap-4 bg-gray-200 px-2 py-4 lg:items-start">
-      <h1 className="text-left text-2xl font-semibold md:text-4xl">
+    <div className="flex flex-1 flex-col items-center gap-4 bg-gray-200 px-2 py-4 md:px-6 lg:items-start">
+      <h1 className="text-left text-2xl font-semibold md:text-3xl">
         My Profile
       </h1>
       <div className="flex w-full flex-grow justify-center rounded-lg bg-lime-700 p-5">
-        <div className="flex flex-1 flex-col items-center justify-between gap-5 rounded-lg bg-white px-4 py-6 md:justify-start md:gap-10 lg:items-start lg:px-10">
+        <div className="flex flex-1 flex-col items-center justify-between gap-5 rounded-lg bg-white px-4 py-6 md:justify-start md:gap-14 md:pt-10 lg:items-start lg:px-10">
           <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-10">
             <Avatar className="h-44 w-44 md:h-64 md:w-64">
               <AvatarImage src={user.image} />
