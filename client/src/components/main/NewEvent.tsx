@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 
 import addEvent from "../../hooks/addEvent";
 import { CalenderPicker } from "../ui/calenderpick";
+import SuccessEvent from "../ui/successevent";
 
 export default function NewEvent() {
   let title = useRef<HTMLInputElement>(null);
@@ -16,7 +17,7 @@ export default function NewEvent() {
   let [fill, setfill] = useState(false);
 
   let [selectedDate, setSelectedDate] = useState<Date>();
-
+  let [success, setSuccess] = useState(false);
   function getInfo() {
     let data = {
       title: title.current?.value,
@@ -42,7 +43,9 @@ export default function NewEvent() {
       setfill(false);
     }
 
-    addEvent(data);
+    if (addEvent(data)) {
+      setSuccess(true);
+    }
   }
 
   return (
@@ -132,6 +135,7 @@ export default function NewEvent() {
               ></input>
             </div>
           </form>
+          <SuccessEvent success={success}></SuccessEvent>
         </div>
 
         <div className="flex h-full flex-col items-center">
