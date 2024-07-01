@@ -1,7 +1,8 @@
-import { CalendarCheck, Image, X } from "lucide-react";
-import React, { useRef } from "react";
+import { CalendarCheck, CalendarDays, Image, X } from "lucide-react";
+import React, { useRef, useState } from "react";
 
 import addEvent from "../../hooks/addEvent";
+import { CalenderPicker } from "../ui/calenderpick";
 
 export default function NewEvent() {
   let title = useRef<HTMLInputElement>(null);
@@ -10,6 +11,11 @@ export default function NewEvent() {
   let paymenturl = useRef<HTMLInputElement>(null);
   let location = useRef<HTMLInputElement>(null);
   let city = useRef<HTMLInputElement>(null);
+  let time = useRef<HTMLInputElement>(null);
+
+  let [fill, setfill] = useState(false);
+
+  let [selectedDate, setSelectedDate] = useState<Date>();
 
   function getInfo() {
     let data = {
@@ -17,6 +23,8 @@ export default function NewEvent() {
       description: description.current?.value,
       location: location.current?.value,
       city: city.current?.value,
+      time: time.current?.value,
+      date: selectedDate,
       paymenturl: paymenturl.current?.value,
     };
 
@@ -24,14 +32,18 @@ export default function NewEvent() {
       data.title === "" ||
       data.description === "" ||
       data.location === "" ||
-      data.city === ""
+      data.city === "" ||
+      data.time === "" ||
+      selectedDate === null
     ) {
-      alert("Please fill all required fields");
+      setfill(true);
       return;
+    } else {
+      setfill(false);
     }
 
     alert(JSON.stringify(data, null, 2));
-    // addEvent(data);
+    //addEvent(data);
   }
 
   return (
@@ -45,10 +57,13 @@ export default function NewEvent() {
       </div>
 
       <div className="grid-col-1 my-4 grid h-full text-center lg:grid-cols-2">
-        <div className="mx-auto h-full w-4/5 lg:w-full">
+        <div className="mx-auto h-full w-full min-w-[0%]">
           <form className="flex flex-col text-start">
+            <p className={`${fill ? "block italic" : "hidden"} text-red-500`}>
+              Please fill out all required fields (*).
+            </p>
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
-              <label>Title *</label>
+              <label>Title * </label>
               <input
                 type="text"
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
@@ -76,8 +91,26 @@ export default function NewEvent() {
                 <option value="">Select</option>
                 <option value="Perth">Perth</option>
                 <option value="Sydney">Sydney</option>
-                <option value="Canberra">Canberra</option>
+                <option value="Brisbane">Brisbane</option>
+                <option value="Gold Coast">Gold Coast</option>
+                <option value="Cairns">Cairns</option>
+                <option value="Townsville">Townsville</option>
+                <option value="Melbourne">Melbourne</option>
+                <option value="Hobart">Hobart</option>
+                <option value="Byron Bay">Byron Bay</option>
               </select>
+            </div>
+
+            <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
+              <label>Date and Time *</label>
+              <div className="flex w-full justify-between md:w-[65%]">
+                <CalenderPicker pass={setSelectedDate} />
+                <input
+                  ref={time}
+                  type="time"
+                  className="max-w-1/2 border-2 bg-[#EFF1ED]"
+                ></input>
+              </div>
             </div>
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
