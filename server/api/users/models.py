@@ -1,67 +1,31 @@
 from django.db import models
-from django.contrib.auth.models import \
-    AbstractUser, \
-    BaseUserManager, \
-    PermissionsMixin
+from django.contrib.auth.models import User, Group
 
 
-class UserManager(BaseUserManager):
-    def _create_user(self, username, email, password, **extra_fields):
-        if not username:
-            raise ValueError("The given username must be set")
-
-        email = self.normalize_email(email)
-        username = User.normalize_username(username)
-        user = self.model(username=username, email=email, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_user(self, username, email=None, password=None, **extra_fields):
-        extra_fields.setdefault("is_staff", False)
-        extra_fields.setdefault("is_superuser", False)
-        return self._create_user(username, email, password, **extra_fields)
-
-    def create_superuser(self,
-                         username,
-                         email=None,
-                         password=None,
-                         **extra_fields):
-        extra_fields.setdefault("is_staff", True)
-        extra_fields.setdefault("is_superuser", True)
-
-        if extra_fields.get("is_staff") is not True:
-            raise ValueError("Superuser must have is_staff=True.")
-        if extra_fields.get("is_superuser") is not True:
-            raise ValueError("Superuser must have is_superuser=True.")
-
-        return self._create_user(username, email, password, **extra_fields)
-
-
-class User(AbstractUser, PermissionsMixin):
-    class Role(models.TextChoices):
-        ATTENDEE = 'attendee'
-        POSTER = 'poster'
-        ADMIN = 'admin'
-
-    id = models.AutoField(primary_key=True)
-    username = models.CharField(max_length=200, unique=True)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    last_login = models.DateTimeField(auto_now=True)
-    role = models.CharField(
-        max_length=8,
-        choices=Role.choices,
-        default=Role.ATTENDEE
-    )
-
-    USERNAME_FIELD = 'username'
-    EMAIL_FIELD = 'email'
-    REQUIRED_FIELDS = ['password']
-    objects = UserManager()
+class CustomUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    # rsvps = models.ManyToManyField(RSVP, related_name='attendees')
 
     def __str__(self):
-        return self.username
+        return self.user.username
+
+    @property
+    def role(self):
+        if self.user.groups.exists():
+            return self.user.groups.first().name
+        else:
+            return None
+
+    def set_role(self, role_name):
+        self.user.groups.clear()
+        group = Group.objects.get(name=role_name)
+        self.user.groups.add(group)
+
+    def is_admin(self):
+        return self.user.groups.filter(name='Admin').exists()
+
+    def is_poster(self):
+        return self.user.groups.filter(name='Poster').exists()
+
+    def is_attendee(self):
+        return self.user.groups.filter(name='Attendee').exists()
