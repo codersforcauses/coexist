@@ -42,8 +42,7 @@ export default function NewEvent() {
       setfill(false);
     }
 
-    alert(JSON.stringify(data, null, 2));
-    //addEvent(data);
+    addEvent(data);
   }
 
   return (
