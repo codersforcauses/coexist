@@ -1,4 +1,5 @@
 import { Copy } from "lucide-react";
+import Image from "next/image";
 import { FaRegEdit } from "react-icons/fa";
 
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+const imageLoader = () => {
+  return "https://ui-avatars.com/api/?name=John+Doe";
+};
+
 export default function EditProfileModal() {
   return (
     <Dialog>
@@ -22,13 +27,25 @@ export default function EditProfileModal() {
           <FaRegEdit></FaRegEdit>
         </Button>
       </DialogTrigger>
-      <DialogContent className="md:max-2xl:w-96rem w-11/12 rounded-lg bg-blue-300">
+      <DialogContent className="md:max-2xl:w-96rem w-11/12 rounded-lg">
         <DialogHeader>
-          <DialogTitle>Edit Profile</DialogTitle>
-          <div className="border-t border-t-black"></div>
+          <DialogTitle className="mb-2 text-left text-2xl">
+            Edit Profile
+          </DialogTitle>
+          <div className="border-t border-[#7D916F]"></div>
         </DialogHeader>
-        <div>
-          <a className="">Change Profile Picture</a>
+        <div className="mt-2 grid w-full place-items-center">
+          <Image
+            loader={imageLoader}
+            src="jd.png"
+            alt="Profile Picture"
+            width={128}
+            height={128}
+            className="rounded-full"
+          />
+          <a className="pt-1 text-base text-[#7D916F]">
+            Change Profile Picture
+          </a>
         </div>
         <form className="w-full space-y-4 bg-white p-8">
           <div>
