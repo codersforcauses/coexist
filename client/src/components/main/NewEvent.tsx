@@ -49,7 +49,7 @@ export default function NewEvent() {
   }
 
   return (
-    <div className="my-8 min-h-[500px] w-[95%] rounded-[13px] border-2 border-[#000] p-5 md:w-[85vw]">
+    <div className="my-8 min-h-[500px] w-[95%] rounded-[13px] border-2 border-[#000] p-5">
       <div className="flex justify-between border-b-2 border-[#7D916F] p-1">
         <h1 className="text-lg font-semibold"> Create Event </h1>
 
@@ -150,7 +150,7 @@ export default function NewEvent() {
 
           <div className="my-auto mt-5 w-full px-5 text-end">
             <button
-              className="rounded-[13px] border-2 border-[#181818] p-1 px-2"
+              className="rounded-[13px] border-2 border-[#181818] p-1 px-2 hover:bg-slate-200 hover:opacity-80"
               onClick={() => getInfo()}
             >
               <h1 className="text-m flex">
