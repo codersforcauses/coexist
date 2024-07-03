@@ -1,4 +1,6 @@
 import { CalendarCheck, CalendarDays, Image, X } from "lucide-react";
+import next from "next";
+import Link from "next/link";
 import React, { useRef, useState } from "react";
 
 import addEvent from "../../hooks/addEvent";
@@ -11,7 +13,7 @@ export default function NewEvent() {
   let description = useRef<HTMLInputElement>(null);
   let paymenturl = useRef<HTMLInputElement>(null);
   let location = useRef<HTMLInputElement>(null);
-  let city = useRef<HTMLInputElement>(null);
+  let city = useRef<HTMLSelectElement>(null);
   let time = useRef<HTMLInputElement>(null);
 
   let [fill, setfill] = useState(false);
@@ -43,7 +45,11 @@ export default function NewEvent() {
       setfill(false);
     }
 
-    if (addEvent(data)) {
+    test(data);
+  }
+
+  async function test(data: any) {
+    if (await addEvent(data)) {
       setSuccess(true);
     }
   }
@@ -53,9 +59,9 @@ export default function NewEvent() {
       <div className="flex justify-between border-b-2 border-[#7D916F] p-1">
         <h1 className="text-lg font-semibold"> Create Event </h1>
 
-        <a href="/">
+        <Link href="/">
           <X />
-        </a>
+        </Link>
       </div>
 
       <div className="grid-col-1 my-4 grid h-full text-center lg:grid-cols-2">
