@@ -29,7 +29,3 @@ class ExtendedUser(models.Model):
 
     def is_attendee(self):
         return self.user.groups.filter(name='Attendee').exists()
-
-    @property
-    def last_login(self):
-        return self.user.last_login
