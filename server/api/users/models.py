@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User, Group
 
 
-class CustomUser(models.Model):
+class ExtendedUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # rsvps = models.ManyToManyField(RSVP, related_name='attendees')
 
