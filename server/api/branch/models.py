@@ -1,5 +1,5 @@
 from django.db import models
-from api.baseModels import SoftDeleteModel
+from api.SoftDelete import SoftDeleteModel
 
 # Create your models here.
 
