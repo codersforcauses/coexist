@@ -1,3 +1,4 @@
+from django.contrib import admin
 from typing import Any
 from django.db import models
 from django.http import HttpRequest
@@ -10,7 +11,7 @@ class SoftDeleteManager(models.Manager):
         super(SoftDeleteManager, self).__init__(*args, **kwargs)
 
     def get_queryset(self):
-        if self.objects_all == True:
+        if self.objects_all:
             return super().get_queryset()
         qs = super().get_queryset().filter(is_deleted=self.is_deleted)
         return qs
@@ -23,7 +24,7 @@ class SoftDeleteModel(models.Model):
     objects_all = SoftDeleteManager(objects_all=True)
 
     def delete(self, soft=True):
-        if soft == True:
+        if soft:
             self.is_deleted = True
             self.save()
         else:
@@ -35,9 +36,6 @@ class SoftDeleteModel(models.Model):
 
     class Meta:
         abstract = True
-
-
-from django.contrib import admin
 
 
 class SoftDeleteAdmin(admin.ModelAdmin):

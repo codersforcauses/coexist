@@ -17,4 +17,3 @@ class Event(SoftDeleteModel):
 
     def __str__(self):
         return self.title
-
