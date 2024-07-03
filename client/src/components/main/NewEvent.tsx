@@ -10,7 +10,7 @@ import SuccessEvent from "../ui/successevent";
 export default function NewEvent() {
   let title = useRef<HTMLInputElement>(null);
 
-  let description = useRef<HTMLInputElement>(null);
+  let description = useRef<HTMLTextAreaElement>(null);
   let paymenturl = useRef<HTMLInputElement>(null);
   let location = useRef<HTMLInputElement>(null);
   let city = useRef<HTMLSelectElement>(null);
@@ -82,12 +82,12 @@ export default function NewEvent() {
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
               <label>Description *</label>
-              <input
-                type="text"
-                className="w-full rounded border-2 bg-[#EFF1ED] px-1 py-10 placeholder-black md:w-[65%]"
+              <textarea
+                wrap="physical"
+                className="h-40 w-full rounded border-2 bg-[#EFF1ED] px-1 py-1 text-start placeholder-black md:w-[65%]"
                 placeholder="Enter text"
                 ref={description}
-              ></input>
+              ></textarea>
             </div>
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
