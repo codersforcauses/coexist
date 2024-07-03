@@ -22,9 +22,12 @@ class SoftDeleteModel(models.Model):
     objects_deleted = SoftDeleteManager(is_deleted=True)
     objects_all = SoftDeleteManager(objects_all=True)
 
-    def delete(self):
-        self.is_deleted = True
-        self.save()
+    def delete(self, soft=True):
+        if soft == True:
+            self.is_deleted = True
+            self.save()
+        else:
+            super().delete()
 
     def restore(self):
         self.is_deleted = False
@@ -41,15 +44,5 @@ class SoftDeleteAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         return self.model.objects_all.all()
 
-
-from rest_framework import viewsets
-from rest_framework.response import Response
-from rest_framework import status
-
-
-class SoftDeleteViewSet(viewsets.ModelViewSet):
-    
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        instance.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def delete_model(self, request: HttpRequest, obj: Any) -> None:
+        obj.delete(soft=False)
