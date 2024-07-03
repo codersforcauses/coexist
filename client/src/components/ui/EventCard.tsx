@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function EventCard() {
   return (
-    <div className="flex w-full rounded-lg border border-[#9DAD93] p-12">
+    <div className="flex w-full rounded-lg border border-secondary p-12">
       <div className="min-w-56">
         <div className="w-fit">
           <p className="px-1 pb-1 text-2xl font-semibold">MAY</p>
