@@ -1,9 +1,9 @@
 from django.apps import AppConfig
 
 
-class UsersConfig(AppConfig):
+class Config(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "api.users"
+    name = "api.user"
 
     def ready(self):
         from . import signals # noqa F401
