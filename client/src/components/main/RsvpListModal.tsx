@@ -76,7 +76,7 @@ export default function RsvpListModal() {
       <DialogTrigger>
         <Button variant="outline">Show RSVPs</Button>
       </DialogTrigger>
-      <DialogContent className="h-3/5 w-4/5">
+      <DialogContent className="max-h-96 w-full max-w-4xl">
         <DialogTitle className="flex items-center gap-5">
           <div>RSVPs for Tree Planting & Social Swim</div>
           <div className="flex items-center gap-1">
@@ -84,20 +84,20 @@ export default function RsvpListModal() {
             <span className="text-sm text-neutral-500">{attendees.length}</span>
           </div>
         </DialogTitle>
-        <DialogDescription className="overflow-scroll">
+        <DialogDescription className="max-h-80 overflow-y-scroll">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>First Name</TableHead>
-                <TableHead>Last Name</TableHead>
+                <TableHead className="border-r-2">First Name</TableHead>
+                <TableHead className="border-r-2">Last Name</TableHead>
                 <TableHead>Email</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className="text-black">
               {attendees.map((a) => (
                 <TableRow>
-                  <TableCell>{a.firstName}</TableCell>
-                  <TableCell>{a.lastName}</TableCell>
+                  <TableCell className="border-r-2">{a.firstName}</TableCell>
+                  <TableCell className="border-r-2">{a.lastName}</TableCell>
                   <TableCell>{a.email}</TableCell>
                 </TableRow>
               ))}
