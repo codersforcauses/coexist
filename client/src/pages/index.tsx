@@ -18,7 +18,11 @@ export default function Home() {
   const { data, isLoading } = usePings({
     enabled: clicked,
   });
-  const [isSignUpOpen, setSignUp] = useState(false);
+
+  {
+    /*   const [isSignUpOpen, setSignUp] = useState(false);
+     */
+  }
 
   return (
     <main
@@ -36,10 +40,7 @@ export default function Home() {
       <p>
         Response from server: <span>{data as string}</span>
       </p>
-      <div>
-        <Button onClick={() => setSignUp(true)}> Sign up</Button>
-        <SignUpModal isOpen={isSignUpOpen} onClose={() => setSignUp(false)} />
-      </div>
+      <div></div>
     </main>
   );
 }

@@ -32,14 +32,13 @@ interface Props {
 function SignUpModal({ isOpen, onClose }: Props) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogTrigger asChild>
-        <Button variant="outline">Edit Profile</Button>
-      </DialogTrigger>
+      <DialogTrigger asChild></DialogTrigger>
+      {/* Outer green container */}
       <DialogContent
-        className="rounded-[35px] border-0 p-6 shadow-lg sm:max-w-[600px]"
-        style={{ backgroundColor: "#768970", borderRadius: "32px" }}
+        className="s mx-auto w-[95%] max-w-[600px] rounded-[40px] border-0 bg-[#9DAD93] p-4 shadow-lg sm:p-6"
+        style={{ backgroundColor: "#9DAD93", borderRadius: "40px" }}
       >
-        <div className="h-full w-full rounded-[30px] border-4 border-[#768970] bg-white p-4">
+        <div className="h-full w-full rounded-[36px] border-4 border-white bg-white p-4">
           {/*Image */}
           <div className="w-30 h-30 mb-1 flex justify-center">
             <Image
@@ -49,7 +48,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
               height={150}
             />
           </div>
-          <div className="mb-2 flex justify-center border-b-2 border-[#768970]">
+          <div className="mb-2 flex justify-center border-b-2 border-[#9DAD93]">
             <DialogHeader>
               <DialogTitle className="text-xl font-semibold">
                 Sign up
@@ -60,13 +59,14 @@ function SignUpModal({ isOpen, onClose }: Props) {
           {/* Labels */}
           <div className="grid gap-4 py-4">
             <div className="flex flex-col gap-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="font-semibold">
+                Email
+              </Label>
               <Input
                 id="email"
                 placeholder="Enter Email"
                 className="w-full"
                 /*style={{ backgroundColor: "#EFF1ED", borderRadius: "5px", height:"33px"}}*/
-                focusStyle="focus:ring-2 focus:ring-[#768970] focus:border-[#768970]"
               />
             </div>
 
@@ -77,8 +77,6 @@ function SignUpModal({ isOpen, onClose }: Props) {
                   id="firstName"
                   placeholder="Enter text"
                   className="w-full"
-                  /*style={{ backgroundColor: "#EFF1ED", borderRadius: "5px", height:"33px"}}*/
-                  focusStyle="focus:ring-2 focus:ring-[#768970] focus:border-[#768970]"
                 />
               </div>
               <div className="flex w-[49%] flex-col gap-2">
@@ -87,7 +85,6 @@ function SignUpModal({ isOpen, onClose }: Props) {
                   id="lastName"
                   placeholder="Enter text"
                   className="w-full"
-                  focusStyle="focus:ring-2 focus:ring-[#768970] focus:border-[#768970]"
                 />
               </div>
             </div>
@@ -98,7 +95,6 @@ function SignUpModal({ isOpen, onClose }: Props) {
                 id="password"
                 placeholder="Enter password"
                 className="w-full"
-                focusStyle="focus:ring-2 focus:ring-[#768970] focus:border-[#768970]"
               />
             </div>
 
@@ -108,13 +104,30 @@ function SignUpModal({ isOpen, onClose }: Props) {
                 id="passwordConfirm"
                 placeholder="Enter password again"
                 className="w-full"
-                focusStyle="focus:ring-2 focus:ring-[#768970] focus:border-[#768970]"
               />
+            </div>
+
+            {/* Select label */}
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="city">Main City</Label>
+              <Select>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a city" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Perth">Perth</SelectItem>
+                  <SelectItem value="Sydney">Sydney</SelectItem>
+                  <SelectItem value="Melbourne">Melbourne</SelectItem>
+                  <SelectItem value="Brisbane">Brisbane</SelectItem>
+                  <SelectItem value="Canberra">Canberra</SelectItem>
+                  <SelectItem value="Adelaide">Adelaide</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
           <DialogFooter>
-            <div className="flex w-full justify-center">
+            <div className="mt-1 flex w-full justify-center">
               <Button type="submit" variant="signup" style={{ width: "270px" }}>
                 Sign Up
               </Button>
