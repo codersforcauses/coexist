@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from .models import Branch
 from rest_framework import viewsets
 from .serializers import BranchSerializer
