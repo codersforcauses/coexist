@@ -1,6 +1,7 @@
-import { Inter as FontSans } from "next/font/google";
+import { Work_Sans as FontSans } from "next/font/google";
 import { useState } from "react";
 
+import Header from "@/components/main/Header";
 import { usePings } from "@/hooks/pings";
 import { cn } from "@/lib/utils";
 
@@ -25,10 +26,12 @@ export default function Home() {
   return (
     <main
       className={cn(
-        "flex flex-row items-start gap-4 bg-gray-300 p-24 font-sans",
+        "m-0 flex min-h-screen flex-col items-center p-0 font-sans",
         fontSans.variable,
       )}
     >
+      <Header />
+
       {/* Column1, need to figure out  */}
       <div className="w-1/8 order-1 h-full flex-col border border-black p-6 text-primary">
         <div className="order-1 h-1/4 w-1/4 justify-self-start border-b border-gray-300 p-2 font-bold">
