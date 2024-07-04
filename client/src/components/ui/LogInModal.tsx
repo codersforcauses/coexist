@@ -24,7 +24,7 @@ function LogInModal({ isOpen, onClose }: Props) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogTrigger asChild></DialogTrigger>
       <DialogContent
-        className="s mx-auto w-[95%] max-w-[600px] rounded-[40px] border-0 bg-[#9DAD93] p-4 shadow-lg sm:p-6"
+        className="s mx-auto w-[95%] max-w-[600px] rounded-[40px] border-0 bg-[#9DAD93] p-1 shadow-lg"
         style={{ backgroundColor: "#9DAD93", borderRadius: "32px" }}
       >
         <div className="h-full w-full rounded-[30px] border-4 border-[#9DAD93] bg-white p-4">

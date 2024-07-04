@@ -35,7 +35,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
       <DialogTrigger asChild></DialogTrigger>
       {/* Outer green container */}
       <DialogContent
-        className="s mx-auto w-[95%] max-w-[600px] rounded-[40px] border-0 bg-[#9DAD93] p-4 shadow-lg sm:p-6"
+        className="s mx-auto w-[95%] max-w-[600px] rounded-[40px] border-0 bg-[#9DAD93] p-[8px] shadow-lg"
         style={{ backgroundColor: "#9DAD93", borderRadius: "40px" }}
       >
         <div className="h-full w-full rounded-[36px] border-4 border-white bg-white p-4">
