@@ -24,7 +24,7 @@ function LogInModal({ isOpen, onClose }: Props) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogTrigger asChild></DialogTrigger>
       <DialogContent
-        className="s mx-auto w-[95%] max-w-[600px] rounded-[40px] border-0 bg-[#9DAD93] p-1 shadow-lg"
+        className="flex w-[95%] max-w-[600px] flex-col items-center rounded-[40px] border-0 bg-[#9DAD93] p-1 shadow-lg file:mx-auto"
         style={{ backgroundColor: "#9DAD93", borderRadius: "32px" }}
       >
         <div className="h-full w-full rounded-[30px] border-4 border-[#9DAD93] bg-white p-4">
@@ -45,11 +45,11 @@ function LogInModal({ isOpen, onClose }: Props) {
 
           {/* Labels */}
           <div className="grid gap-4 py-4">
-            <div className="flex flex-col gap-2">
+            <div className="gap-2">
               <Label htmlFor="email">Email</Label>
               <Input id="email" placeholder="Enter Email" className="w-full" />
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="gap-2">
               <Label htmlFor="password">Password</Label>
               <Input
                 id="password"

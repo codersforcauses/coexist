@@ -35,7 +35,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
       <DialogTrigger asChild></DialogTrigger>
       {/* Outer green container */}
       <DialogContent
-        className="s mx-auto w-[95%] max-w-[600px] rounded-[40px] border-0 bg-[#9DAD93] p-[8px] shadow-lg"
+        className="mx-auto flex w-[95%] max-w-[600px] flex-col rounded-[40px] border-0 bg-[#9DAD93] p-[8px] shadow-lg"
         style={{ backgroundColor: "#9DAD93", borderRadius: "40px" }}
       >
         <div className="h-full w-full rounded-[36px] border-4 border-white bg-white p-4">
@@ -58,7 +58,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
 
           {/* Labels */}
           <div className="grid gap-4 py-4">
-            <div className="flex flex-col gap-2">
+            <div className="gap-2">
               <Label htmlFor="email" className="font-semibold">
                 Email
               </Label>
@@ -70,6 +70,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
               />
             </div>
 
+            {/* Name labels */}
             <div className="flex w-full flex-row gap-2">
               <div className="flex w-[49%] flex-col gap-2">
                 <Label htmlFor="text">First Name</Label>
@@ -89,7 +90,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
               </div>
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="gap-2">
               <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
@@ -98,7 +99,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
               />
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="gap-2">
               <Label htmlFor="password">Confirm Password</Label>
               <Input
                 id="passwordConfirm"
