@@ -6,8 +6,7 @@ class Event(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=200)
     description = models.TextField()
-    # TODO: Install Pillow
-    # image = models.ImageField()
+    image = models.ImageField(upload_to="static/images", blank=True, null=True)
     date_time = models.DateTimeField()
     location = models.CharField(max_length=200)
     payment_link = models.CharField(max_length=200)
