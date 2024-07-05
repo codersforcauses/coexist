@@ -2,7 +2,7 @@ import { Work_Sans as FontSans } from "next/font/google";
 import { useState } from "react";
 
 import Header from "@/components/main/Header";
-import EventCard from "@/components/ui/EventCard";
+import EventCard from "@/components/ui/EventCard_V2";
 import { usePings } from "@/hooks/pings";
 import { cn } from "@/lib/utils";
 
