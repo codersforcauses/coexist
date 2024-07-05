@@ -54,6 +54,9 @@ export default function NewEvent() {
     formData.append("description", data.description);
     formData.append("location", data.location);
     formData.append("date_time", data_time);
+    if (data.paymenturl) {
+      formData.append("payment_link", data.paymenturl);
+    }
     if (imageInput.current?.files?.[0]) {
       formData.append("image", imageInput.current?.files?.[0]);
     }
@@ -68,6 +71,21 @@ export default function NewEvent() {
       setFailed(true);
     }
   }
+
+  var loadFile = function (event: any) {
+    var input = event.target;
+    var file = input.files[0];
+    var type = file.type;
+
+    var output: any = document.getElementById("preview_img");
+
+    if (output) {
+      output.src = URL.createObjectURL(event.target.files[0]);
+      output.onload = function () {
+        URL.revokeObjectURL(output.src); // free memory
+      };
+    }
+  };
 
   return (
     <div className="my-8 min-h-[500px] w-[95%] rounded-[13px] border-2 border-[#000] p-5">
@@ -166,8 +184,25 @@ export default function NewEvent() {
               {" "}
               Upload Image <Image className="mx-1" />
             </h1>
-            <form encType="multipart/form-data">
-              <input type="file" ref={imageInput} accept="image/*" />
+
+            <form encType="multipart/form-data" className="my-2">
+              <div className="flex items-center space-x-6">
+                <div className="shrink-0"></div>
+                <label className="block">
+                  <span className="sr-only">Choose</span>
+                  <input
+                    type="file"
+                    onChange={() => loadFile(event)}
+                    className="block w-full text-sm text-slate-500 file:mr-4 file:rounded-full file:border-0 file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-violet-700 hover:file:bg-violet-100"
+                    ref={imageInput}
+                    accept="image"
+                  />
+                </label>
+              </div>
+              <Image
+                id="preview_img"
+                className="mx-2 h-auto w-auto border-none object-cover"
+              />
             </form>
           </div>
           <div className="my-auto mt-5 w-full px-5 text-end">
