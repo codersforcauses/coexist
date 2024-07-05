@@ -21,10 +21,16 @@ class Event(models.Model):
 
 
 class RSVP(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             related_name='rsvps')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE,
+                              related_name='rsvps')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # Ensures that one user can RSVP to a particular event only once
+
+    class Meta:
+        unique_together = ('user', 'event')
 
     def __str__(self):
         return f"{self.user.username} - {self.event.title}"

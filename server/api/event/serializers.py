@@ -13,4 +13,4 @@ class EventSerializer(serializers.ModelSerializer):
 class RSVPSerializer(serializers.ModelSerializer):
     class Meta:
         model = RSVP
-        fields = ['id', 'user', 'event', 'status', 'created_at', 'updated_at']
+        fields = ['id', 'user', 'event', 'created_at', 'updated_at']
