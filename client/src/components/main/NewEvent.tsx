@@ -208,7 +208,7 @@ export default function NewEvent() {
                     onChange={() => loadFile(event)}
                     className="block w-full text-sm text-slate-500 file:ml-0 file:mr-4 file:rounded-full file:border-0 file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-[#7D916F] hover:file:bg-violet-100"
                     ref={imageInput}
-                    accept="image"
+                    accept="image/jpeg, image/png, image/jpg, image/gif"
                   />
                 </label>
               </div>

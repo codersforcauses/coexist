@@ -37,8 +37,8 @@ export default function FailedEvent({ failed, setFailed }: prop) {
         }}
       >
         <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-          <AlertDialogContent className="border-none bg-transparent">
-            <Alert variant="destructive">
+          <AlertDialogContent className="border-none bg-transparent shadow-none">
+            <Alert variant="destructive" className="border-none bg-[#ffffff]">
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>Error</AlertTitle>
               <AlertDescription>Event failed to be created.</AlertDescription>
