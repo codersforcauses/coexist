@@ -21,18 +21,10 @@ class Event(models.Model):
 
 
 class RSVP(models.Model):
-    # class for status see ERD
-    class Status(models.TextChoices):
-        RSVP = 'RSVPED', 'RSVPed'
-        NOT_RSVPED = 'NOT_RSVPED', 'Not RSVPed'
-
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    status = models.CharField(max_length=10, choices=Status.choices, 
-                              default=Status.NOT_RSVPED)
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.event.title} - {self.status}"
+        return f"{self.user.username} - {self.event.title}"
