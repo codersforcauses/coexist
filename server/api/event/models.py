@@ -9,7 +9,7 @@ class Event(models.Model):
     image = models.ImageField(upload_to="static/images", blank=True, null=True)
     date_time = models.DateTimeField()
     location = models.CharField(max_length=200)
-    payment_link = models.CharField(max_length=200, blank=True, null=True)
+    payment_link = models.CharField(max_length=200, blank=True)
     # TODO: Create Branch model
     # branch = models.ForeignKey(
     #     "Branch", on_delete=models.CASCADE, related_name="events")
