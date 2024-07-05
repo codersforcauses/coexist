@@ -72,18 +72,23 @@ export default function NewEvent() {
     }
   }
 
-  var loadFile = function (event: any) {
-    var input = event.target;
-    var file = input.files[0];
-    var type = file.type;
+  const loadFile = function (event: any) {
+    const input = event.target;
+    const file = input.files[0];
 
-    var output: any = document.getElementById("preview_img");
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      const output: HTMLDivElement | null = document.getElementById(
+        "preview_img",
+      ) as HTMLDivElement;
 
-    if (output) {
-      output.src = URL.createObjectURL(event.target.files[0]);
-      output.onload = function () {
-        URL.revokeObjectURL(output.src); // free memory
-      };
+      if (output) {
+        output.style.backgroundImage = `url(${imageUrl})`;
+
+        output.onload = function () {
+          URL.revokeObjectURL(imageUrl);
+        };
+      }
     }
   };
 
@@ -199,9 +204,9 @@ export default function NewEvent() {
                   />
                 </label>
               </div>
-              <Image
+              <div
                 id="preview_img"
-                className="mx-2 h-auto w-auto border-none object-cover"
+                className="m-4 h-[300px] w-[300px] border-none object-cover"
               />
             </form>
           </div>
