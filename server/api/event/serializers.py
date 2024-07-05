@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Event
 from rest_framework.parsers import MultiPartParser, FormParser
 
+
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
