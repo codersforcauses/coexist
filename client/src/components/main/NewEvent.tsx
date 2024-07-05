@@ -207,7 +207,7 @@ export default function NewEvent() {
             </form>
             <div
               id="preview_img"
-              className="m-4 mx-auto h-[300px] w-[300px] border-none object-cover"
+              className="m-4 mx-auto h-[300px] w-[300px] border-none bg-cover bg-no-repeat object-cover"
             />
           </div>
           <div className="my-auto mt-5 w-full px-5 text-end">
