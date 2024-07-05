@@ -15,6 +15,7 @@ export default function NewEvent() {
   let location = useRef<HTMLInputElement>(null);
   let city = useRef<HTMLSelectElement>(null);
   let time = useRef<HTMLInputElement>(null);
+  let imageInput = useRef<HTMLInputElement>(null);
 
   let [fill, setfill] = useState(false);
 
@@ -45,11 +46,21 @@ export default function NewEvent() {
       setfill(false);
     }
 
-    test(data);
+    let data_time = `${data.date}T${data.time}:00Z`;
+    let formData: any = new FormData();
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("location", data.location);
+    formData.append("date_time", data_time);
+    if (imageInput.current?.files?.[0]) {
+      formData.append("image", imageInput.current?.files?.[0]);
+    }
+
+    test(formData);
   }
 
-  async function test(data: any) {
-    if (await addEvent(data)) {
+  async function test(s: any) {
+    if (await addEvent(s)) {
       setSuccess(true);
     }
   }
@@ -150,10 +161,10 @@ export default function NewEvent() {
               {" "}
               Upload Image <Image className="mx-1" />
             </h1>
-
-            <input type="file" />
+            <form encType="multipart/form-data">
+              <input type="file" ref={imageInput} />
+            </form>
           </div>
-
           <div className="my-auto mt-5 w-full px-5 text-end">
             <button
               className="rounded-[13px] border-2 border-[#181818] p-1 px-2 hover:bg-slate-200 hover:opacity-80"
