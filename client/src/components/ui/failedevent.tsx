@@ -41,7 +41,7 @@ export default function FailedEvent({ failed, setFailed }: prop) {
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>Error</AlertTitle>
-              <AlertDescription>Event failed it be created.</AlertDescription>
+              <AlertDescription>Event failed to be created.</AlertDescription>
             </Alert>
           </AlertDialogContent>
         </AlertDialog>
