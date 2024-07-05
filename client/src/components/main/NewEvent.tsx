@@ -103,8 +103,8 @@ export default function NewEvent() {
       </div>
 
       <div className="grid-col-1 my-4 grid h-full text-center lg:grid-cols-2">
-        <div className="mx-auto h-full w-full min-w-[0%]">
-          <form className="flex flex-col text-start">
+        <div className="mx-auto h-full w-full">
+          <form className="sm:max-w-auto mx-auto flex max-w-[80vw] flex-col text-start">
             <p className={`${fill ? "block italic" : "hidden"} text-red-500`}>
               Please fill out all required fields (*).
             </p>
@@ -184,31 +184,31 @@ export default function NewEvent() {
         </div>
 
         <div className="flex h-full flex-col items-center">
-          <div className="h-full min-h-[325px] w-4/5 rounded-[10px] border-2 border-[#7D916F] p-5 text-start">
+          <div className="mx-auto h-full min-h-[325px] w-4/5 max-w-[80vw] overflow-x-scroll rounded-[10px] border-2 border-[#7D916F] p-5 text-start sm:overflow-hidden">
             <h1 className="text-m flex">
               {" "}
               Upload Image <Image className="mx-1" />
             </h1>
 
             <form encType="multipart/form-data" className="my-2">
-              <div className="flex items-center space-x-6">
+              <div className="flex items-center">
                 <div className="shrink-0"></div>
                 <label className="block">
                   <span className="sr-only">Choose</span>
                   <input
                     type="file"
                     onChange={() => loadFile(event)}
-                    className="block w-full text-sm text-slate-500 file:mr-4 file:rounded-full file:border-0 file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-violet-700 hover:file:bg-violet-100"
+                    className="block w-full text-sm text-slate-500 file:ml-0 file:mr-4 file:rounded-full file:border-0 file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-[#7D916F] hover:file:bg-violet-100"
                     ref={imageInput}
                     accept="image"
                   />
                 </label>
               </div>
-              <div
-                id="preview_img"
-                className="m-4 h-[300px] w-[300px] border-none object-cover"
-              />
             </form>
+            <div
+              id="preview_img"
+              className="m-4 mx-auto h-[300px] w-[300px] border-none object-cover"
+            />
           </div>
           <div className="my-auto mt-5 w-full px-5 text-end">
             <button
