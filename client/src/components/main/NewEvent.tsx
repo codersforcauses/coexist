@@ -5,6 +5,7 @@ import React, { useRef, useState } from "react";
 
 import addEvent from "../../hooks/addEvent";
 import { CalenderPicker } from "../ui/calenderpick";
+import FailedEvent from "../ui/failedevent";
 import SuccessEvent from "../ui/successevent";
 
 export default function NewEvent() {
@@ -21,6 +22,7 @@ export default function NewEvent() {
 
   let [selectedDate, setSelectedDate] = useState<Date>();
   let [success, setSuccess] = useState(false);
+  let [failed, setFailed] = useState(false);
   function getInfo() {
     let data = {
       title: title.current?.value,
@@ -62,6 +64,8 @@ export default function NewEvent() {
   async function test(s: any) {
     if (await addEvent(s)) {
       setSuccess(true);
+    } else {
+      setFailed(true);
     }
   }
 
@@ -153,6 +157,7 @@ export default function NewEvent() {
             </div>
           </form>
           <SuccessEvent success={success}></SuccessEvent>
+          <FailedEvent failed={failed} setFailed={setFailed}></FailedEvent>
         </div>
 
         <div className="flex h-full flex-col items-center">
@@ -162,7 +167,7 @@ export default function NewEvent() {
               Upload Image <Image className="mx-1" />
             </h1>
             <form encType="multipart/form-data">
-              <input type="file" ref={imageInput} />
+              <input type="file" ref={imageInput} accept="image/*" />
             </form>
           </div>
           <div className="my-auto mt-5 w-full px-5 text-end">

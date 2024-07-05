@@ -16,11 +16,9 @@ export default async function addEvent(data: any) {
       const responseData = await response.json();
       return true;
     } else {
-      alert("Failed to add event");
       return false;
     }
   } catch (error) {
-    alert(error);
     return false;
   }
 }
