@@ -192,7 +192,7 @@ export default function NewEvent() {
         </div>
 
         <div className="flex h-full flex-col items-center">
-          <div className="mx-auto h-full min-h-[325px] w-4/5 max-w-[80vw] overflow-x-scroll rounded-[10px] border-2 border-[#7D916F] p-5 text-start sm:overflow-hidden">
+          <div className="mx-auto h-full min-h-[325px] w-[90%] max-w-[90vw] overflow-x-scroll rounded-[10px] border-2 border-[#7D916F] p-5 text-start sm:w-4/5 sm:overflow-hidden">
             <h1 className="text-m flex">
               {" "}
               Upload Image <Image className="mx-1" />
