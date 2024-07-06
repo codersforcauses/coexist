@@ -1,4 +1,19 @@
+import { Mail, Share } from "lucide-react";
 import Image from "next/image";
+
+import { Button } from "@/components/ui/button";
+
+interface EventCardProps {
+  date: String;
+  startTime: String;
+  endTime: String;
+  title: String;
+  city: String;
+  location: String;
+  description: String;
+  refImageURL: String;
+  rsvpURL: String;
+}
 
 function getDayOfWeek(dateString: string): string {
   const daysOfWeek = [
@@ -40,8 +55,6 @@ function getMonthStr(dateString: string): string {
   return monthAbbr[monthIndex];
 }
 
-//suggestion: heroicons for share, envelope and calendar icons
-
 const EventCard = ({
   date,
   startTime,
@@ -50,17 +63,16 @@ const EventCard = ({
   city,
   location,
   description,
-  itemsToBring,
   refImageURL,
-  rvspURL,
-}) => {
+  rsvpURL,
+}: EventCardProps) => {
   const dayOfWeek = getDayOfWeek(date);
   const dayOfMonth = getDayOfMonth(date);
   const MonthStr = getMonthStr(date);
 
   return (
-    <div className="flex w-full flex-row rounded-lg border border-secondary p-12">
-      <div className="order-1 flex min-w-56 flex-col">
+    <div className="flex w-full flex-col rounded-lg border border-secondary p-12 md:flex-row">
+      <div className="order-3 flex min-w-56 flex-col md:order-2">
         <div className="w-fit">
           <p className="px-1 pb-1 text-2xl font-semibold"> {MonthStr} </p>
           <hr className="border-b-1 mb-4 border-black" />
@@ -71,21 +83,21 @@ const EventCard = ({
           <p className="mb-5">
             {startTime}-{endTime}
           </p>
-          {/* TODO: make actual button component with hover styling etc */}
-          {/* TODO: add envelope icon to button */}
-          <button
+          <Button
+            variant="ghost"
             className="rounded-lg border border-[#535353] px-5 py-0.5 text-lg font-medium"
-            onClick={() => (window.location.href = { rvspURL })}
           >
-            Send RSVP
-          </button>
+            <div className="flex flex-row">
+              {" "}
+              RSVP <Mail className="ml-2"> </Mail>{" "}
+            </div>
+          </Button>
         </div>
       </div>
-      <div className="order-2 flex grow flex-col">
-        <div className="mb-5 flex items-center gap-x-8">
+      <div className="order-2 mb-2 flex grow flex-col md:order-3">
+        <div className="mb-5 flex flex-row items-center gap-x-8">
           <p className="text-3xl font-semibold">{title}</p>
-          {/* TODO: use actual share icon and add hover styling */}
-          <button className="font-semibold text-[#6C845D]">↑</button>
+          <Share className="h-full self-center text-[#6C845D]"></Share>
         </div>
         <div className="mb-6 flex gap-x-8 text-lg">
           <p className="rounded-lg bg-[#6C845D] px-5 py-0.5 font-medium text-white">
@@ -94,21 +106,19 @@ const EventCard = ({
           <p className="font-medium">{location}</p>
         </div>
         <hr className="border-b-1 mb-4 border-black" />
-        <p className="mb-2">{description}</p>
-        <div className="flex gap-x-3">
-          <b>Bring:</b>
-          <p>{itemsToBring}</p>
+        <div>
+          <p>{description}</p>
         </div>
       </div>
-      <div className="relative order-3 min-w-96">
+      <div className="relative order-1 h-64 w-full md:order-3 md:w-96">
         <Image
           fill
-          src={refImageURL}
+          src="/placeholder.png"
           alt="event image placeholder"
-          className="rounded-md ps-6"
-          object-fit="cover"
+          className="h-full w-full rounded-md object-cover ps-6"
         />
       </div>
     </div>
   );
 };
+export default EventCard;

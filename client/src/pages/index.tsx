@@ -2,7 +2,7 @@ import { Work_Sans as FontSans } from "next/font/google";
 import { useState } from "react";
 
 import Header from "@/components/main/Header";
-import EventCard from "@/components/ui/EventCard_V2";
+import EventCard from "@/components/ui/EventCard_V3";
 import { usePings } from "@/hooks/pings";
 import { cn } from "@/lib/utils";
 
@@ -29,7 +29,17 @@ export default function Home() {
       <Header />
 
       <div className="m-6">
-        <EventCard />
+        <EventCard
+          date="2023-04-01"
+          startTime="08:00"
+          endTime="11:00"
+          title="Tree Planting and Social Swim"
+          city="Cairns"
+          location="Glenoma park, Brinstead"
+          description="3 hours of Fun, Tree Planting, Music, Swims & Food (Snacks Provided!)"
+          refImageURL="/placeholder.png"
+          rsvpURL="nil"
+        />
       </div>
 
       <h1 className="text-3xl text-primary">Test title</h1>
