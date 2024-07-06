@@ -5,7 +5,7 @@ from ..event.models import RSVP
 
 class CustomUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    rsvps = models.ManyToManyField(RSVP, related_name='attendees')
+    rsvps = models.ManyToManyField(RSVP, related_name='attends')
 
     def __str__(self):
         return self.user.username
