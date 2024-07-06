@@ -1,6 +1,4 @@
-import { Heading1Icon } from "lucide-react";
 import Image from "next/image";
-import React from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -9,7 +7,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,12 +19,13 @@ interface Props {
 function LogInModal({ isOpen, onClose }: Props) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogTrigger asChild></DialogTrigger>
+      <DialogTitle asChild />
+
       <DialogContent
-        className="flex w-[95%] max-w-[600px] flex-col items-center rounded-[40px] border-0 bg-[#9DAD93] p-1 shadow-lg file:mx-auto"
+        className="flex h-full max-h-[460px] w-[95%] max-w-[600px] flex-col items-center overflow-y-auto rounded-[40px] border-0 bg-[#9DAD93] p-1 shadow-lg file:mx-auto"
         style={{ backgroundColor: "#9DAD93", borderRadius: "32px" }}
       >
-        <div className="h-full w-full rounded-[30px] border-4 border-[#9DAD93] bg-white p-4">
+        <div className="w-full rounded-[30px] border-4 border-[#9DAD93] bg-white p-4">
           {/*Image */}
           <div className="w-30 h-30 mb-1 flex justify-center">
             <Image
@@ -61,7 +59,7 @@ function LogInModal({ isOpen, onClose }: Props) {
 
           <DialogFooter>
             <div className="mt-1 flex w-full justify-center">
-              <Button type="submit" variant="signup" style={{ width: "270px" }}>
+              <Button type="submit" variant="signup" className="w-[270px]">
                 Sign in
               </Button>
             </div>

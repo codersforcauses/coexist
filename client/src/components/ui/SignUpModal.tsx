@@ -1,12 +1,9 @@
-import { Heading1Icon } from "lucide-react";
 import Image from "next/image";
-import React from "react";
 
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -17,9 +14,7 @@ import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -31,14 +26,14 @@ interface Props {
 
 function SignUpModal({ isOpen, onClose }: Props) {
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={onClose} className="">
       <DialogTrigger asChild></DialogTrigger>
       {/* Outer green container */}
       <DialogContent
-        className="mx-auto flex w-[95%] max-w-[600px] flex-col rounded-[40px] border-0 bg-[#9DAD93] p-[8px] shadow-lg"
+        className="mx-auto flex h-full max-h-[725px] w-[95%] max-w-[600px] flex-col overflow-y-auto rounded-[40px] border-0 bg-[#9DAD93] p-[8px] shadow-lg"
         style={{ backgroundColor: "#9DAD93", borderRadius: "40px" }}
       >
-        <div className="h-full w-full rounded-[36px] border-4 border-white bg-white p-4">
+        <div className="max-h-90 w-full rounded-[36px] border-4 border-white bg-white p-4">
           {/*Image */}
           <div className="w-30 h-30 mb-1 flex justify-center">
             <Image
@@ -129,7 +124,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
 
           <DialogFooter>
             <div className="mt-1 flex w-full justify-center">
-              <Button type="submit" variant="signup" style={{ width: "270px" }}>
+              <Button type="submit" variant="signup" className="w-[270px]">
                 Sign Up
               </Button>
             </div>
