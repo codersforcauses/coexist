@@ -30,10 +30,10 @@ function SignUpModal({ isOpen, onClose }: Props) {
       <DialogTrigger asChild></DialogTrigger>
       {/* Outer green container */}
       <DialogContent
-        className="mx-auto flex h-full max-h-[725px] w-[95%] max-w-[600px] flex-col overflow-y-auto rounded-[40px] border-0 bg-[#9DAD93] p-[8px] shadow-lg"
-        style={{ backgroundColor: "#9DAD93", borderRadius: "40px" }}
+        className="mx-auto flex h-full max-h-[725px] w-[95%] max-w-[600px] flex-col border-0 bg-[var(--accent)] p-[8px] shadow-lg"
+        style={{ borderRadius: "40px" }}
       >
-        <div className="max-h-90 w-full rounded-[36px] border-4 border-white bg-white p-4">
+        <div className="max-h-90 h-full w-full overflow-y-auto rounded-[36px] border-4 border-white bg-white p-4">
           {/*Image */}
           <div className="w-30 h-30 mb-1 flex justify-center">
             <Image
@@ -43,7 +43,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
               height={150}
             />
           </div>
-          <div className="mb-2 flex justify-center border-b-2 border-[#9DAD93]">
+          <div className="mb-2 flex justify-center border-b-2 border-[var(--accent)]">
             <DialogHeader>
               <DialogTitle className="text-xl font-semibold">
                 Sign up
@@ -53,7 +53,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
 
           {/* Labels */}
           <div className="grid gap-4 py-4">
-            <div className="gap-2">
+            <div>
               <Label htmlFor="email" className="font-semibold">
                 Email
               </Label>
@@ -66,8 +66,8 @@ function SignUpModal({ isOpen, onClose }: Props) {
             </div>
 
             {/* Name labels */}
-            <div className="flex w-full flex-row gap-2">
-              <div className="flex w-[49%] flex-col gap-2">
+            <div className="flex w-full flex-row">
+              <div className="flex w-[49%] flex-col">
                 <Label htmlFor="text">First Name</Label>
                 <Input
                   id="firstName"
@@ -75,7 +75,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
                   className="w-full"
                 />
               </div>
-              <div className="flex w-[49%] flex-col gap-2">
+              <div className="flex w-[49%] flex-col">
                 <Label htmlFor="text">Last Name</Label>
                 <Input
                   id="lastName"
@@ -85,7 +85,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
               </div>
             </div>
 
-            <div className="gap-2">
+            <div>
               <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
@@ -94,7 +94,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
               />
             </div>
 
-            <div className="gap-2">
+            <div>
               <Label htmlFor="password">Confirm Password</Label>
               <Input
                 id="passwordConfirm"
@@ -104,7 +104,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
             </div>
 
             {/* Select label */}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col">
               <Label htmlFor="city">Main City</Label>
               <Select>
                 <SelectTrigger className="w-full">
