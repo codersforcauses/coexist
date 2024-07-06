@@ -28,6 +28,8 @@ export default function NewEvent() {
   let [failed, setFailed] = useState(false);
   let imagePreview = useRef<HTMLDivElement>(null);
 
+  let [isSubmitting, setIsSubmitting] = useState(false);
+
   function formSubmit() {
     if (
       title === "" ||
@@ -42,9 +44,9 @@ export default function NewEvent() {
       });
       setfill(true);
       return;
-    } else {
-      setfill(false);
     }
+
+    setIsSubmitting(true);
 
     let data_time = `${selectedDate}T${time}:00Z`;
     let formData: any = new FormData();
@@ -64,7 +66,6 @@ export default function NewEvent() {
 
     apiCall(formData);
   }
-
   async function apiCall(data: FormData) {
     if (await addEvent(data)) {
       setSuccess(true);
@@ -81,7 +82,7 @@ export default function NewEvent() {
 
       if (imagePreview.current) {
         imagePreview.current.style.backgroundImage = `url(${imageUrl})`;
-
+        2;
         imagePreview.current.onload = function () {
           URL.revokeObjectURL(imageUrl);
         };
@@ -102,7 +103,10 @@ export default function NewEvent() {
         </Link>
       </div>
 
-      <div className="grid-col-1 my-4 grid h-full text-center lg:grid-cols-2">
+      <div
+        id="DisableDiv"
+        className={"grid-col-1 my-4 grid h-full text-center lg:grid-cols-2"}
+      >
         <div className="mx-auto h-full w-full">
           <form className="sm:max-w-auto mx-auto flex max-w-[80vw] flex-col text-start">
             <p className={`${fill ? "block italic" : "hidden"} text-red-500`}>
@@ -114,6 +118,8 @@ export default function NewEvent() {
                 onChange={(e) => setTitle(e.target.value)}
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
+                // onChange={(e) => setTitle(e.target.value)}
+                disabled={isSubmitting}
               ></Input>
             </div>
 
@@ -123,12 +129,30 @@ export default function NewEvent() {
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Enter text"
                 className="h-40 w-full rounded border-2 bg-[#EFF1ED] px-1 py-1 text-start placeholder-black md:w-[65%]"
+                // placeholder="Enter text"
+                // onChange={(e) => setDescription(e.target.value)}
+                disabled={isSubmitting} // Disable textarea when submitting
               ></Textarea>
             </div>
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
               <label>City (Co-Exist Branch) *</label>
-              <SelectBranch setValue={setCity} />
+              <select
+                onChange={(e) => setCity(e.target.value)}
+                className="rounded-[20px] border-2 bg-[#7D916F] p-1 px-2"
+                disabled={isSubmitting}
+              >
+                <option value="">Select</option>
+                <option value="Perth">Perth</option>
+                <option value="Sydney">Sydney</option>
+                <option value="Brisbane">Brisbane</option>
+                <option value="Gold Coast">Gold Coast</option>
+                <option value="Cairns">Cairns</option>
+                <option value="Townsville">Townsville</option>
+                <option value="Melbourne">Melbourne</option>
+                <option value="Hobart">Hobart</option>
+                <option value="Byron Bay">Byron Bay</option>
+              </select>
             </div>
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
@@ -139,6 +163,7 @@ export default function NewEvent() {
                   onChange={(e) => setTime(e.target.value)}
                   type="time"
                   className="max-w-1/2 border-2 bg-[#EFF1ED]"
+                  disabled={isSubmitting}
                 ></input>
               </div>
             </div>
@@ -149,6 +174,7 @@ export default function NewEvent() {
                 onChange={(e) => setLocation(e.target.value)}
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
+                disabled={isSubmitting}
               ></Input>
             </div>
 
@@ -158,6 +184,8 @@ export default function NewEvent() {
                 onChange={(e) => setPaymenturl(e.target.value)}
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
+                // onChange={(e) => setPaymenturl(e.target.value)}
+                disabled={isSubmitting}
               ></Input>
             </div>
           </form>
@@ -168,7 +196,6 @@ export default function NewEvent() {
         <div className="flex h-full flex-col items-center">
           <div className="mx-auto h-full min-h-[325px] w-[90%] max-w-[90vw] overflow-x-scroll rounded-[10px] border-2 border-[#7D916F] p-5 text-start sm:w-4/5 sm:overflow-hidden">
             <h1 className="text-m flex">
-              {" "}
               Upload Image <Image className="mx-1" />
             </h1>
 
@@ -179,10 +206,11 @@ export default function NewEvent() {
                   <span className="sr-only">Choose</span>
                   <input
                     type="file"
-                    onChange={() => loadFile()}
+                    onChange={loadFile}
                     className="block w-full text-sm text-slate-500 file:ml-0 file:mr-4 file:rounded-full file:border-0 file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-[#7D916F] hover:file:bg-violet-100"
                     ref={imageInput}
                     accept="image/jpeg, image/png, image/jpg, image/gif"
+                    disabled={isSubmitting}
                   />
                 </label>
               </div>
@@ -196,9 +224,9 @@ export default function NewEvent() {
             <button
               className="rounded-[13px] border-2 border-[#181818] p-1 px-2 hover:bg-slate-200 hover:opacity-80"
               onClick={() => formSubmit()}
+              disabled={isSubmitting}
             >
               <h1 className="text-m flex">
-                {" "}
                 Add Event <CalendarCheck className="mx-1 text-[#7D916F]" />
               </h1>
             </button>
