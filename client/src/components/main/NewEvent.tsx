@@ -4,73 +4,64 @@ import Link from "next/link";
 import React, { useRef, useState } from "react";
 
 import addEvent from "../../hooks/addEvent";
-import { CalenderPicker } from "../ui/calenderpick";
-import FailedEvent from "../ui/failedevent";
-import SuccessEvent from "../ui/successevent";
+import { CalenderPicker } from "../ui/calender-pick";
+import FailedEvent from "../ui/failed-event";
+import SuccessEvent from "../ui/success-event";
 
 export default function NewEvent() {
-  let title = useRef<HTMLInputElement>(null);
-
-  let description = useRef<HTMLTextAreaElement>(null);
-  let paymenturl = useRef<HTMLInputElement>(null);
-  let location = useRef<HTMLInputElement>(null);
-  let city = useRef<HTMLSelectElement>(null);
-  let time = useRef<HTMLInputElement>(null);
+  let [title, setTitle] = useState("");
+  let [description, setDescription] = useState("");
+  let [paymenturl, setPaymenturl] = useState("");
+  let [location, setLocation] = useState("");
+  let [city, setCity] = useState("");
+  let [time, setTime] = useState("");
   let imageInput = useRef<HTMLInputElement>(null);
 
   let [fill, setfill] = useState(false);
-
   let [selectedDate, setSelectedDate] = useState<Date>();
   let [success, setSuccess] = useState(false);
   let [failed, setFailed] = useState(false);
-  function getInfo() {
-    let data = {
-      title: title.current?.value,
-      description: description.current?.value,
-      location: location.current?.value,
-      city: city.current?.value,
-      time: time.current?.value,
-      date: selectedDate,
-      paymenturl: paymenturl.current?.value,
-    };
+  let imagePreview = useRef<HTMLDivElement>(null);
 
+  function formSubmit() {
     if (
-      data.title === "" ||
-      data.description === "" ||
-      data.location === "" ||
-      data.city === "" ||
-      data.time === "" ||
+      title === "" ||
+      description === "" ||
+      location === "" ||
+      city === "" ||
+      time === "" ||
       selectedDate === null
     ) {
       document.getElementById("top")?.scrollIntoView({
         behavior: "smooth",
       });
-
       setfill(true);
-
       return;
     } else {
       setfill(false);
     }
 
-    let data_time = `${data.date}T${data.time}:00Z`;
+    let data_time = `${selectedDate}T${time}:00Z`;
     let formData: any = new FormData();
-    formData.append("title", data.title);
-    formData.append("description", data.description);
-    formData.append("location", data.location);
+
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("location", location);
     formData.append("date_time", data_time);
-    if (data.paymenturl) {
-      formData.append("payment_link", data.paymenturl);
+
+    if (paymenturl) {
+      formData.append("payment_link", paymenturl);
     }
+
     if (imageInput.current?.files?.[0]) {
       formData.append("image", imageInput.current?.files?.[0]);
     }
 
-    test(formData);
+    apiCall(formData);
   }
 
-  async function test(s: any) {
-    if (await addEvent(s)) {
+  async function apiCall(data: FormData) {
+    if (await addEvent(data)) {
       setSuccess(true);
     } else {
       setFailed(true);
@@ -83,14 +74,11 @@ export default function NewEvent() {
 
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      const output: HTMLDivElement | null = document.getElementById(
-        "preview_img",
-      ) as HTMLDivElement;
 
-      if (output) {
-        output.style.backgroundImage = `url(${imageUrl})`;
+      if (imagePreview.current) {
+        imagePreview.current.style.backgroundImage = `url(${imageUrl})`;
 
-        output.onload = function () {
+        imagePreview.current.onload = function () {
           URL.revokeObjectURL(imageUrl);
         };
       }
@@ -122,7 +110,7 @@ export default function NewEvent() {
                 type="text"
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
-                ref={title}
+                onChange={(e) => setTitle(e.target.value)}
               ></input>
             </div>
 
@@ -132,14 +120,14 @@ export default function NewEvent() {
                 wrap="physical"
                 className="h-40 w-full rounded border-2 bg-[#EFF1ED] px-1 py-1 text-start placeholder-black md:w-[65%]"
                 placeholder="Enter text"
-                ref={description}
+                onChange={(e) => setDescription(e.target.value)}
               ></textarea>
             </div>
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
               <label>City (Co-Exist Branch) *</label>
               <select
-                ref={city}
+                onChange={(e) => setCity(e.target.value)}
                 className="rounded-[20px] border-2 bg-[#7D916F] p-1 px-2"
               >
                 <option value="">Select</option>
@@ -160,7 +148,7 @@ export default function NewEvent() {
               <div className="flex w-full justify-between md:w-[65%]">
                 <CalenderPicker pass={setSelectedDate} />
                 <input
-                  ref={time}
+                  onChange={(e) => setTime(e.target.value)}
                   type="time"
                   className="max-w-1/2 border-2 bg-[#EFF1ED]"
                 ></input>
@@ -173,7 +161,7 @@ export default function NewEvent() {
                 type="text"
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
-                ref={location}
+                onChange={(e) => setLocation(e.target.value)}
               ></input>
             </div>
 
@@ -183,7 +171,7 @@ export default function NewEvent() {
                 type="text"
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
-                ref={paymenturl}
+                onChange={(e) => setPaymenturl(e.target.value)}
               ></input>
             </div>
           </form>
@@ -214,14 +202,14 @@ export default function NewEvent() {
               </div>
             </form>
             <div
-              id="preview_img"
+              ref={imagePreview}
               className="m-4 mx-auto h-[300px] w-[300px] border-none bg-cover bg-no-repeat object-cover"
             />
           </div>
           <div className="my-auto mt-5 w-full px-5 text-end">
             <button
               className="rounded-[13px] border-2 border-[#181818] p-1 px-2 hover:bg-slate-200 hover:opacity-80"
-              onClick={() => getInfo()}
+              onClick={() => formSubmit()}
             >
               <h1 className="text-m flex">
                 {" "}

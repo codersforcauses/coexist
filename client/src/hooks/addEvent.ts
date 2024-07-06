@@ -1,11 +1,4 @@
-export default async function addEvent(data: any) {
-  //let test = JSON.stringify(data, null);
-  //alert(test);
-  /*let data_time = `${data.date}T${data.time}:00Z`;
-  if (data.paymenturl === "") {
-    data.paymenturl = "N/A";
-  }*/
-
+export default async function addEvent(data: FormData) {
   try {
     const response = await fetch("http://localhost:8000/api/event/", {
       method: "POST",
