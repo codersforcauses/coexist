@@ -98,7 +98,7 @@ export default function RsvpListModal() {
           </TableHeader>
           <TableBody className="text-black">
             {attendees.map((a) => (
-              <TableRow>
+              <TableRow key={a.email}>
                 <TableCell className="border-r-2">{a.firstName}</TableCell>
                 <TableCell className="border-r-2">{a.lastName}</TableCell>
                 <TableCell className="text-[#5C764B] underline">
