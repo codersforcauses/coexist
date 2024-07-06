@@ -1,5 +1,5 @@
 from django.db import models
-from apisoft_delete import SoftDeleteModel
+from api.soft_delete import SoftDeleteModel
 
 
 # One Branch to Many events.
