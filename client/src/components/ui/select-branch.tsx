@@ -11,7 +11,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export function SelectBranch({ setValue }: any) {
+export function SelectBranch({
+  setValue,
+}: {
+  setValue: (value: string) => void;
+}) {
   return (
     <Select onValueChange={(value) => setValue(value)}>
       <SelectTrigger className="w-[180px] rounded-[20px] border-2 bg-[#7D916F] p-1 px-2">

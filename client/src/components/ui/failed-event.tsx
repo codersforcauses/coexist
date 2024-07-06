@@ -16,7 +16,7 @@ import {
 
 interface prop {
   failed: boolean;
-  setFailed: any;
+  setFailed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function FailedEvent({ failed, setFailed }: prop) {

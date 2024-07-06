@@ -118,7 +118,6 @@ export default function NewEvent() {
                 onChange={(e) => setTitle(e.target.value)}
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
-                // onChange={(e) => setTitle(e.target.value)}
                 disabled={isSubmitting}
               ></Input>
             </div>
@@ -129,36 +128,19 @@ export default function NewEvent() {
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Enter text"
                 className="h-40 w-full rounded border-2 bg-[#EFF1ED] px-1 py-1 text-start placeholder-black md:w-[65%]"
-                // placeholder="Enter text"
-                // onChange={(e) => setDescription(e.target.value)}
-                disabled={isSubmitting} // Disable textarea when submitting
+                disabled={isSubmitting}
               ></Textarea>
             </div>
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
               <label>City (Co-Exist Branch) *</label>
-              <select
-                onChange={(e) => setCity(e.target.value)}
-                className="rounded-[20px] border-2 bg-[#7D916F] p-1 px-2"
-                disabled={isSubmitting}
-              >
-                <option value="">Select</option>
-                <option value="Perth">Perth</option>
-                <option value="Sydney">Sydney</option>
-                <option value="Brisbane">Brisbane</option>
-                <option value="Gold Coast">Gold Coast</option>
-                <option value="Cairns">Cairns</option>
-                <option value="Townsville">Townsville</option>
-                <option value="Melbourne">Melbourne</option>
-                <option value="Hobart">Hobart</option>
-                <option value="Byron Bay">Byron Bay</option>
-              </select>
+              <SelectBranch setValue={setCity} />
             </div>
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
               <label>Date and Time *</label>
               <div className="flex w-full justify-between md:w-[65%]">
-                <CalenderPicker pass={setSelectedDate} />
+                <CalenderPicker setSelectedDate={setSelectedDate} />
                 <input
                   onChange={(e) => setTime(e.target.value)}
                   type="time"
@@ -184,7 +166,6 @@ export default function NewEvent() {
                 onChange={(e) => setPaymenturl(e.target.value)}
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
-                // onChange={(e) => setPaymenturl(e.target.value)}
                 disabled={isSubmitting}
               ></Input>
             </div>

@@ -13,12 +13,16 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
-export function CalenderPicker(onChange: any) {
+export function CalenderPicker({
+  setSelectedDate,
+}: {
+  setSelectedDate: React.SetStateAction<any>;
+}) {
   const [date, setDate] = React.useState<Date>();
 
   useEffect(() => {
     if (date) {
-      onChange.pass(format(date, "yyyy-MM-dd"));
+      setSelectedDate(format(date, "yyyy-MM-dd"));
     }
   }, [date]);
   return (
