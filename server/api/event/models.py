@@ -14,8 +14,6 @@ class Event(models.Model):
     # branch = models.ForeignKey(
     #     "Branch", on_delete=models.CASCADE, related_name="events")
     is_cancelled = models.BooleanField(default=False)
-    rsvps = models.ManyToManyField("RSVP", related_name='attended_by',
-                                   blank=True)
 
     def __str__(self):
         return self.title
