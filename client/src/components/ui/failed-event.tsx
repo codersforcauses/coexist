@@ -20,23 +20,14 @@ interface prop {
 }
 
 export default function FailedEvent({ failed, setFailed }: prop) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    if (failed) {
-      setIsOpen(true);
-    }
-  }, [failed]);
-
   return (
     <div>
       <button
         onClick={() => {
-          setIsOpen(false);
           setFailed(false);
         }}
       >
-        <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+        <AlertDialog open={failed}>
           <AlertDialogContent className="border-none bg-transparent shadow-none">
             <Alert variant="destructive" className="border-none bg-[#ffffff]">
               <AlertCircle className="h-4 w-4" />
