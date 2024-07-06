@@ -34,3 +34,6 @@ class ExtendedUser(models.Model):
     @property
     def last_login(self):
         return self.user.last_login
+    @property
+    def last_login(self):
+        return self.user.last_login
