@@ -8,65 +8,76 @@ const cookieOptions: Cookies.CookieAttributes = {
   sameSite: "Strict",
   secure: true,
 };
-interface tokenResponse {
+
+interface TokenResponse {
   access: string;
   refresh: string;
 }
-interface payload extends JwtPayload {
+
+interface Payload extends JwtPayload {
   user_id: string;
 }
 
-const getExpiry = (tok: string) => new Date(Number(jwtDecode(tok).exp) * 1000);
+const getExpiry = (tok: string) =>
+  new Date(Number(jwtDecode<Payload>(tok).exp) * 1000);
 
-const setCookies = (data: tokenResponse) => {
-  const tokens = ["access", "refresh"];
+const setCookies = (data: TokenResponse) => {
+  const tokens = ["access", "refresh"] as const;
   tokens.forEach((name) => {
-    const tok = data[name as keyof tokenResponse];
+    const tok = data[name];
     Cookies.set(name, tok, {
       ...cookieOptions,
       expires: getExpiry(tok),
     });
   });
-
-  Cookies.set("refresh", data.refresh, {
-    expires: getExpiry(data.refresh),
-  });
 };
+
 export const useAuth = () => {
   const [userId, setUserId] = useState<string>();
 
-  async function login({
+  const login = async ({
     username,
     password,
   }: {
     username: string;
     password: string;
-  }) {
-    const result = await api.post("/auth/token", {
-      username: username,
-      password: password,
-    });
-    const data = result.data as tokenResponse;
-
-    if (result.status != 200) {
-      return false;
-    } else {
+  }) => {
+    try {
+      const result = await api.post("/auth/token", { username, password });
+      if (result.status !== 200) {
+        return false;
+      }
+      const data = result.data as TokenResponse;
       setCookies(data);
-      setUserId(jwtDecode<payload>(data.access).user_id);
+      const decodedToken = jwtDecode<Payload>(data.access);
+      setUserId(decodedToken.user_id);
+      return true;
+    } catch (error) {
+      console.error("Login error:", error);
+      return false;
     }
-  }
-  function isLoggedIn() {
-    return userId != null;
-  }
+  };
 
-  return { login };
+  const isLoggedIn = () => userId !== undefined;
+
+  return { login, isLoggedIn, userId };
 };
+
 export async function refreshAccessToken() {
-  const result = await api.post("/auth/refresh", {
-    refresh: Cookies.get("refresh"),
-  });
-  if (result.status != 200) {
-  } else {
+  try {
+    const refreshTok = Cookies.get("refresh");
+    if (!refreshTok) {
+      throw new Error("Refresh Token Expired. Must log in");
+    }
+    const result = await api.post("/auth/refresh", {
+      refresh: refreshTok,
+    });
+    if (result.status !== 200) {
+      throw new Error("Failed to refresh access token");
+    }
     return result.data.access;
+  } catch (error) {
+    console.error("Refresh token error:", error);
+    return null;
   }
 }
