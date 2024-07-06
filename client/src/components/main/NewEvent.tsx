@@ -1,5 +1,4 @@
-import { CalendarCheck, CalendarDays, Image, X } from "lucide-react";
-import next from "next";
+import { CalendarCheck, Image, X } from "lucide-react";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 
@@ -23,6 +22,9 @@ export default function NewEvent() {
   let [failed, setFailed] = useState(false);
   let imagePreview = useRef<HTMLDivElement>(null);
 
+  let [isSubmitting, setIsSubmitting] = useState(false);
+
+
   function formSubmit() {
     if (
       title === "" ||
@@ -37,29 +39,28 @@ export default function NewEvent() {
       });
       setfill(true);
       return;
-    } else {
-      setfill(false);
-    }
-
+    } 
+  
+    setIsSubmitting(true);
+  
     let data_time = `${selectedDate}T${time}:00Z`;
     let formData: any = new FormData();
-
+  
     formData.append("title", title);
     formData.append("description", description);
     formData.append("location", location);
     formData.append("date_time", data_time);
-
+  
     if (paymenturl) {
       formData.append("payment_link", paymenturl);
     }
-
+  
     if (imageInput.current?.files?.[0]) {
       formData.append("image", imageInput.current?.files?.[0]);
     }
-
+  
     apiCall(formData);
   }
-
   async function apiCall(data: FormData) {
     if (await addEvent(data)) {
       setSuccess(true);
@@ -77,7 +78,7 @@ export default function NewEvent() {
 
       if (imagePreview.current) {
         imagePreview.current.style.backgroundImage = `url(${imageUrl})`;
-
+2
         imagePreview.current.onload = function () {
           URL.revokeObjectURL(imageUrl);
         };
@@ -98,7 +99,10 @@ export default function NewEvent() {
         </Link>
       </div>
 
-      <div className="grid-col-1 my-4 grid h-full text-center lg:grid-cols-2">
+      <div
+        id="DisableDiv"
+        className={'grid-col-1 my-4 grid h-full text-center lg:grid-cols-2 '}
+      >
         <div className="mx-auto h-full w-full">
           <form className="sm:max-w-auto mx-auto flex max-w-[80vw] flex-col text-start">
             <p className={`${fill ? "block italic" : "hidden"} text-red-500`}>
@@ -111,6 +115,7 @@ export default function NewEvent() {
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
                 onChange={(e) => setTitle(e.target.value)}
+                disabled={isSubmitting}
               ></input>
             </div>
 
@@ -121,6 +126,7 @@ export default function NewEvent() {
                 className="h-40 w-full rounded border-2 bg-[#EFF1ED] px-1 py-1 text-start placeholder-black md:w-[65%]"
                 placeholder="Enter text"
                 onChange={(e) => setDescription(e.target.value)}
+                disabled={isSubmitting}  // Disable textarea when submitting
               ></textarea>
             </div>
 
@@ -129,6 +135,7 @@ export default function NewEvent() {
               <select
                 onChange={(e) => setCity(e.target.value)}
                 className="rounded-[20px] border-2 bg-[#7D916F] p-1 px-2"
+                disabled={isSubmitting}
               >
                 <option value="">Select</option>
                 <option value="Perth">Perth</option>
@@ -151,6 +158,7 @@ export default function NewEvent() {
                   onChange={(e) => setTime(e.target.value)}
                   type="time"
                   className="max-w-1/2 border-2 bg-[#EFF1ED]"
+                  disabled={isSubmitting}  
                 ></input>
               </div>
             </div>
@@ -162,6 +170,8 @@ export default function NewEvent() {
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
                 onChange={(e) => setLocation(e.target.value)}
+                disabled={isSubmitting}  
+
               ></input>
             </div>
 
@@ -172,6 +182,8 @@ export default function NewEvent() {
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
                 onChange={(e) => setPaymenturl(e.target.value)}
+                disabled={isSubmitting}  
+
               ></input>
             </div>
           </form>
@@ -182,7 +194,6 @@ export default function NewEvent() {
         <div className="flex h-full flex-col items-center">
           <div className="mx-auto h-full min-h-[325px] w-[90%] max-w-[90vw] overflow-x-scroll rounded-[10px] border-2 border-[#7D916F] p-5 text-start sm:w-4/5 sm:overflow-hidden">
             <h1 className="text-m flex">
-              {" "}
               Upload Image <Image className="mx-1" />
             </h1>
 
@@ -193,10 +204,12 @@ export default function NewEvent() {
                   <span className="sr-only">Choose</span>
                   <input
                     type="file"
-                    onChange={() => loadFile(event)}
+                    onChange={loadFile}
                     className="block w-full text-sm text-slate-500 file:ml-0 file:mr-4 file:rounded-full file:border-0 file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-[#7D916F] hover:file:bg-violet-100"
                     ref={imageInput}
                     accept="image/jpeg, image/png, image/jpg, image/gif"
+                    disabled={isSubmitting}  
+
                   />
                 </label>
               </div>
@@ -207,15 +220,15 @@ export default function NewEvent() {
             />
           </div>
           <div className="my-auto mt-5 w-full px-5 text-end">
-            <button
-              className="rounded-[13px] border-2 border-[#181818] p-1 px-2 hover:bg-slate-200 hover:opacity-80"
-              onClick={() => formSubmit()}
-            >
-              <h1 className="text-m flex">
-                {" "}
-                Add Event <CalendarCheck className="mx-1 text-[#7D916F]" />
-              </h1>
-            </button>
+          <button
+            className="rounded-[13px] border-2 border-[#181818] p-1 px-2 hover:bg-slate-200 hover:opacity-80"
+            onClick={() => formSubmit()}
+            disabled={isSubmitting} 
+          >
+            <h1 className="text-m flex">
+              Add Event <CalendarCheck className="mx-1 text-[#7D916F]" />
+            </h1>
+          </button>
           </div>
         </div>
       </div>
