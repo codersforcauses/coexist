@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
-import { jwtDecode, JwtPayload } from "jwt-decode";
-import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from "react";
 
 import api from "@/lib/api";
 
@@ -14,12 +14,7 @@ interface TokenResponse {
   refresh: string;
 }
 
-interface Payload extends JwtPayload {
-  user_id: string;
-}
-
-const getExpiry = (tok: string) =>
-  new Date(Number(jwtDecode<Payload>(tok).exp) * 1000);
+const getExpiry = (tok: string) => new Date(Number(jwtDecode(tok).exp) * 1000);
 
 const setCookies = (data: TokenResponse) => {
   const tokens = ["access", "refresh"] as const;
@@ -34,7 +29,12 @@ const setCookies = (data: TokenResponse) => {
 
 export const useAuth = () => {
   const [userId, setUserId] = useState<string>();
-
+  useEffect(() => {
+    const access = Cookies.get("access");
+    if (access) {
+      setUserId(jwtDecode(access).user_id);
+    }
+  }, []);
   const login = async ({
     username,
     password,
@@ -49,7 +49,7 @@ export const useAuth = () => {
       }
       const data = result.data as TokenResponse;
       setCookies(data);
-      const decodedToken = jwtDecode<Payload>(data.access);
+      const decodedToken = jwtDecode(data.access);
       setUserId(decodedToken.user_id);
       return true;
     } catch (error) {
@@ -58,9 +58,9 @@ export const useAuth = () => {
     }
   };
 
-  const isLoggedIn = () => userId !== undefined;
+  const isLoggedInFunc = () => userId !== undefined;
 
-  return { login, isLoggedIn, userId };
+  return { login, isLoggedInFunc, userId };
 };
 
 export async function refreshAccessToken() {
