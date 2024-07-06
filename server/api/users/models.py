@@ -3,7 +3,7 @@ from django.contrib.auth.models import User, Group
 from ..event.models import RSVP
 
 
-class CustomUser(models.Model):
+class ExtendedUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     rsvps = models.ManyToManyField(RSVP, related_name='attends')
 
@@ -30,3 +30,7 @@ class CustomUser(models.Model):
 
     def is_attendee(self):
         return self.user.groups.filter(name='Attendee').exists()
+
+    @property
+    def last_login(self):
+        return self.user.last_login
