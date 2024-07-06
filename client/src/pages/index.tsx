@@ -1,4 +1,4 @@
-import { Work_Sans as FontSans } from "next/font/google";
+// import { Work_Sans as FontSans } from "next/font/google";
 import { useState } from "react";
 
 import Header from "@/components/main/Header";
@@ -6,11 +6,7 @@ import { usePings } from "@/hooks/pings";
 import { cn } from "@/lib/utils";
 
 import { Button } from "../components/ui/button";
-
-const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+import SignUpModal from "../components/ui/SignUpModal";
 
 export default function Home() {
   const [clicked, setClicked] = useState(false);
@@ -18,11 +14,15 @@ export default function Home() {
     enabled: clicked,
   });
 
+  {
+    /*   const [isSignUpOpen, setSignUp] = useState(false);
+     */
+  }
+
   return (
     <main
       className={cn(
         "m-0 flex min-h-screen flex-col items-center p-0 font-sans",
-        fontSans.variable,
       )}
     >
       <Header />
@@ -34,6 +34,7 @@ export default function Home() {
       <p>
         Response from server: <span>{data as string}</span>
       </p>
+      <div></div>
     </main>
   );
 }
