@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "../ui/table";
 
-export default function RsvpListDialog() {
+export default function RsvpListModal() {
   const [show, setShow] = useState(false);
 
   const background = useRef(null);
