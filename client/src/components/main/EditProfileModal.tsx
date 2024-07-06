@@ -32,7 +32,7 @@ export default function EditProfileModal() {
           <DialogTitle className="mb-2 text-left text-2xl">
             Edit Profile
           </DialogTitle>
-          <div className="border-t border-[#7D916F]"></div>
+          <div className="border-t border-primary"></div>
         </DialogHeader>
         <div className="mt-2 grid w-full place-items-center">
           <Image
@@ -47,33 +47,44 @@ export default function EditProfileModal() {
             Change Profile Picture
           </a>
         </div>
-        <form className="w-full space-y-4 bg-white p-8">
-          <div>
-            <label className="" htmlFor="fname">
+        <form className="w-full space-y-4 bg-white p-5 pr-16">
+          <div className="grid grid-cols-2">
+            <label className="text-base font-bold" htmlFor="fname">
               First name
             </label>
             <input
-              className="rounded-lg bg-red-700"
+              className="rounded-md bg-secondary"
               type="text"
               id="fname"
               name="fname"
             />
-          </div>
-          <div>
-            <label htmlFor="lname">Last name</label>
-            <input type="text" id="lname" name="lname" />
-          </div>
-          <div>
-            <label htmlFor="email">Email</label>
-            <input type="text" id="email" name="email" />
-          </div>
-          <div>
-            <label htmlFor="city">City</label>
-            <input type="text" id="city" name="city" />
-          </div>
-          <div>
-            <label htmlFor="fname">Old Password</label>
-            <input type="password" id="oldpassword" name="oldpassword" />
+            <label className="text-base font-bold" htmlFor="lname">
+              Last name
+            </label>
+            <input
+              className="rounded-md bg-secondary"
+              type="text"
+              id="lname"
+              name="lname"
+            />
+            <label className="text-base font-bold" htmlFor="email">
+              Email
+            </label>
+            <input
+              className="rounded-md bg-secondary"
+              type="text"
+              id="email"
+              name="email"
+            />
+            <label className="text-base font-bold" htmlFor="city">
+              City
+            </label>
+            <input
+              className="rounded-md bg-secondary"
+              type="text"
+              id="city"
+              name="city"
+            />
           </div>
         </form>
 
