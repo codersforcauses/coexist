@@ -1,7 +1,7 @@
 from django.contrib import admin  # noqa
 
 from .models import Event
-from api.SoftDelete import SoftDeleteAdmin
+from apisoft_delete import SoftDeleteAdmin
 
 # Register your models here.
 

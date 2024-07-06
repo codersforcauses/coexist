@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import Branch
-from api.SoftDelete import SoftDeleteAdmin
+from apisoft_delete import SoftDeleteAdmin
 
 
 @admin.register(Branch)
