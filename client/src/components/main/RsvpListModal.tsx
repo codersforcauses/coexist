@@ -1,13 +1,7 @@
-import { Users } from "lucide-react";
+import { Users, X } from "lucide-react";
+import { useRef, useState } from "react";
 
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Button } from "../ui/button";
 import {
   Table,
   TableBody,
@@ -15,9 +9,23 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "../ui/table";
 
-export default function RsvpListModal() {
+export default function RsvpListDialog() {
+  const [show, setShow] = useState(false);
+
+  const background = useRef(null);
+
+  function toggle() {
+    setShow((v) => !v);
+  }
+
+  function clickOff(e: any) {
+    if (e.target === background.current) {
+      toggle();
+    }
+  }
+
   const attendees = [
     {
       firstName: "John",
@@ -72,39 +80,56 @@ export default function RsvpListModal() {
   ];
 
   return (
-    <Dialog>
-      <DialogTrigger>
-        <Button variant="outline">Show RSVPs</Button>
-      </DialogTrigger>
-      <DialogContent className="max-h-96 w-full max-w-4xl">
-        <DialogTitle className="flex items-center gap-5">
-          <div>RSVPs for Tree Planting & Social Swim</div>
-          <div className="flex items-center gap-1">
-            <Users size="18" />
-            <span className="text-sm text-neutral-500">{attendees.length}</span>
+    <>
+      <Button variant="outline" onClick={toggle}>
+        Open Dialog
+      </Button>
+      <div
+        className={`fixed left-0 top-0 flex h-full w-full items-center justify-center bg-neutral-600/50 ${show ? "block" : "hidden"}`}
+        ref={background}
+        onClick={clickOff}
+      >
+        <div
+          className={`flex h-full w-full flex-col gap-3 rounded bg-neutral-50 p-4 md:h-4/5 md:w-4/5 lg:h-3/5 lg:w-3/5`}
+        >
+          <div className="flex items-center justify-between py-1">
+            <div className="flex flex-col gap-4 md:flex-row">
+              <h1 className="text-lg font-semibold leading-none tracking-tight">
+                RSVPs for Tree Planting & Social Swim
+              </h1>
+              <div className="flex items-center gap-1">
+                <Users size="18" />
+                <span className="text-sm text-neutral-500">
+                  {attendees.length}
+                </span>
+              </div>
+            </div>
+            <button onClick={toggle}>
+              <X className="h-7 w-7"></X>
+            </button>
           </div>
-        </DialogTitle>
-        <DialogDescription className="max-h-80 overflow-y-scroll">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="border-r-2">First Name</TableHead>
-                <TableHead className="border-r-2">Last Name</TableHead>
-                <TableHead>Email</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody className="text-black">
-              {attendees.map((a) => (
+          <div className="overflow-y-auto">
+            <Table className="">
+              <TableHeader>
                 <TableRow>
-                  <TableCell className="border-r-2">{a.firstName}</TableCell>
-                  <TableCell className="border-r-2">{a.lastName}</TableCell>
-                  <TableCell>{a.email}</TableCell>
+                  <TableHead className="border-r-2">First Name</TableHead>
+                  <TableHead className="border-r-2">Last Name</TableHead>
+                  <TableHead>Email</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </DialogDescription>
-      </DialogContent>
-    </Dialog>
+              </TableHeader>
+              <TableBody className="text-black">
+                {attendees.map((a) => (
+                  <TableRow>
+                    <TableCell className="border-r-2">{a.firstName}</TableCell>
+                    <TableCell className="border-r-2">{a.lastName}</TableCell>
+                    <TableCell>{a.email}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
