@@ -1,6 +1,9 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Copy } from "lucide-react";
 import Image from "next/image";
+import { useForm } from "react-hook-form";
 import { FaRegEdit } from "react-icons/fa";
+import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,12 +16,41 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
 const imageLoader = () => {
   return "https://ui-avatars.com/api/?name=John+Doe";
 };
 
+const formSchema = z.object({
+  fname: z.string(),
+  lname: z.string(),
+  email: z.string().email(),
+  city: z.string(),
+});
+
 export default function EditProfileModal() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      fname: "",
+      lname: "",
+      email: "",
+      city: "",
+    },
+  });
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+  }
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -47,6 +79,7 @@ export default function EditProfileModal() {
             Change Profile Picture
           </a>
         </div>
+        {/* FORM SECTION */}
         <form className="w-full space-y-4 bg-white p-5 pr-16">
           <div className="grid grid-cols-2">
             <label className="text-base font-bold" htmlFor="fname">
