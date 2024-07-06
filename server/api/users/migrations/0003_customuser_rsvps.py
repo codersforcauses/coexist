@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
-            model_name="customuser",
+            model_name="extendeduser",
             name="rsvps",
             field=models.ManyToManyField(related_name="attends", to="event.rsvp"),
         ),
