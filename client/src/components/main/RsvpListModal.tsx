@@ -73,7 +73,7 @@ export default function RsvpListModal() {
 
   return (
     <Dialog>
-      <DialogTrigger className="rounded border border-black p-2">
+      <DialogTrigger className="rounded border border-black p-3">
         Show RSVPs
       </DialogTrigger>
       <DialogContent>
