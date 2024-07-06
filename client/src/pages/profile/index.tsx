@@ -37,7 +37,7 @@ export default function Settings() {
         My Profile
       </h1>
       <div className="flex w-full flex-grow justify-center rounded-lg bg-accent p-5">
-        <div className="flex flex-1 flex-col items-center justify-between gap-5 rounded-lg bg-white px-4 py-6 md:justify-start md:gap-14 md:pt-10 lg:items-start lg:px-10">
+        <div className="flex flex-1 flex-col items-center justify-between gap-5 rounded-sm bg-card px-4 py-6 md:justify-start md:gap-14 md:pt-10 lg:items-start lg:px-10">
           <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-10">
             <Avatar className="h-44 w-44 md:h-64 md:w-64">
               <AvatarImage src={user.image} />
