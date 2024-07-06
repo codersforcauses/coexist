@@ -1,4 +1,4 @@
-import { Work_Sans as FontSans } from "next/font/google";
+// import { Work_Sans as FontSans } from "next/font/google";
 import { useState } from "react";
 
 import Header from "@/components/main/Header";
@@ -7,11 +7,6 @@ import { cn } from "@/lib/utils";
 
 import { Button } from "../components/ui/button";
 import SignUpModal from "../components/ui/SignUpModal";
-
-const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
 
 export default function Home() {
   const [clicked, setClicked] = useState(false);
@@ -28,7 +23,6 @@ export default function Home() {
     <main
       className={cn(
         "m-0 flex min-h-screen flex-col items-center p-0 font-sans",
-        fontSans.variable,
       )}
     >
       <Header />
