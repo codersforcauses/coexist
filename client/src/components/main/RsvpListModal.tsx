@@ -122,7 +122,7 @@ export default function RsvpListModal() {
                   <TableRow>
                     <TableCell className="border-r-2">{a.firstName}</TableCell>
                     <TableCell className="border-r-2">{a.lastName}</TableCell>
-                    <TableCell className="text-[#5C764B] underline">
+                    <TableCell className="text-[#5C764B] underline ">
                       <a href={`mailto:${a.email}`}>{a.email}</a>
                     </TableCell>
                   </TableRow>
