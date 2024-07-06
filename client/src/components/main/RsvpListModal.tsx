@@ -91,17 +91,27 @@ export default function RsvpListModal() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="border-r-2">First Name</TableHead>
-              <TableHead className="border-r-2">Last Name</TableHead>
-              <TableHead>Email</TableHead>
+              <TableHead className="border-b border-r border-[#7D916F] text-black">
+                First Name
+              </TableHead>
+              <TableHead className="border-b border-r border-[#7D916F] text-black">
+                Last Name
+              </TableHead>
+              <TableHead className="border-b border-[#7D916F] text-black">
+                Email
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="text-black">
             {attendees.map((a) => (
               <TableRow key={a.email}>
-                <TableCell className="border-r-2">{a.firstName}</TableCell>
-                <TableCell className="border-r-2">{a.lastName}</TableCell>
-                <TableCell className="text-[#5C764B] underline">
+                <TableCell className="border-r border-t border-r-[#7D916F] border-t-[#DEE4DB]">
+                  {a.firstName}
+                </TableCell>
+                <TableCell className="border-r border-t border-r-[#7D916F] border-t-[#DEE4DB]">
+                  {a.lastName}
+                </TableCell>
+                <TableCell className="border-t border-t-[#DEE4DB] text-[#5C764B] underline">
                   <a href={`mailto:${a.email}`}>{a.email}</a>
                 </TableCell>
               </TableRow>
