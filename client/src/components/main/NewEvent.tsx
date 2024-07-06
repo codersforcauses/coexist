@@ -1,4 +1,4 @@
-import { CalendarCheck, CalendarDays, Image, X } from "lucide-react";
+import { ArrowLeft, CalendarCheck, CalendarDays, Image } from "lucide-react";
 import next from "next";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
@@ -6,9 +6,14 @@ import React, { useRef, useState } from "react";
 import addEvent from "../../hooks/addEvent";
 import { CalenderPicker } from "../ui/calender-pick";
 import FailedEvent from "../ui/failed-event";
+import { Input } from "../ui/input";
+import { Select } from "../ui/select";
+import { SelectBranch } from "../ui/select-branch";
 import SuccessEvent from "../ui/success-event";
+import { Textarea } from "../ui/textarea";
 
 export default function NewEvent() {
+  const topElement = useRef<HTMLDivElement>(null);
   let [title, setTitle] = useState("");
   let [description, setDescription] = useState("");
   let [paymenturl, setPaymenturl] = useState("");
@@ -32,7 +37,7 @@ export default function NewEvent() {
       time === "" ||
       selectedDate === null
     ) {
-      document.getElementById("top")?.scrollIntoView({
+      topElement.current?.scrollIntoView({
         behavior: "smooth",
       });
       setfill(true);
@@ -68,9 +73,9 @@ export default function NewEvent() {
     }
   }
 
-  const loadFile = function (event: any) {
+  const loadFile = function (event: React.ChangeEvent<HTMLInputElement>) {
     const input = event.target;
-    const file = input.files[0];
+    const file = input.files?.[0] || null;
 
     if (file) {
       const imageUrl = URL.createObjectURL(file);
@@ -87,14 +92,14 @@ export default function NewEvent() {
 
   return (
     <div
-      id="top"
+      ref={topElement}
       className="my-8 min-h-[500px] w-[95%] rounded-[13px] border-2 border-[#000] p-5"
     >
       <div className="flex justify-between border-b-2 border-[#7D916F] p-1">
         <h1 className="text-lg font-semibold"> Create Event </h1>
 
         <Link href="/">
-          <X />
+          <ArrowLeft />
         </Link>
       </div>
 
@@ -106,41 +111,25 @@ export default function NewEvent() {
             </p>
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
               <label>Title * </label>
-              <input
-                type="text"
+              <Input
+                onChange={(e) => setTitle(e.target.value)}
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
-                onChange={(e) => setTitle(e.target.value)}
-              ></input>
+              ></Input>
             </div>
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
               <label>Description *</label>
-              <textarea
-                wrap="physical"
-                className="h-40 w-full rounded border-2 bg-[#EFF1ED] px-1 py-1 text-start placeholder-black md:w-[65%]"
-                placeholder="Enter text"
+              <Textarea
                 onChange={(e) => setDescription(e.target.value)}
-              ></textarea>
+                placeholder="Enter text"
+                className="h-40 w-full rounded border-2 bg-[#EFF1ED] px-1 py-1 text-start placeholder-black md:w-[65%]"
+              ></Textarea>
             </div>
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
               <label>City (Co-Exist Branch) *</label>
-              <select
-                onChange={(e) => setCity(e.target.value)}
-                className="rounded-[20px] border-2 bg-[#7D916F] p-1 px-2"
-              >
-                <option value="">Select</option>
-                <option value="Perth">Perth</option>
-                <option value="Sydney">Sydney</option>
-                <option value="Brisbane">Brisbane</option>
-                <option value="Gold Coast">Gold Coast</option>
-                <option value="Cairns">Cairns</option>
-                <option value="Townsville">Townsville</option>
-                <option value="Melbourne">Melbourne</option>
-                <option value="Hobart">Hobart</option>
-                <option value="Byron Bay">Byron Bay</option>
-              </select>
+              <SelectBranch setValue={setCity} />
             </div>
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
@@ -157,22 +146,20 @@ export default function NewEvent() {
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
               <label>Location *</label>
-              <input
-                type="text"
+              <Input
+                onChange={(e) => setLocation(e.target.value)}
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
-                onChange={(e) => setLocation(e.target.value)}
-              ></input>
+              ></Input>
             </div>
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
               <label>Payment Url</label>
-              <input
-                type="text"
+              <Input
+                onChange={(e) => setPaymenturl(e.target.value)}
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
-                onChange={(e) => setPaymenturl(e.target.value)}
-              ></input>
+              ></Input>
             </div>
           </form>
           <SuccessEvent success={success}></SuccessEvent>
