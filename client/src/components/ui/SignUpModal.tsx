@@ -26,7 +26,7 @@ interface Props {
 
 function SignUpModal({ isOpen, onClose }: Props) {
   return (
-    <Dialog open={isOpen} onOpenChange={onClose} className="">
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogTrigger asChild></DialogTrigger>
       {/* Outer green container */}
       <DialogContent
