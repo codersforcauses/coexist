@@ -73,9 +73,8 @@ export default function NewEvent() {
     }
   }
 
-  const loadFile = function (event: React.ChangeEvent<HTMLInputElement>) {
-    const input = event.target;
-    const file = input.files?.[0] || null;
+  const loadFile = function () {
+    const file = imageInput.current?.files?.[0] || null;
 
     if (file) {
       const imageUrl = URL.createObjectURL(file);
@@ -180,7 +179,7 @@ export default function NewEvent() {
                   <span className="sr-only">Choose</span>
                   <input
                     type="file"
-                    onChange={() => loadFile(event)}
+                    onChange={() => loadFile()}
                     className="block w-full text-sm text-slate-500 file:ml-0 file:mr-4 file:rounded-full file:border-0 file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-[#7D916F] hover:file:bg-violet-100"
                     ref={imageInput}
                     accept="image/jpeg, image/png, image/jpg, image/gif"
