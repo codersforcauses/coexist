@@ -27,15 +27,19 @@ const setCookies = (data: TokenResponse) => {
     });
   });
 };
-
+0;
 export const useAuth = () => {
   const [userId, setUserId] = useState<string>();
-  const isLoggedIn = userId !== undefined;
+  const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
   const router = useRouter();
   useEffect(() => {
     const access = Cookies.get("access");
     if (access) {
       setUserId(jwtDecode(access).user_id);
+    }
+    const refresh = Cookies.get("refresh");
+    if (refresh) {
+      setIsLoggedIn(true);
     }
   }, []);
   const login = async ({
@@ -69,7 +73,8 @@ export const useAuth = () => {
     Cookies.remove("access");
     Cookies.remove("refresh");
     setUserId(undefined);
-    router.reload();
+    setIsLoggedIn(false);
+    router.push("/");
   };
 
   return { login, isLoggedIn, userId, logout };
