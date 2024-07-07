@@ -1,17 +1,22 @@
 import Image from "next/image";
 import { useState } from "react";
 
+import { useAuth } from "@/hooks/useAuth";
+
 import LogInModal from "../ui/LogInModal";
 import SignUpModal from "../ui/SignUpModal";
 import { DropDownNav } from "./DropDown";
 
 const onHoverStyle =
   "rounded border-b-4 border-transparent px-2 hover:border-[#5C764B] hover:opacity-80";
+const outlineStyle =
+  "rounded-lg border-2 border-white p-1 px-4 hover:opacity-70";
 
 function ButtonsContainer({ isHiddenWhenLg }: { isHiddenWhenLg: boolean }) {
+  const { isLoggedIn, logout } = useAuth();
   const [isSignUpOpen, setSignUp] = useState(false);
   const [isLogInOpen, setLogIn] = useState(false);
-
+  console.log(isLoggedIn);
   return (
     <div
       id="buttons-container"
@@ -24,18 +29,24 @@ function ButtonsContainer({ isHiddenWhenLg }: { isHiddenWhenLg: boolean }) {
       <a className={`${onHoverStyle}`} href="">
         About Us
       </a>
+      {isLoggedIn ? (
+        <button className={outlineStyle}>Profile</button>
+      ) : (
+        <>
+          <div className="flex flex-col items-center justify-center lg:flex-row lg:gap-5">
+            <button
+              className={`${onHoverStyle}`}
+              onClick={() => setLogIn(true)}
+            >
+              Log in
+            </button>
+            <button className={outlineStyle} onClick={() => setSignUp(true)}>
+              Sign up
+            </button>
+          </div>
+        </>
+      )}
 
-      <div className="flex flex-col items-center justify-center lg:flex-row lg:gap-5">
-        <button className={`${onHoverStyle}`} onClick={() => setLogIn(true)}>
-          Log in
-        </button>
-        <button
-          className="rounded-lg border-2 border-white p-1 px-4 hover:opacity-70"
-          onClick={() => setSignUp(true)}
-        >
-          Sign up
-        </button>
-      </div>
       <SignUpModal isOpen={isSignUpOpen} onClose={() => setSignUp(false)} />
       <LogInModal isOpen={isLogInOpen} onClose={() => setLogIn(false)} />
     </div>

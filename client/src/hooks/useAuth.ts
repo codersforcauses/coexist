@@ -65,7 +65,14 @@ export const useAuth = () => {
     }
   };
 
-  return { login, isLoggedIn, userId };
+  const logout = () => {
+    Cookies.remove("access");
+    Cookies.remove("refresh");
+    setUserId(undefined);
+    router.reload();
+  };
+
+  return { login, isLoggedIn, userId, logout };
 };
 
 export async function refreshAccessToken() {
