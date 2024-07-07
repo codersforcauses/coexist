@@ -66,7 +66,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
             </div>
 
             {/* Name labels */}
-            <div className="flex w-full flex-row">
+            <div className="flex w-full flex-row gap-2">
               <div className="flex w-[49%] flex-col">
                 <Label htmlFor="text">First Name</Label>
                 <Input
