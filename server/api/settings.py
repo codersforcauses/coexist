@@ -49,15 +49,20 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "api.healthcheck",
+    "api.users",
     "corsheaders",
     "rest_framework",
+    "api.event",
     "rest_framework_simplejwt",
+    'django_filters',
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'],
 }
 
 MIDDLEWARE = [
@@ -110,7 +115,6 @@ DATABASES = {
         "PORT": os.environ.get("POSTGRES_PORT") or 5432,
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
