@@ -86,7 +86,7 @@ export async function refreshAccessToken() {
     if (!refreshTok) {
       throw new Error("Refresh Token Expired. Must log in");
     }
-    const result = await api.post("/auth/refresh", {
+    const result = await api.post("/auth/refresh/", {
       refresh: refreshTok,
     });
     if (result.status !== 200) {
