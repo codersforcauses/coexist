@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,7 @@ interface Props {
 
 function LogInModal({ isOpen, onClose }: Props) {
   const { login } = useAuth();
+  const router = useRouter();
   const [useremail, setUseremail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);

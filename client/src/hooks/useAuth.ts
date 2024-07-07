@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import api from "@/lib/api";
@@ -29,6 +30,8 @@ const setCookies = (data: TokenResponse) => {
 
 export const useAuth = () => {
   const [userId, setUserId] = useState<string>();
+  const isLoggedIn = userId !== undefined;
+  const router = useRouter();
   useEffect(() => {
     const access = Cookies.get("access");
     if (access) {
@@ -43,7 +46,10 @@ export const useAuth = () => {
     password: string;
   }) => {
     try {
-      const result = await api.post("/auth/token", { useremail, password });
+      const result = await api.post("/auth/token/", {
+        username: useremail,
+        password,
+      });
       if (result.status !== 200) {
         return false;
       }
@@ -51,6 +57,7 @@ export const useAuth = () => {
       setCookies(data);
       const decodedToken = jwtDecode(data.access);
       setUserId(decodedToken.user_id);
+      router.reload();
       return true;
     } catch (error) {
       console.error("Login error:", error);
@@ -58,9 +65,7 @@ export const useAuth = () => {
     }
   };
 
-  const isLoggedInFunc = () => userId !== undefined;
-
-  return { login, isLoggedInFunc, userId };
+  return { login, isLoggedIn, userId };
 };
 
 export async function refreshAccessToken() {
