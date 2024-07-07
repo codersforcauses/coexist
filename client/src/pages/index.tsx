@@ -6,18 +6,12 @@ import { usePings } from "@/hooks/pings";
 import { cn } from "@/lib/utils";
 
 import { Button } from "../components/ui/button";
-import SignUpModal from "../components/ui/SignUpModal";
 
 export default function Home() {
   const [clicked, setClicked] = useState(false);
   const { data, isLoading } = usePings({
     enabled: clicked,
   });
-
-  {
-    /*   const [isSignUpOpen, setSignUp] = useState(false);
-     */
-  }
 
   return (
     <main

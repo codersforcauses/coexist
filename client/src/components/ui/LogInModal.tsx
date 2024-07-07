@@ -22,10 +22,10 @@ function LogInModal({ isOpen, onClose }: Props) {
       <DialogTitle asChild />
 
       <DialogContent
-        className="flex h-full max-h-[460px] w-[95%] max-w-[600px] flex-col items-center rounded-[40px] border-0 bg-[var(--accent)] p-1 shadow-lg file:mx-auto"
+        className="flex h-full max-h-[460px] w-[95%] max-w-[600px] flex-col items-center rounded-[40px] border-0 bg-accent p-1 shadow-lg file:mx-auto"
         style={{ borderRadius: "32px" }}
       >
-        <div className="w-full overflow-y-auto rounded-[30px] border-4 border-[var(--accent)] bg-white p-4">
+        <div className="w-full overflow-y-auto rounded-[30px] border-4 border-accent bg-white p-4">
           {/*Image */}
           <div className="w-30 h-30 mb-1 flex justify-center">
             <Image
@@ -35,7 +35,7 @@ function LogInModal({ isOpen, onClose }: Props) {
               height={150}
             />
           </div>
-          <div className="mb-2 flex justify-center border-b-2 border-[var(--accent)]">
+          <div className="mb-2 flex justify-center border-b-2 border-accent">
             <DialogHeader>
               <DialogTitle className="text-xl font-semibold">Login</DialogTitle>
             </DialogHeader>

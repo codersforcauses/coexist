@@ -30,7 +30,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
       <DialogTrigger asChild></DialogTrigger>
       {/* Outer green container */}
       <DialogContent
-        className="mx-auto flex h-full max-h-[725px] w-[95%] max-w-[600px] flex-col border-0 bg-[var(--accent)] p-[8px] shadow-lg"
+        className="mx-auto flex h-full max-h-[725px] w-[95%] max-w-[600px] flex-col border-0 bg-accent p-[8px] shadow-lg"
         style={{ borderRadius: "40px" }}
       >
         <div className="max-h-90 h-full w-full overflow-y-auto rounded-[36px] border-4 border-white bg-white p-4">
@@ -43,7 +43,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
               height={150}
             />
           </div>
-          <div className="mb-2 flex justify-center border-b-2 border-[var(--accent)]">
+          <div className="mb-2 flex justify-center border-b-2 border-accent">
             <DialogHeader>
               <DialogTitle className="text-xl font-semibold">
                 Sign up
