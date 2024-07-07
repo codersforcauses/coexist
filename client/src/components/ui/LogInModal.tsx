@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -10,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/hooks/useAuth";
 
 interface Props {
   isOpen: boolean;
@@ -17,16 +19,35 @@ interface Props {
 }
 
 function LogInModal({ isOpen, onClose }: Props) {
+  const { login } = useAuth();
+  const [useremail, setUseremail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const success = await login({ useremail, password });
+    if (!success) {
+      setErrorMessage("Login failed, please try again");
+      loginfailed();
+    } else {
+      //authentication success
+    }
+  };
+
+  const loginfailed = () => {
+    setUseremail("");
+    setPassword("");
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogTitle asChild />
-
       <DialogContent
-        className="flex h-full max-h-[460px] w-[95%] max-w-[600px] flex-col items-center overflow-y-auto rounded-[40px] border-0 bg-[#9DAD93] p-1 shadow-lg file:mx-auto"
+        className="flex h-full max-h-[460px] w-[95%] max-w-[600px] flex-col items-center overflow-y-auto rounded-[40px] border-0 bg-[#9DAD93] p-1 shadow-lg"
         style={{ backgroundColor: "#9DAD93", borderRadius: "32px" }}
       >
         <div className="w-full rounded-[30px] border-4 border-[#9DAD93] bg-white p-4">
-          {/*Image */}
+          {/* Image */}
           <div className="w-30 h-30 mb-1 flex justify-center">
             <Image
               src="/web_logo.png"
@@ -41,29 +62,41 @@ function LogInModal({ isOpen, onClose }: Props) {
             </DialogHeader>
           </div>
 
-          {/* Labels */}
-          <div className="grid gap-4 py-4">
-            <div className="gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" placeholder="Enter Email" className="w-full" />
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="w-full">
+            <div className="grid gap-4 py-4">
+              <div className="gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  placeholder="Enter Email"
+                  className="w-full"
+                  value={useremail}
+                  onChange={(e) => setUseremail(e.target.value)}
+                />
+              </div>
+              <div className="gap-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Enter password"
+                  className="w-full"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
             </div>
-            <div className="gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                placeholder="Enter password"
-                className="w-full"
-              />
-            </div>
-          </div>
 
-          <DialogFooter>
-            <div className="mt-1 flex w-full justify-center">
-              <Button type="submit" variant="signup" className="w-[270px]">
-                Sign in
-              </Button>
-            </div>
-          </DialogFooter>
+            <DialogFooter>
+              <div className="mt-1 flex w-full justify-center">
+                <Button type="submit" variant="signup" className="w-[270px]">
+                  Sign in
+                </Button>
+              </div>
+            </DialogFooter>
+          </form>
+          {/* {errorMessage && <p className="mt-2 text-center">{errorMessage}</p>} */}
         </div>
       </DialogContent>
     </Dialog>
