@@ -5,7 +5,10 @@ import { refreshAccessToken } from "@/hooks/useAuth";
 
 const api = axios.create({ baseURL: process.env.NEXT_PUBLIC_BACKEND_URL });
 api.interceptors.request.use(async (config) => {
-  config.headers.Authorization = `Bearer ${Cookies.get("access")}`;
+  const accessTok = Cookies.get("access");
+  if (accessTok) {
+    config.headers.Authorization = `Bearer ${accessTok}`;
+  }
   return config;
 });
 
@@ -15,10 +18,14 @@ api.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config;
-    if (error.response.status === 403 && !originalRequest._retry) {
+    if (
+      error.response.status === 403 &&
+      !originalRequest._retry &&
+      !Cookies.get("access")
+    ) {
       originalRequest._retry = true;
-      const access_token = await refreshAccessToken();
-      axios.defaults.headers.common["Authorization"] = "Bearer " + access_token;
+      const accessTok = await refreshAccessToken();
+      axios.defaults.headers.common.Authorization = `Bearer ${accessTok}`;
       return api(originalRequest);
     }
     return Promise.reject(error);

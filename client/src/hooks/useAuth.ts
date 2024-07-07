@@ -90,6 +90,6 @@ export async function refreshAccessToken() {
     return result.data.access;
   } catch (error) {
     console.error("Refresh token error:", error);
-    return null;
+    return false;
   }
 }

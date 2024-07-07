@@ -13,10 +13,9 @@ const outlineStyle =
   "rounded-lg border-2 border-white p-1 px-4 hover:opacity-70";
 
 function ButtonsContainer({ isHiddenWhenLg }: { isHiddenWhenLg: boolean }) {
-  const { isLoggedIn, logout } = useAuth();
+  const { isLoggedIn } = useAuth();
   const [isSignUpOpen, setSignUp] = useState(false);
   const [isLogInOpen, setLogIn] = useState(false);
-  console.log(isLoggedIn);
   return (
     <div
       id="buttons-container"
