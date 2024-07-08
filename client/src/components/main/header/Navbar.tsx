@@ -1,23 +1,24 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { DropDownNav } from "./DropDown";
 
 const onHoverStyle =
   "rounded border-b-4 border-transparent px-2 hover:border-[#5C764B] hover:opacity-80";
 
-function ButtonsContainer({ isHiddenWhenLg }: { isHiddenWhenLg: boolean }) {
+function Links({ isHiddenWhenLg }: { isHiddenWhenLg: boolean }) {
   return (
     <div
       id="buttons-container"
       className={`${isHiddenWhenLg ? "max-lg:hidden" : ""} flex flex-col items-center justify-center gap-2 lg:flex-row lg:gap-20`}
     >
-      <a className={`${onHoverStyle}`} href="">
+      <Link className={`${onHoverStyle}`} href="events">
         Upcoming Events
-      </a>
+      </Link>
 
-      <a className={`${onHoverStyle}`} href="">
+      <Link className={`${onHoverStyle}`} href="about">
         About Us
-      </a>
+      </Link>
 
       <div className="flex flex-col items-center justify-center lg:flex-row lg:gap-5">
         <button className={`${onHoverStyle}`}>Log in</button>
@@ -40,10 +41,8 @@ export default function Navbar() {
           <Image src="/logo.png" width={155} height={100} alt="logo" />{" "}
         </a>
       </div>
-      <ButtonsContainer isHiddenWhenLg={true} />
-      <DropDownNav
-        ButtonsContainer={<ButtonsContainer isHiddenWhenLg={false} />}
-      />
+      <Links isHiddenWhenLg={true} />
+      <DropDownNav Links={<Links isHiddenWhenLg={false} />} />
     </div>
   );
 }
