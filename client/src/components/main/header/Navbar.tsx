@@ -2,10 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-import {
-  default as LogInModal,
-  default as SignUpModal,
-} from "@/components/ui/LogInModal";
+import LogInModal from "@/components/ui/LogInModal";
+import SignUpModal from "@/components/ui/SignUpModal";
 import { useAuth } from "@/hooks/useAuth";
 
 import { DropDownNav } from "./DropDown";

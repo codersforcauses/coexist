@@ -7,12 +7,14 @@ export default function NavBarTitle() {
       {router.pathname == "/" ? (
         <div
           id="inspiring_div"
-          className="mt-auto h-[100px] text-center sm:text-start"
+          className="mt-auto flex flex-col gap-2 text-start"
         >
-          <div className="text-4xl" style={{ fontWeight: "519" }}>
+          <p className="text-3xl md:text-4xl" style={{ fontWeight: "519" }}>
             Inspiring generations to co-exist
+          </p>
+          <div className="pl-10">
+            <p className="md:text-xl">recreation, education, conservation</p>
           </div>
-          <div className="text-xl">recreation, education, conservation</div>
         </div>
       ) : (
         ""
