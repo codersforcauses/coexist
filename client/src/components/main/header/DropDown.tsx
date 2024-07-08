@@ -8,11 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function DropDownNav({
-  ButtonsContainer,
-}: {
-  ButtonsContainer: ReactElement;
-}) {
+export function DropDownNav({ Links }: { Links: ReactElement }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -23,7 +19,7 @@ export function DropDownNav({
       <DropdownMenuContent className="m-1 w-48 lg:hidden">
         <div className="flex justify-center font-medium"> Menu </div>
         <DropdownMenuSeparator />
-        {ButtonsContainer}
+        {Links}
       </DropdownMenuContent>
     </DropdownMenu>
   );
