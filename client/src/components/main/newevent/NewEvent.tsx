@@ -112,10 +112,7 @@ export default function NewEvent() {
         </Link>
       </div>
 
-      <div
-        id="DisableDiv"
-        className={"grid-col-1 my-4 grid h-full text-center lg:grid-cols-2"}
-      >
+      <div className="grid-col-1 my-4 grid h-full text-center lg:grid-cols-2">
         <div className="mx-auto h-full w-full">
           <form className="sm:max-w-auto mx-auto flex max-w-[80vw] flex-col text-start">
             <p className={`${fill ? "block italic" : "hidden"} text-red-500`}>
