@@ -7,7 +7,8 @@ class Event(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     image = models.ImageField(upload_to="static/images", blank=True, null=True)
-    date_time = models.DateTimeField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField(null=True, blank=True)
     location = models.CharField(max_length=200)
     # TODO: Create Branch model
     # branch = models.ForeignKey(
@@ -16,3 +17,7 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def duration(self):
+        return self.end_time - self.start_time
