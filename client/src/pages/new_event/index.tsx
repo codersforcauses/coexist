@@ -1,10 +1,9 @@
 import { Work_Sans as FontSans } from "next/font/google";
 import React from "react";
 
-import Header from "@/components/main/Header";
-import NewEvent from "@/components/main/NewEvent";
+import NewEvent from "@/components/main/newevent/NewEvent";
 
-import { cn } from "../lib/utils";
+import { cn } from "../../lib/utils";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -19,7 +18,6 @@ const new_event: React.FC = () => {
         fontSans.variable,
       )}
     >
-      <Header bottomdiv={false} />
       <NewEvent />
     </main>
   );

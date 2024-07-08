@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { usePings } from "@/hooks/pings";
 
-import NewEvent from "../components/main/NewEvent";
+import NewEvent from "../components/main/newevent/NewEvent";
 import { Button } from "../components/ui/button";
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
   });
 
   return (
-    <div>
+    <div className="mx-auto text-center">
       <h1 className="text-3xl text-primary">Test title</h1>
       <Button onClick={() => setClicked(true)}>
         {isLoading ? "Loading" : "Ping"}

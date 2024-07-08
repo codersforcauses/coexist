@@ -37,9 +37,9 @@ export default function Navbar() {
       className="flex w-full items-center justify-between whitespace-nowrap text-xl lg:text-2xl"
     >
       <div id="logo" className="flex w-full items-center justify-start">
-        <a className="hover:opacity-80" href="">
+        <Link className="hover:opacity-80" href="/">
           <Image src="/logo.png" width={155} height={100} alt="logo" />{" "}
-        </a>
+        </Link>
       </div>
       <Links isHiddenWhenLg={true} />
       <DropDownNav Links={<Links isHiddenWhenLg={false} />} />

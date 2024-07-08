@@ -3,14 +3,16 @@ import next from "next";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 
-import addEvent from "../../hooks/addEvent";
-import { CalenderPicker } from "../ui/calender-pick";
-import FailedEvent from "../ui/failed-event";
-import { Input } from "../ui/input";
-import { Select } from "../ui/select";
-import { SelectBranch } from "../ui/select-branch";
-import SuccessEvent from "../ui/success-event";
-import { Textarea } from "../ui/textarea";
+import addEvent from "../../../hooks/addEvent";
+import { CalenderPickerEnd } from "../../ui/calender-pick-end";
+import { CalenderPickerStart } from "../../ui/calender-pick-start";
+import FailedEvent from "../../ui/failed-event";
+import { Input } from "../../ui/input";
+import LoadingEvent from "../../ui/loadingevent";
+import { Select } from "../../ui/select";
+import { SelectBranch } from "../../ui/select-branch";
+import SuccessEvent from "../../ui/success-event";
+import { Textarea } from "../../ui/textarea";
 
 export default function NewEvent() {
   const topElement = useRef<HTMLDivElement>(null);
@@ -19,11 +21,13 @@ export default function NewEvent() {
   let [paymenturl, setPaymenturl] = useState("");
   let [location, setLocation] = useState("");
   let [city, setCity] = useState("");
-  let [time, setTime] = useState("");
+  let [starttime, setStartTime] = useState("");
+  let [endtime, setEndTime] = useState("");
   let imageInput = useRef<HTMLInputElement>(null);
 
   let [fill, setfill] = useState(false);
-  let [selectedDate, setSelectedDate] = useState<Date>();
+  let [selectedStartDate, setStartSelectedDate] = useState<Date>();
+  let [selectedEndDate, setEndSelectedDate] = useState<Date>();
   let [success, setSuccess] = useState(false);
   let [failed, setFailed] = useState(false);
   let imagePreview = useRef<HTMLDivElement>(null);
@@ -36,8 +40,10 @@ export default function NewEvent() {
       description === "" ||
       location === "" ||
       city === "" ||
-      time === "" ||
-      selectedDate === null
+      starttime === "" ||
+      endtime === "" ||
+      selectedStartDate === null ||
+      selectedEndDate === null
     ) {
       topElement.current?.scrollIntoView({
         behavior: "smooth",
@@ -48,13 +54,15 @@ export default function NewEvent() {
 
     setIsSubmitting(true);
 
-    let data_time = `${selectedDate}T${time}:00Z`;
+    let start_date_time = `${selectedStartDate}T${starttime}:00Z`;
+    let end_date_time = `${selectedEndDate}T${endtime}:00Z`;
     let formData: any = new FormData();
 
     formData.append("title", title);
     formData.append("description", description);
     formData.append("location", location);
-    formData.append("date_time", data_time);
+    formData.append("start_time", start_date_time);
+    formData.append("end_time", end_date_time);
 
     if (paymenturl) {
       formData.append("payment_link", paymenturl);
@@ -71,6 +79,7 @@ export default function NewEvent() {
       setSuccess(true);
     } else {
       setFailed(true);
+      setIsSubmitting(false);
     }
   }
 
@@ -113,7 +122,9 @@ export default function NewEvent() {
               Please fill out all required fields (*).
             </p>
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
-              <label>Title * </label>
+              <label>
+                Title <a className="text-red-500">*</a>{" "}
+              </label>
               <Input
                 onChange={(e) => setTitle(e.target.value)}
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
@@ -123,7 +134,9 @@ export default function NewEvent() {
             </div>
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
-              <label>Description *</label>
+              <label>
+                Description <a className="text-red-500">*</a>
+              </label>
               <Textarea
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Enter text"
@@ -133,16 +146,22 @@ export default function NewEvent() {
             </div>
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
-              <label>City (Co-Exist Branch) *</label>
+              <label>
+                City (Co-Exist Branch) <a className="text-red-500">*</a>
+              </label>
               <SelectBranch setValue={setCity} />
             </div>
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
-              <label>Date and Time *</label>
+              <label>
+                Start Date and Time <a className="text-red-500">*</a>
+              </label>
               <div className="flex w-full justify-between md:w-[65%]">
-                <CalenderPicker setSelectedDate={setSelectedDate} />
+                <CalenderPickerStart
+                  setStartSelectedDate={setStartSelectedDate}
+                />
                 <input
-                  onChange={(e) => setTime(e.target.value)}
+                  onChange={(e) => setStartTime(e.target.value)}
                   type="time"
                   className="max-w-1/2 border-2 bg-[#EFF1ED]"
                   disabled={isSubmitting}
@@ -151,7 +170,24 @@ export default function NewEvent() {
             </div>
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
-              <label>Location *</label>
+              <label>
+                End Date and Time <a className="text-red-500">*</a>
+              </label>
+              <div className="flex w-full justify-between md:w-[65%]">
+                <CalenderPickerEnd setEndSelectedDate={setEndSelectedDate} />
+                <input
+                  onChange={(e) => setEndTime(e.target.value)}
+                  type="time"
+                  className="max-w-1/2 border-2 bg-[#EFF1ED]"
+                  disabled={isSubmitting}
+                ></input>
+              </div>
+            </div>
+
+            <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
+              <label>
+                Location <a className="text-red-500">*</a>
+              </label>
               <Input
                 onChange={(e) => setLocation(e.target.value)}
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
@@ -172,6 +208,7 @@ export default function NewEvent() {
           </form>
           <SuccessEvent success={success}></SuccessEvent>
           <FailedEvent failed={failed} setFailed={setFailed}></FailedEvent>
+          <LoadingEvent loading={isSubmitting}></LoadingEvent>
         </div>
 
         <div className="flex h-full flex-col items-center">
