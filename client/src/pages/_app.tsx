@@ -5,6 +5,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { AppProps } from "next/app";
 import { fontFamily } from "tailwindcss/defaultTheme";
 
+import Layout from "@/components/main/header/Layout";
+
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -13,7 +15,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <style jsx global>{`:root { --font-sans: ${fontFamily.sans};}}`}</style>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </QueryClientProvider>
     </>
   );

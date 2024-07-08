@@ -15,6 +15,8 @@ psycopg = {extras = ["binary", "pool"], version = "^3.1.19"}
 freezegun = "^1.5.1"
 gunicorn = "^22.0.0"
 python-dotenv = "^1.0.1"
+pillow = "^10.3.0"
+django-filter = "^24.2"
 
 
 [tool.poetry.group.dev.dependencies]
