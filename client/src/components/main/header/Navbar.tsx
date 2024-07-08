@@ -4,7 +4,6 @@ import { useState } from "react";
 
 import LogInModal from "@/components/ui/LogInModal";
 import SignUpModal from "@/components/ui/SignUpModal";
-import { useAuth } from "@/hooks/useAuth";
 
 import { DropDownNav } from "./DropDown";
 
@@ -14,7 +13,6 @@ const outlineStyle =
   "rounded-lg border-2 border-white p-1 px-4 hover:opacity-70";
 
 function Links({ isHiddenWhenLg }: { isHiddenWhenLg: boolean }) {
-  const { isLoggedIn } = useAuth();
   const [isSignUpOpen, setSignUp] = useState(false);
   const [isLogInOpen, setLogIn] = useState(false);
 
@@ -31,20 +29,19 @@ function Links({ isHiddenWhenLg }: { isHiddenWhenLg: boolean }) {
         About Us
       </Link>
 
-      {isLoggedIn ? (
-        <Link href="/profile" className={outlineStyle}>
-          Profile
-        </Link>
-      ) : (
-        <div className="flex flex-col items-center justify-center lg:flex-row lg:gap-5">
-          <button className={`${onHoverStyle}`} onClick={() => setLogIn(true)}>
-            Log in
-          </button>
-          <button className={outlineStyle} onClick={() => setSignUp(true)}>
-            Sign up
-          </button>
-        </div>
-      )}
+      {/* <Link href="/profile" className={outlineStyle}>
+        Profile
+      </Link> */}
+
+      <div className="flex flex-col items-center justify-center lg:flex-row lg:gap-5">
+        <button className={`${onHoverStyle}`} onClick={() => setLogIn(true)}>
+          Log in
+        </button>
+        <button className={outlineStyle} onClick={() => setSignUp(true)}>
+          Sign up
+        </button>
+      </div>
+
       <SignUpModal isOpen={isSignUpOpen} onClose={() => setSignUp(false)} />
       <LogInModal isOpen={isLogInOpen} onClose={() => setLogIn(false)} />
     </div>
