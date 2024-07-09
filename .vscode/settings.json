@@ -8,5 +8,8 @@
   "typescript.tsdk": "./client/node_modules/typescript/lib",
   "shellcheck.ignorePatterns": {
     "**/.env*": true
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
   }
 }
