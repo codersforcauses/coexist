@@ -32,7 +32,7 @@ export default function NewEvent() {
   let [failed, setFailed] = useState(false);
   let imagePreview = useRef<HTMLDivElement>(null);
 
-  let [isSubmitting, setIsSubmitting] = useState(false);
+  let [isLoading, setIsLoading] = useState(false);
 
   function formSubmit() {
     if (
@@ -52,7 +52,7 @@ export default function NewEvent() {
       return;
     }
 
-    setIsSubmitting(true);
+    setIsLoading(true);
 
     let start_date_time = `${selectedStartDate}T${starttime}:00Z`;
     let end_date_time = `${selectedEndDate}T${endtime}:00Z`;
@@ -63,6 +63,7 @@ export default function NewEvent() {
     formData.append("location", location);
     formData.append("start_time", start_date_time);
     formData.append("end_time", end_date_time);
+    formData.append("branch", city);
 
     if (paymenturl) {
       formData.append("payment_link", paymenturl);
@@ -79,7 +80,7 @@ export default function NewEvent() {
       setSuccess(true);
     } else {
       setFailed(true);
-      setIsSubmitting(false);
+      setIsLoading(false);
     }
   }
 
@@ -126,7 +127,7 @@ export default function NewEvent() {
                 onChange={(e) => setTitle(e.target.value)}
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
-                disabled={isSubmitting}
+                disabled={isLoading}
               ></Input>
             </div>
 
@@ -138,7 +139,7 @@ export default function NewEvent() {
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Enter text"
                 className="h-40 w-full rounded border-2 bg-[#EFF1ED] px-1 py-1 text-start placeholder-black md:w-[65%]"
-                disabled={isSubmitting}
+                disabled={isLoading}
               ></Textarea>
             </div>
 
@@ -146,7 +147,7 @@ export default function NewEvent() {
               <label>
                 City (Co-Exist Branch) <a className="text-red-500">*</a>
               </label>
-              <SelectBranch setValue={setCity} />
+              <SelectBranch setValue={setCity} setIsLoading={setIsLoading} />
             </div>
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
@@ -161,7 +162,7 @@ export default function NewEvent() {
                   onChange={(e) => setStartTime(e.target.value)}
                   type="time"
                   className="max-w-1/2 border-2 bg-[#EFF1ED]"
-                  disabled={isSubmitting}
+                  disabled={isLoading}
                 ></input>
               </div>
             </div>
@@ -176,7 +177,7 @@ export default function NewEvent() {
                   onChange={(e) => setEndTime(e.target.value)}
                   type="time"
                   className="max-w-1/2 border-2 bg-[#EFF1ED]"
-                  disabled={isSubmitting}
+                  disabled={isLoading}
                 ></input>
               </div>
             </div>
@@ -189,7 +190,7 @@ export default function NewEvent() {
                 onChange={(e) => setLocation(e.target.value)}
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
-                disabled={isSubmitting}
+                disabled={isLoading}
               ></Input>
             </div>
 
@@ -199,13 +200,13 @@ export default function NewEvent() {
                 onChange={(e) => setPaymenturl(e.target.value)}
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
                 placeholder="Enter text"
-                disabled={isSubmitting}
+                disabled={isLoading}
               ></Input>
             </div>
           </form>
           <SuccessEvent success={success}></SuccessEvent>
           <FailedEvent failed={failed} setFailed={setFailed}></FailedEvent>
-          <LoadingEvent loading={isSubmitting}></LoadingEvent>
+          <LoadingEvent loading={isLoading}></LoadingEvent>
         </div>
 
         <div className="flex h-full flex-col items-center">
@@ -225,7 +226,7 @@ export default function NewEvent() {
                     className="block w-full text-sm text-slate-500 file:ml-0 file:mr-4 file:rounded-full file:border-0 file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-[#7D916F] hover:file:bg-violet-100"
                     ref={imageInput}
                     accept="image/jpeg, image/png, image/jpg, image/gif"
-                    disabled={isSubmitting}
+                    disabled={isLoading}
                   />
                 </label>
               </div>
@@ -239,7 +240,7 @@ export default function NewEvent() {
             <button
               className="rounded-[13px] border-2 border-[#181818] p-1 px-2 hover:bg-slate-200 hover:opacity-80"
               onClick={() => formSubmit()}
-              disabled={isSubmitting}
+              disabled={isLoading}
             >
               <h1 className="text-m flex">
                 Add Event <CalendarCheck className="mx-1 text-[#7D916F]" />

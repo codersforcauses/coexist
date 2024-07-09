@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Select,
@@ -11,11 +10,43 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export function SelectBranch({
-  setValue,
-}: {
+import selectCity from "../../hooks/selectCity";
+
+interface Prop {
   setValue: (value: string) => void;
-}) {
+  setIsLoading: any;
+}
+
+export function SelectBranch({ setValue, setIsLoading }: Prop) {
+  const [branchData, setBranchData] = useState<any>(null);
+
+  useEffect(() => {
+    async function fetchBranch() {
+      setIsLoading(true);
+      const branchArray = await selectCity();
+      console.log(branchArray);
+      setBranchData(branchArray);
+    }
+
+    fetchBranch();
+  }, []);
+
+  if (branchData === null) {
+    return (
+      <Select
+        onValueChange={(value: any) => {
+          setValue(value);
+        }}
+      >
+        <SelectTrigger className="w-[180px] rounded-[20px] border-2 bg-[#7D916F] p-1 px-2">
+          <SelectValue placeholder="City" />
+        </SelectTrigger>
+      </Select>
+    );
+  } else {
+    setIsLoading(false);
+  }
+
   return (
     <Select onValueChange={(value) => setValue(value)}>
       <SelectTrigger className="w-[180px] rounded-[20px] border-2 bg-[#7D916F] p-1 px-2">
@@ -24,15 +55,9 @@ export function SelectBranch({
       <SelectContent>
         <SelectGroup>
           <SelectLabel>City</SelectLabel>
-          <SelectItem value="Perth">Perth</SelectItem>
-          <SelectItem value="Sydney">Sydney</SelectItem>
-          <SelectItem value="Brisbane">Brisbane</SelectItem>
-          <SelectItem value="Gold Coast">Gold Coast</SelectItem>
-          <SelectItem value="Cairns">Cairns</SelectItem>
-          <SelectItem value="Townsville">Townsville</SelectItem>
-          <SelectItem value="Melbourne">Melbourne</SelectItem>
-          <SelectItem value="Hobart">Hobart</SelectItem>
-          <SelectItem value="Byron Bay">Byron Bay</SelectItem>
+          {branchData.map((d: any) => (
+            <SelectItem value={d.id}>{d.name}</SelectItem>
+          ))}
         </SelectGroup>
       </SelectContent>
     </Select>
