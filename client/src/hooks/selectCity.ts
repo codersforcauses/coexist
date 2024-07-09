@@ -6,11 +6,14 @@ export default async function selectCity() {
 
     if (response.ok) {
       const responseData = await response.json();
+      if (responseData.results.length === 0) {
+        return null;
+      }
       return responseData.results;
     } else {
-      return null;
+      return false;
     }
   } catch (error) {
-    return null;
+    return false;
   }
 }

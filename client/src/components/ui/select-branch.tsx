@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 
 import selectCity from "../../hooks/selectCity";
+import FailedBranch from "./failed-branch";
 
 interface Prop {
   setValue: (value: string) => void;
@@ -25,14 +26,14 @@ export function SelectBranch({ setValue, setIsLoading }: Prop) {
     async function fetchBranch() {
       setIsLoading(true);
       const branchArray = await selectCity();
-      console.log(branchArray);
       setBranchData(branchArray);
     }
 
     fetchBranch();
   }, []);
 
-  if (branchData === null) {
+  if (branchData == null) {
+    setIsLoading(false);
     return (
       <Select
         onValueChange={(value: any) => {
@@ -41,9 +42,17 @@ export function SelectBranch({ setValue, setIsLoading }: Prop) {
       >
         <SelectTrigger className="w-[180px] rounded-[20px] border-2 bg-[#7D916F] p-1 px-2">
           <SelectValue placeholder="City" />
+          <SelectContent>
+            <SelectItem value="N/A">No cities available</SelectItem>
+          </SelectContent>
         </SelectTrigger>
       </Select>
     );
+  } else if (branchData == false) {
+    setIsLoading(false);
+    return <FailedBranch></FailedBranch>;
+
+    return <h1>error</h1>;
   } else {
     setIsLoading(false);
   }
