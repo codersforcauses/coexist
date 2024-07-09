@@ -10,6 +10,11 @@ export default function Home() {
     enabled: clicked,
   });
 
+  {
+    /*   const [isSignUpOpen, setSignUp] = useState(false);
+     */
+  }
+
   return (
     <div>
       <h1 className="text-3xl text-primary">Test title</h1>
