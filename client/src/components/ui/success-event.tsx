@@ -29,10 +29,10 @@ export default function SuccessEvent({ success }: prop) {
         <AlertDialogFooter>
           <AlertDialogCancel
             onClick={() => {
-              window.location.reload();
+              window.location.href = "/";
             }}
           >
-            Cancel
+            Close
           </AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>
