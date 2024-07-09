@@ -5,23 +5,38 @@ import Header from "@/components/main/Header";
 import { usePings } from "@/hooks/pings";
 import { cn } from "@/lib/utils";
 
-import { Button } from "../components/ui/button";
-
-// proof of concept event card display, eventually needs to be converted into tailwind component
-// Mostly to show alignments
-// TODO: specific stylings including colour, and precise space allignment
-// Current Issues: flex-grow not working properly, all columns
+import EventCard from "../components/main/EventCard";
 
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
+{
+  /* Example data for event card */
+}
+const EventData = {
+  //example data
+  date: "2023-05-01",
+  name: "Tree Planting & Social Swim",
+  location: "Glenoma Park, Brinsmead",
+  description:
+    "2 hours of fun, Tree planting, Music, Swims and food (snacks provided)",
+  items: [
+    "Your hat,",
+    "Water bottle,",
+    "sunscreen,",
+    "swimmers for fresh water creek hangout :)",
+  ],
+};
+
 export default function Home() {
   const [clicked, setClicked] = useState(false);
   const { data, isLoading } = usePings({
     enabled: clicked,
   });
+
+  const repeatCount = 1;
 
   return (
     <main
@@ -31,40 +46,31 @@ export default function Home() {
       )}
     >
       <Header />
-
-      {/* Column1, need to figure out  */}
-      <div className="w-1/8 order-1 h-full flex-col border border-black p-6 text-primary">
-        <div className="order-1 h-1/4 w-1/4 justify-self-start border-b border-gray-300 p-2 font-bold">
-          May
-        </div>
-        <div className="order-2 h-1/2 justify-self-center p-2">01</div>
-        <Button className="order-3 h-1/4 justify-self-center p-2">
-          Send RSVP
-        </Button>
+      {/* The EventCard */}
+      <div className="p-5">
+        <h1 className="mb-4 mt-4 text-xl font-bold">Upcoming Events</h1>
+        {Array(repeatCount)
+          .fill(null)
+          .map((_, index) => (
+            <EventCard
+              key={index}
+              date={EventData.date}
+              name={EventData.name}
+              location={EventData.location}
+              description={EventData.description}
+              items={EventData.items}
+              position={
+                repeatCount === 1
+                  ? "single"
+                  : index === 0
+                    ? "first"
+                    : index === repeatCount - 1
+                      ? "last"
+                      : "middle"
+              }
+            />
+          ))}
       </div>
-
-      {/* Column2 */}
-      <div className="w-5/8 order-2 h-full flex-col border border-black p-6 text-primary">
-        <div className="w-5/8 order-1 h-1/4 justify-self-start p-2 font-bold">
-          Tree Planting & Social Swim
-        </div>
-        <div className="h-1/8 order-2 flex-row border-b border-gray-300 p-2">
-          <Button className="order-1 w-1/4 pr-6">Cairns</Button>
-          <div className="order-2 w-1/2"> Glenoma Park, Brinsmead</div>
-        </div>
-        <div className="h-1/8 order-3 p-2">
-          {" "}
-          3 Hours of Fun Tree Planting, Music, Swim & Food(Snacks Provided!)
-        </div>
-        <div className="h-1/8 order-2 p-2">
-          {" "}
-          Bring: Your Hat, water bottle, sunscreen and swimmers for the fresh
-          water creek hangout
-        </div>
-      </div>
-
-      {/* Column3, To be replaced w image */}
-      <div className="roundedlg order-3 h-full w-1/4 border border-black bg-green-400 p-6"></div>
     </main>
   );
 }
