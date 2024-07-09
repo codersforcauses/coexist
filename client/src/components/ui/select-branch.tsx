@@ -1,3 +1,4 @@
+import { Value } from "@radix-ui/react-select";
 import { useEffect, useState } from "react";
 
 import {
@@ -47,8 +48,20 @@ export function SelectBranch({ setValue, setIsLoading }: Prop) {
     setIsLoading(false);
   }
 
+  function nametoid(name: string) {
+    for (let i = 0; i < branchData.length; i++) {
+      if (branchData[i].name === name) {
+        return branchData[i].id;
+      }
+    }
+  }
+
   return (
-    <Select onValueChange={(value) => setValue(value)}>
+    <Select
+      onValueChange={(value) => {
+        setValue(nametoid(value));
+      }}
+    >
       <SelectTrigger className="w-[180px] rounded-[20px] border-2 bg-[#7D916F] p-1 px-2">
         <SelectValue placeholder="City" />
       </SelectTrigger>
@@ -56,7 +69,7 @@ export function SelectBranch({ setValue, setIsLoading }: Prop) {
         <SelectGroup>
           <SelectLabel>City</SelectLabel>
           {branchData.map((d: any) => (
-            <SelectItem value={d.id}>{d.name}</SelectItem>
+            <SelectItem value={d.name}>{d.name}</SelectItem>
           ))}
         </SelectGroup>
       </SelectContent>
