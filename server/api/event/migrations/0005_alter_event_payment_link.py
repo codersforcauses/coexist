@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("event", "0005_rename_date_time_event_start_time_event_end_time_and_more"),
+        ("event", "0004_rename_date_time_event_start_time_event_end_time_and_more"),
     ]
 
     operations = [
