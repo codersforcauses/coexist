@@ -37,7 +37,7 @@ export default function Home() {
           city="Cairns"
           location="Glenoma park, Brinstead"
           description="3 hours of Fun, Tree Planting, Music, Swims & Food (Snacks Provided!)"
-          refImageURL="/placeholder.png"
+          refImageURL="/event-image-placeholder.png"
           rsvpURL="nil"
         />
       </div>
