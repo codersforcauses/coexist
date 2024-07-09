@@ -14,17 +14,18 @@ class Event(SoftDeleteModel):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField(null=True, blank=True)
     location = models.CharField(max_length=200)
-    branch = models.ForeignKey(Branch, on_delete=models.CASCADE, related_name="events")
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE,
+                               related_name="events")
     is_cancelled = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
-      
+
     @property
     def duration(self):
         return self.end_time - self.start_time
 
-      
+
 class RSVP(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,
                              related_name='rsvp_by')
@@ -39,4 +40,3 @@ class RSVP(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.event.title}"
-
