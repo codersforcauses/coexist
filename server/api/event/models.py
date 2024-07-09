@@ -1,7 +1,9 @@
 from django.db import models
+from api.soft_delete import SoftDeleteModel
+from api.branch.models import Branch
 
 
-class Event(models.Model):
+class Event(SoftDeleteModel):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=200)
@@ -14,6 +16,7 @@ class Event(models.Model):
     # TODO: Create Branch model
     # branch = models.ForeignKey(
     #     "Branch", on_delete=models.CASCADE, related_name="events")
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE, related_name="events")
     is_cancelled = models.BooleanField(default=False)
 
     def __str__(self):

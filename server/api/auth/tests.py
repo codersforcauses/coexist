@@ -48,6 +48,6 @@ class JWTTestCase(TestCase):
 
     def test_jwt_verify_with_invalid_token(self):
         token = self._token().data["access"]
-        token = token[:50] + chr(ord(token[50])+1) + token[51:]  # increment 50th character to make invalid
+        token = token[:50] + chr(ord(token[50]) + 1) + token[51:]  # increment 50th character to make invalid
         resp = self.client.post(reverse("jwt_verify"), {"token": token}, format="json")
         self.assertEqual(resp.status_code, status.HTTP_401_UNAUTHORIZED)
