@@ -138,7 +138,7 @@ export default function NewEvent() {
               <Textarea
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Enter text"
-                className="h-40 w-full rounded border-2 bg-[#EFF1ED] px-1 py-1 text-start placeholder-black md:w-[65%]"
+                className="h-40 w-full rounded bg-[#EFF1ED] px-1 py-1 text-start placeholder-black focus-visible:outline-none focus-visible:ring-[4px] focus-visible:ring-[#7D916F] md:w-[65%]"
                 disabled={isLoading}
               ></Textarea>
             </div>
