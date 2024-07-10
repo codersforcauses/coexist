@@ -108,10 +108,19 @@ const EventCard = ({
             {startTime} - {endTime}
           </p>
         </div>
-        <div className="mb-6 flex gap-x-8 text-lg">
+        <div className="mb-6 flex justify-between gap-x-8 text-lg">
           <p className="rounded-lg bg-[#7D916F] px-5 py-0.5 font-medium text-white">
             {city}
           </p>
+          <Button
+            variant="ghost"
+            className="rounded-lg border border-[#5B5A5A] px-5 py-0.5 text-lg font-medium lg:hidden"
+          >
+            <div className="flex flex-row">
+              {" "}
+              RSVP <Mail className="ml-2"> </Mail>{" "}
+            </div>
+          </Button>
           <p className="hidden font-medium lg:block">{location}</p>
         </div>
         <hr className="border-b-1 mb-4 hidden border-black lg:block" />
