@@ -23,13 +23,17 @@ function Links({ isHiddenWhenLg }: { isHiddenWhenLg: boolean }) {
       id="buttons-container"
       className={`${isHiddenWhenLg ? "max-lg:hidden" : ""} flex flex-col items-center justify-center gap-2 lg:flex-row lg:gap-20`}
     >
-      <Link className={`${onHoverStyle}`} href="/events">
+      <Link className={`${onHoverStyle}`} href="/">
         Upcoming Events
       </Link>
 
       <Link className={`${onHoverStyle}`} href="/about">
         About Us
       </Link>
+
+      {/* <Link href="/profile" className={outlineStyle}>
+        Profile
+      </Link> */}
 
       {isLoggedIn ? (
         <Link href="/profile" className={outlineStyle}>
@@ -62,6 +66,7 @@ export default function Navbar() {
           <Image src="/logo.png" width={155} height={100} alt="logo" />{" "}
         </Link>
       </div>
+
       <Links isHiddenWhenLg={true} />
       <DropDownNav Links={<Links isHiddenWhenLg={false} />} />
     </div>
