@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ("event", "0003_event_branch_event_is_deleted_alter_event_image"),
         ("event",
-         "0003_rename_date_time_event_start_time_event_end_time_and_more"),
+         "0004_rename_date_time_event_start_time_event_end_time_and_more"),
         ("event", "0005_remove_event_rsvps_alter_event_image"),
     ]
 
