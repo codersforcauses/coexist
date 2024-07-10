@@ -26,7 +26,6 @@ export default function Home() {
   }
 
   return (
-
     <main
       className={cn(
         "m-0 flex min-h-screen flex-col items-center p-0 font-sans",
@@ -46,7 +45,6 @@ export default function Home() {
           rsvpURL="nil"
         />
       </div>
-
 
       <h1 className="text-3xl text-primary">Test title</h1>
       <Button onClick={() => setClicked(true)}>
