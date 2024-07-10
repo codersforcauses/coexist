@@ -1,47 +1,45 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronDown, Copy } from "lucide-react";
+import { Check, ChevronDown, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaRegEdit } from "react-icons/fa";
-import { LuChevronDown, LuChevronRight } from "react-icons/lu";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 const formLabelStyle =
   "lg:max-5xl:text-lg px-2 mt-2 w-2/6 lg:max-5xl:w-1/5 py-2 align-baseline text-base font-bold";
@@ -60,7 +58,25 @@ const formSchema = z.object({
   branch: z.string(),
 });
 
+// FIXME: Mock branch data
+const branches = [
+  {
+    value: "melbourne",
+    label: "Melbourne",
+  },
+  {
+    value: "perth",
+    label: "Perth",
+  },
+  {
+    value: "sydney",
+    label: "Sydney",
+  },
+] as const;
+
 export default function EditProfileModal() {
+  const [open, setOpen] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -106,6 +122,7 @@ export default function EditProfileModal() {
             onSubmit={form.handleSubmit(onSubmit)}
             className="mt-6 space-y-6 md:max-5xl:pl-36"
           >
+            {/* fname */}
             <FormField
               control={form.control}
               name="fname"
@@ -122,6 +139,8 @@ export default function EditProfileModal() {
                 </FormItem>
               )}
             />
+
+            {/* lname */}
             <FormField
               control={form.control}
               name="lname"
@@ -140,6 +159,8 @@ export default function EditProfileModal() {
                 </FormItem>
               )}
             />
+
+            {/* email */}
             <FormField
               control={form.control}
               name="email"
@@ -159,29 +180,70 @@ export default function EditProfileModal() {
               )}
             />
 
+            {/* branch */}
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild></PopoverTrigger>
+            </Popover>
+
             <FormField
               control={form.control}
               name="branch"
               render={({ field }) => (
                 <FormItem className={`pb-6 ${formItemStyle}`}>
                   <FormLabel className={formLabelStyle}>Branch</FormLabel>
-                  <FormControl>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
+                  <Popover open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild>
+                      <FormControl>
                         <Button
                           variant="outline"
+                          role="combobox"
+                          aria-expanded={open}
                           className="space-x-6 pl-4 pr-2 lg:max-5xl:text-base"
                         >
-                          <span>Branch</span>
+                          <span>
+                            {field.value
+                              ? branches.find(
+                                  (branch) => branch.value === field.value,
+                                )?.label
+                              : "Branch"}
+                          </span>
                           <ChevronDown size={20} />
                         </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="w-56">
-                        <DropdownMenuLabel>Perth</DropdownMenuLabel>
-                        <DropdownMenuLabel>Melbourne</DropdownMenuLabel>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </FormControl>
+                      </FormControl>
+                    </PopoverTrigger>
+
+                    <PopoverContent className="w-[200px] p-0">
+                      <Command>
+                        <CommandInput placeholder="Search branch..." />
+                        <CommandList>
+                          <CommandEmpty>No branch found.</CommandEmpty>
+                          <CommandGroup>
+                            {branches.map((branch) => (
+                              <CommandItem
+                                value={branch.label}
+                                key={branch.value}
+                                onSelect={() => {
+                                  form.setValue("branch", branch.value);
+                                  // FIXME: Closes the popover after selecting a branch (~100ms delay). Should we include this?
+                                  // setTimeout(() => setOpen(false), 100);
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    branch.value === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0",
+                                  )}
+                                />
+                                {branch.label}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
 
                   <FormMessage />
                 </FormItem>
@@ -190,11 +252,12 @@ export default function EditProfileModal() {
 
             <div className="flex flex-row justify-between">
               <Link
+                // FIXME: actual change pwd url
                 href="/change-password"
-                className="inline-flex items-center px-2 text-base font-semibold text-primary"
+                className="inline-flex items-center px-2 text-base font-semibold text-primary md:max-5xl:text-lg"
               >
                 Change Password
-                <LuChevronRight />
+                <ChevronRight size={20} />
               </Link>
 
               <Button
