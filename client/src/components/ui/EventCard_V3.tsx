@@ -4,15 +4,15 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 interface EventCardProps {
-  date: String;
-  startTime: String;
-  endTime: String;
-  title: String;
-  city: String;
-  location: String;
-  description: String;
-  refImageURL: String;
-  rsvpURL: String;
+  date: string;
+  startTime: string;
+  endTime: string;
+  title: string;
+  city: string;
+  location: string;
+  description: string;
+  refImageURL: string;
+  rsvpURL: string;
 }
 
 function getDayOfWeek(dateString: string): string {
@@ -72,7 +72,7 @@ const EventCard = ({
 
   return (
     <div className="flex w-full flex-col rounded-lg border border-secondary p-6 md:flex-row">
-      <div className="order-3 flex min-w-56 flex-col md:order-2">
+      <div className="order-3 hidden min-w-56 flex-col md:order-2 lg:block">
         <div className="w-fit">
           <p className="px-1 pb-1 text-2xl font-semibold"> {MonthStr} </p>
           <hr className="border-b-1 mb-4 border-black" />
@@ -81,11 +81,11 @@ const EventCard = ({
           <p className="mb-1 text-5xl font-bold">{dayOfMonth}</p>
           <p className="text-[#5B5A5A]">{dayOfWeek}</p>
           <p className="mb-5">
-            {startTime}-{endTime}
+            {startTime} - {endTime}
           </p>
           <Button
             variant="ghost"
-            className="rounded-lg border border-[#535353] px-5 py-0.5 text-lg font-medium"
+            className="rounded-lg border border-[#5B5A5A] px-5 py-0.5 text-lg font-medium"
           >
             <div className="flex flex-row">
               {" "}
@@ -95,17 +95,26 @@ const EventCard = ({
         </div>
       </div>
       <div className="order-2 mb-2 flex grow flex-col md:order-3">
-        <div className="mb-5 flex flex-row items-center gap-x-8">
+        <div className="mb-2 flex flex-row items-center gap-x-8 lg:mb-5">
           <p className="text-3xl font-semibold">{title}</p>
-          <Share className="h-full self-center text-[#6C845D]"></Share>
+          <Share className="h-full self-center text-primary"></Share>
+        </div>
+        <hr className="border-b-1 mb-4 border-secondary lg:hidden" />
+        <div className="mb-2 flex justify-between lg:hidden">
+          <p className="font-medium">
+            {dayOfWeek}, {MonthStr} {dayOfMonth}
+          </p>
+          <p className="font-medium">
+            {startTime} - {endTime}
+          </p>
         </div>
         <div className="mb-6 flex gap-x-8 text-lg">
-          <p className="rounded-lg bg-[#6C845D] px-5 py-0.5 font-medium text-white">
+          <p className="rounded-lg bg-[#7D916F] px-5 py-0.5 font-medium text-white">
             {city}
           </p>
-          <p className="font-medium">{location}</p>
+          <p className="hidden font-medium lg:block">{location}</p>
         </div>
-        <hr className="border-b-1 mb-4 border-black" />
+        <hr className="border-b-1 mb-4 hidden border-black lg:block" />
         <div>
           <p>{description}</p>
         </div>
@@ -113,8 +122,8 @@ const EventCard = ({
       <div className="relative order-1 mb-5 h-64 w-full rounded-lg md:order-3 md:mb-0 md:w-96">
         <Image
           fill
-          src="/tempEventImg.jpeg"
-          alt="event image placeholder"
+          src={refImageURL}
+          alt="event image"
           className="h-full w-full rounded-md object-cover md:ps-6"
         />
       </div>
