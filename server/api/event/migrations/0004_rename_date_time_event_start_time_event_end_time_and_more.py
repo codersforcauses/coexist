@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("event", "0002_event_image"),
+        ("event", "0003_event_branch_event_is_deleted_alter_event_image"),
     ]
 
     operations = [
