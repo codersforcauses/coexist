@@ -31,8 +31,6 @@ export default function Home() {
         fontSans.variable,
       )}
     >
-      <Header />
-
       <div className="m-6">
         <EventCard
           date="2023-04-01"
