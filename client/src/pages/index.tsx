@@ -1,7 +1,7 @@
 import { Work_Sans as FontSans } from "next/font/google";
 import { useState } from "react";
 
-import Header from "@/components/main/Header";
+import Header from "@/components/main/header/Header";
 import EventCard from "@/components/ui/EventCard_V3";
 import { usePings } from "@/hooks/pings";
 import { cn } from "@/lib/utils";
@@ -18,6 +18,11 @@ export default function Home() {
   const { data, isLoading } = usePings({
     enabled: clicked,
   });
+
+  {
+    /*   const [isSignUpOpen, setSignUp] = useState(false);
+     */
+  }
 
   return (
     <main
