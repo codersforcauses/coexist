@@ -7,7 +7,7 @@ from .models import ExtendedUser
 class ExtendedUserInline(admin.StackedInline):
     model = ExtendedUser
     can_delete = False
-    verbose_name_plural = 'User'
+    verbose_name_plural = 'ExtendedUser'
 
 
 class UserAdmin(BaseUserAdmin):

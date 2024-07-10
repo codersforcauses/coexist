@@ -4,7 +4,6 @@ from django.contrib.auth.models import User, Group
 
 class ExtendedUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # rsvps = models.ManyToManyField(RSVP, related_name='attendees')
 
     def __str__(self):
         return self.user.username
