@@ -5,12 +5,10 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from .models import RSVP
 
 
-
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = "__all__"
-
         parser_classes = (MultiPartParser, FormParser)
         read_only_fields = ("id", "created_time", "updated_time")
 
