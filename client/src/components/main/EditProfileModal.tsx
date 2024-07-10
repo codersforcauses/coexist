@@ -57,7 +57,7 @@ const formSchema = z.object({
   fname: z.string(),
   lname: z.string(),
   email: z.string().email(),
-  city: z.string(),
+  branch: z.string(),
 });
 
 export default function EditProfileModal() {
@@ -67,7 +67,7 @@ export default function EditProfileModal() {
       fname: "",
       lname: "",
       email: "",
-      city: "",
+      branch: "",
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -161,10 +161,10 @@ export default function EditProfileModal() {
 
             <FormField
               control={form.control}
-              name="city"
+              name="branch"
               render={({ field }) => (
-                <FormItem className={formItemStyle}>
-                  <FormLabel className={formLabelStyle}>City</FormLabel>
+                <FormItem className={`pb-6 ${formItemStyle}`}>
+                  <FormLabel className={formLabelStyle}>Branch</FormLabel>
                   <FormControl>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -172,7 +172,7 @@ export default function EditProfileModal() {
                           variant="outline"
                           className="space-x-6 pl-4 pr-2 lg:max-2xl:text-base"
                         >
-                          <span>City</span>
+                          <span>Branch</span>
                           <ChevronDown size={20} />
                         </Button>
                       </DropdownMenuTrigger>
@@ -188,21 +188,23 @@ export default function EditProfileModal() {
               )}
             />
 
-            <Link
-              href="/change-password"
-              className="inline-flex items-center pl-10 pt-2 text-lg font-semibold text-primary"
-            >
-              Change Password
-              <LuChevronRight />
-            </Link>
+            <div className="flex flex-row justify-between">
+              <Link
+                href="/change-password"
+                className="inline-flex items-center px-2 text-base font-semibold text-primary"
+              >
+                Change Password
+                <LuChevronRight />
+              </Link>
 
-            <Button
-              className="float-right mr-0.5 h-8 md:max-2xl:h-9 md:max-2xl:text-lg"
-              variant="outline"
-              type="submit"
-            >
-              Update Profile
-            </Button>
+              <Button
+                className="h-8 px-2 md:max-2xl:h-9 md:max-2xl:text-lg"
+                variant="outline"
+                type="submit"
+              >
+                Update Profile
+              </Button>
+            </div>
           </form>
         </Form>
       </DialogContent>

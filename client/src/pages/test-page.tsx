@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 
 import EditProfileModal from "@/components/main/EditProfileModal";
-import Header from "@/components/main/Header";
+import Header from "@/components/main/header/Header";
 import { usePings } from "@/hooks/pings";
 import { cn } from "@/lib/utils";
 
@@ -33,8 +33,6 @@ export default function Home() {
         fontSans.variable,
       )}
     >
-      <Header />
-
       <h1 className="text-3xl text-primary">Test title</h1>
       {/* <Button onClick={onClickHandler}>{isLoading ? "Loading" : "Ping"}</Button> */}
       <EditProfileModal />
