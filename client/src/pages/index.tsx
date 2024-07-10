@@ -1,7 +1,8 @@
 import { Work_Sans as FontSans } from "next/font/google";
 import { useState } from "react";
 
-import Header from "@/components/main/Header";
+import Header from "@/components/main/header/Header";
+import EventCard from "@/components/ui/EventCard_V3";
 import { usePings } from "@/hooks/pings";
 import { cn } from "@/lib/utils";
 
@@ -18,6 +19,11 @@ export default function Home() {
     enabled: clicked,
   });
 
+  {
+    /*   const [isSignUpOpen, setSignUp] = useState(false);
+     */
+  }
+
   return (
     <main
       className={cn(
@@ -25,7 +31,19 @@ export default function Home() {
         fontSans.variable,
       )}
     >
-      <Header />
+      <div className="m-6">
+        <EventCard
+          date="2023-04-01"
+          startTime="08:00"
+          endTime="11:00"
+          title="Tree Planting and Social Swim"
+          city="Cairns"
+          location="Glenoma park, Brinstead"
+          description="3 hours of Fun, Tree Planting, Music, Swims & Food (Snacks Provided!)"
+          refImageURL="/tempEventImg.jpeg"
+          rsvpURL="nil"
+        />
+      </div>
 
       <h1 className="text-3xl text-primary">Test title</h1>
       <Button onClick={() => setClicked(true)}>
