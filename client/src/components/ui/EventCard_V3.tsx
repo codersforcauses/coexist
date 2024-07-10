@@ -71,7 +71,7 @@ const EventCard = ({
   const MonthStr = getMonthStr(date);
 
   return (
-    <div className="flex w-full flex-col rounded-lg border border-secondary p-12 md:flex-row">
+    <div className="flex w-full flex-col rounded-lg border border-secondary p-6 md:flex-row">
       <div className="order-3 flex min-w-56 flex-col md:order-2">
         <div className="w-fit">
           <p className="px-1 pb-1 text-2xl font-semibold"> {MonthStr} </p>
@@ -110,12 +110,12 @@ const EventCard = ({
           <p>{description}</p>
         </div>
       </div>
-      <div className="relative order-1 h-64 w-full md:order-3 md:w-96">
+      <div className="relative order-1 mb-5 h-64 w-full rounded-lg md:order-3 md:mb-0 md:w-96">
         <Image
           fill
-          src="/placeholder.png"
+          src="/tempEventImg.jpeg"
           alt="event image placeholder"
-          className="h-full w-full rounded-md object-cover ps-6"
+          className="h-full w-full rounded-md object-cover md:ps-6"
         />
       </div>
     </div>
