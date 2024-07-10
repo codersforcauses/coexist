@@ -46,7 +46,7 @@ function EventCard({
           <div className="text-5xl font-bold">01</div>
           <div className="font-semibold text-gray-500">Monday</div>
           <div className="font-semibold">08:00 - 11:00</div>
-          <button className="mt-5 flex items-center rounded-xl border-2 border-gray-500 px-4 py-2 text-black">
+          <button className="mt-5 flex items-center rounded-xl border-2 border-gray-500 px-4 py-1 text-black">
             <span className="font-semibold">Send RSVP</span>
             {/* Add your icon here */}
             {/* <FontAwesomeIcon icon={faEnvelope} />*/}
@@ -57,12 +57,12 @@ function EventCard({
           <h2 className="mb-4 text-2xl font-bold">{name}</h2>
           <div
             className="text-m text-sm font-medium"
-            style={{ borderBottom: "2px solid #9DAD93", paddingBottom: "13px" }}
+            style={{ borderBottom: "2px solid #9DAD93", paddingBottom: "16px" }}
           >
             <span className="mr-4 items-center rounded-lg bg-[#7D916F] p-1 text-white">
               Cairns
             </span>
-            <span>{location}</span>
+            <span className="font-semibold">{location}</span>
           </div>
           <p className="mt-2 font-medium">{description}</p>
           <div className="mt-4">
