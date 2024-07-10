@@ -12,19 +12,16 @@ import {
 } from "@/components/ui/select";
 
 import selectCity from "../../hooks/selectCity";
-import FailedBranch from "./failed-branch";
 
 interface Prop {
   setValue: (value: string) => void;
-  setIsLoading: any;
 }
 
-export function SelectBranch({ setValue, setIsLoading }: Prop) {
+export function SelectBranch({ setValue }: Prop) {
   const [branchData, setBranchData] = useState<any>(null);
 
   useEffect(() => {
     async function fetchBranch() {
-      setIsLoading(true);
       const branchArray = await selectCity();
       setBranchData(branchArray);
     }
@@ -33,14 +30,12 @@ export function SelectBranch({ setValue, setIsLoading }: Prop) {
   }, []);
 
   if (branchData == false || branchData == null) {
-    setIsLoading(false);
     return (
       <Select
         onValueChange={(value: any) => {
           setValue(value);
         }}
       >
-        <FailedBranch></FailedBranch>
         <SelectTrigger className="w-[180px] rounded-[20px] border-2 bg-[#7D916F] p-1 px-2">
           <SelectValue placeholder="City" />
           <SelectContent>
@@ -49,8 +44,6 @@ export function SelectBranch({ setValue, setIsLoading }: Prop) {
         </SelectTrigger>
       </Select>
     );
-  } else {
-    setIsLoading(false);
   }
 
   function nametoid(name: string) {
