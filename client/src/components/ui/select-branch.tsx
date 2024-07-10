@@ -32,7 +32,7 @@ export function SelectBranch({ setValue, setIsLoading }: Prop) {
     fetchBranch();
   }, []);
 
-  if (branchData == null) {
+  if (branchData == false || branchData == null) {
     setIsLoading(false);
     return (
       <Select
@@ -40,6 +40,7 @@ export function SelectBranch({ setValue, setIsLoading }: Prop) {
           setValue(value);
         }}
       >
+        <FailedBranch></FailedBranch>
         <SelectTrigger className="w-[180px] rounded-[20px] border-2 bg-[#7D916F] p-1 px-2">
           <SelectValue placeholder="City" />
           <SelectContent>
@@ -48,11 +49,6 @@ export function SelectBranch({ setValue, setIsLoading }: Prop) {
         </SelectTrigger>
       </Select>
     );
-  } else if (branchData == false) {
-    setIsLoading(false);
-    return <FailedBranch></FailedBranch>;
-
-    return <h1>error</h1>;
   } else {
     setIsLoading(false);
   }

@@ -20,20 +20,21 @@ interface prop {
 }
 
 export default function FailedBranch() {
+  let [open, setOpen] = useState(true);
   return (
     <div>
       <button
         onClick={() => {
-          window.location.href = "/";
+          setOpen(false);
         }}
       >
-        <AlertDialog open={true}>
+        <AlertDialog open={open}>
           <AlertDialogContent className="border-none bg-transparent shadow-none">
             <Alert variant="destructive" className="border-none bg-[#ffffff]">
               <AlertCircle className="h-4 w-4" />
               <AlertTitle>Error</AlertTitle>
               <AlertDescription>
-                Event failed to get co-exist branches.
+                Server failed to get co-exist branches.
               </AlertDescription>
             </Alert>
           </AlertDialogContent>
