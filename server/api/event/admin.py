@@ -1,11 +1,17 @@
-from django.contrib import admin  # noqa
-
-from .models import Event
+from django.contrib import admin
+from .models import Event, RSVP
 from api.soft_delete import SoftDeleteAdmin
 
+
+class RSVPAdmin(admin.ModelAdmin):
+    list_display = ["user", "event", "created_at", "updated_at"]
+    fields = ["user", "event"]
+
+
 # Register your models here.
+admin.site.register(RSVP, RSVPAdmin)
 
 
 @admin.register(Event)
-class BranchAdmin(SoftDeleteAdmin):
+class EventAdmin(SoftDeleteAdmin):
     pass
