@@ -6,6 +6,10 @@ from rest_framework import filters
 
 from rest_framework.permissions import IsAuthenticated
 
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import status
+
 
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -15,3 +19,9 @@ class UserViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ["username"]
     search_fields = []
+
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    def me(self, request):
+        user = request.user
+        serializer = self.get_serializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
