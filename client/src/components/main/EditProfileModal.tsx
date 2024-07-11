@@ -1,14 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, ChevronDown, ChevronRight } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaRegEdit } from "react-icons/fa";
 import { z } from "zod";
 
+import ChangePasswordModal from "@/components/main/ChangePasswordModal";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -21,9 +20,9 @@ import {
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Form,
@@ -46,19 +45,20 @@ const formLabelStyle =
 const formItemStyle = "flex flex-row gap-x-6";
 const formInputStyle =
   "lg:max-5xl:rounded-lg lg:max-5xl:text-lg w-48 bg-secondary rounded-xl lg:max-5xl:w-96";
+const formMsgStyle = "w-48 px-1 pt-1 lg:max-5xl:w-96";
 
 const imageLoader = () => {
-  return "https://ui-avatars.com/api/?name=John+Doe";
+  return `https://ui-avatars.com/api/?name=${username}`;
 };
 
-const formSchema = z.object({
-  fname: z.string(),
-  lname: z.string(),
+const profileFormSchema = z.object({
+  fname: z.string().min(2, { message: "Must be 2 or more characters long" }),
+  lname: z.string().min(2, { message: "Must be 2 or more characters long" }),
   email: z.string().email(),
   branch: z.string(),
 });
 
-// FIXME: Mock branch data
+// FIXME: Mock data
 const branches = [
   {
     value: "melbourne",
@@ -74,11 +74,18 @@ const branches = [
   },
 ] as const;
 
-export default function EditProfileModal() {
-  const [open, setOpen] = useState(false);
+const username = "John Doe";
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+interface Props {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function EditProfileModal({ isOpen, onClose }: Props) {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const profileForm = useForm<z.infer<typeof profileFormSchema>>({
+    resolver: zodResolver(profileFormSchema),
     defaultValues: {
       fname: "",
       lname: "",
@@ -86,16 +93,13 @@ export default function EditProfileModal() {
       branch: "",
     },
   });
-  function onSubmit(values: z.infer<typeof formSchema>) {
+
+  function onSubmit(values: z.infer<typeof profileFormSchema>) {
     console.log(values);
   }
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>
-          <FaRegEdit></FaRegEdit>
-        </Button>
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="md:max-5xl:5/6 w-11/12 max-w-[900px] rounded-lg p-4 md:max-5xl:px-10 md:max-5xl:py-8">
         <DialogHeader>
           <DialogTitle className="my-2 ml-2 text-left text-2xl md:max-5xl:text-3xl md:max-5xl:font-bold">
@@ -112,92 +116,105 @@ export default function EditProfileModal() {
             height={128}
             className="rounded-full md:max-5xl:w-32"
           />
-          <a className="pt-3 text-base text-[#7D916F] md:max-5xl:text-lg">
+          <Button
+            role="link"
+            variant="link"
+            className="pt-3 text-base text-primary/70 md:max-5xl:text-lg"
+          >
             Change Profile Picture
-          </a>
+          </Button>
         </div>
+
         {/* FORM SECTION */}
-        <Form {...form}>
+
+        {/* Edit Profile Form */}
+        <Form {...profileForm}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={profileForm.handleSubmit(onSubmit)}
             className="mt-6 space-y-6 md:max-5xl:pl-36"
           >
             {/* fname */}
             <FormField
-              control={form.control}
+              control={profileForm.control}
               name="fname"
               render={({ field }) => (
                 <FormItem className={formItemStyle}>
                   <FormLabel className={formLabelStyle}>First Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      className={formInputStyle}
-                      placeholder=""
-                      {...field}
-                    />
-                  </FormControl>
+                  <div>
+                    <FormControl>
+                      <Input
+                        className={formInputStyle}
+                        placeholder=""
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className={formMsgStyle} />
+                  </div>
                 </FormItem>
               )}
             />
 
             {/* lname */}
             <FormField
-              control={form.control}
+              control={profileForm.control}
               name="lname"
               render={({ field }) => (
                 <FormItem className={formItemStyle}>
                   <FormLabel className={formLabelStyle}>Last Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      className={formInputStyle}
-                      placeholder=""
-                      {...field}
-                    />
-                  </FormControl>
+                  <div>
+                    <FormControl>
+                      <Input
+                        className={formInputStyle}
+                        placeholder=""
+                        {...field}
+                      />
+                    </FormControl>
 
-                  <FormMessage />
+                    <FormMessage className={formMsgStyle} />
+                  </div>
                 </FormItem>
               )}
             />
 
             {/* email */}
             <FormField
-              control={form.control}
+              control={profileForm.control}
               name="email"
               render={({ field }) => (
                 <FormItem className={formItemStyle}>
                   <FormLabel className={formLabelStyle}>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      className={formInputStyle}
-                      placeholder=""
-                      {...field}
-                    />
-                  </FormControl>
-
-                  <FormMessage />
+                  <div>
+                    <FormControl>
+                      <Input
+                        className={formInputStyle}
+                        placeholder=""
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className={formMsgStyle} />
+                  </div>
                 </FormItem>
               )}
             />
 
             {/* branch */}
-            <Popover open={open} onOpenChange={setOpen}>
+            <Popover open={dropdownOpen} onOpenChange={setDropdownOpen}>
               <PopoverTrigger asChild></PopoverTrigger>
             </Popover>
 
             <FormField
-              control={form.control}
+              control={profileForm.control}
               name="branch"
               render={({ field }) => (
                 <FormItem className={`pb-6 ${formItemStyle}`}>
                   <FormLabel className={formLabelStyle}>Branch</FormLabel>
-                  <Popover open={open} onOpenChange={setOpen}>
+                  <Popover open={dropdownOpen} onOpenChange={setDropdownOpen}>
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
                           variant="outline"
                           role="combobox"
-                          aria-expanded={open}
+                          aria-expanded={dropdownOpen}
                           className="space-x-6 pl-4 pr-2 lg:max-5xl:text-base"
                         >
                           <span>
@@ -223,7 +240,7 @@ export default function EditProfileModal() {
                                 value={branch.label}
                                 key={branch.value}
                                 onSelect={() => {
-                                  form.setValue("branch", branch.value);
+                                  profileForm.setValue("branch", branch.value);
                                   // FIXME: Closes the popover after selecting a branch (~100ms delay). Should we include this?
                                   // setTimeout(() => setOpen(false), 100);
                                 }}
@@ -251,15 +268,7 @@ export default function EditProfileModal() {
             />
 
             <div className="flex flex-row justify-between">
-              <Link
-                // FIXME: actual change pwd url
-                href="/change-password"
-                className="inline-flex items-center px-2 text-base font-semibold text-primary md:max-5xl:text-lg"
-              >
-                Change Password
-                <ChevronRight size={20} />
-              </Link>
-
+              <ChangePasswordModal />
               <Button
                 className="h-8 px-2 md:max-5xl:h-9 md:max-5xl:text-lg"
                 variant="outline"

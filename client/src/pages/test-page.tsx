@@ -2,6 +2,7 @@ import { Work_Sans as FontSans } from "next/font/google";
 import { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 
+import ChangePasswordModal from "@/components/main/ChangePasswordModal";
 import EditProfileModal from "@/components/main/EditProfileModal";
 import Header from "@/components/main/header/Header";
 import { usePings } from "@/hooks/pings";
@@ -15,17 +16,7 @@ const fontSans = FontSans({
 });
 
 export default function Home() {
-  const [clicked, setClicked] = useState(false);
-  // const [showModal, setShowModal] = useState(false);
-  const { data, isLoading } = usePings({
-    enabled: clicked,
-  });
-
-  // const onClickHandler = () => {
-  //   showModal ? setShowModal(false) : setShowModal(true);
-  //   setClicked(true);
-  // };
-
+  const [isEditProfileOpen, setEditProfileOpen] = useState(false);
   return (
     <main
       className={cn(
@@ -34,8 +25,13 @@ export default function Home() {
       )}
     >
       <h1 className="text-3xl text-primary">Test title</h1>
-      {/* <Button onClick={onClickHandler}>{isLoading ? "Loading" : "Ping"}</Button> */}
-      <EditProfileModal />
+      <Button onClick={() => setEditProfileOpen(true)}>
+        <FaRegEdit />
+      </Button>
+      <EditProfileModal
+        isOpen={isEditProfileOpen}
+        onClose={() => setEditProfileOpen(false)}
+      />
     </main>
   );
 }
