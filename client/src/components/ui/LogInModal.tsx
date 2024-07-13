@@ -22,13 +22,11 @@ function LogInModal({ isOpen, onClose }: Props) {
   const { login } = useAuth();
   const [username, setusername] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const success = await login({ username, password });
     if (!success) {
-      setErrorMessage("Login failed, please try again");
       loginfailed();
     } else {
       //authentication success
@@ -96,7 +94,6 @@ function LogInModal({ isOpen, onClose }: Props) {
               </div>
             </DialogFooter>
           </form>
-          {/* {errorMessage && <p className="mt-2 text-center">{errorMessage}</p>} */}
         </div>
       </DialogContent>
     </Dialog>

@@ -19,11 +19,6 @@ export default function Home() {
     enabled: clicked,
   });
 
-  {
-    /*   const [isSignUpOpen, setSignUp] = useState(false);
-     */
-  }
-
   return (
     <main
       className={cn(
