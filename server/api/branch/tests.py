@@ -39,12 +39,12 @@ class SoftDeleteTestCase(TestCase):
         self.assertEqual(len(Branch.objects_deleted.all()), 2)
 
 
-ADMIN = "adminTest"
-ADMIN_PASS = "adminTestPassword"
+ADMIN = "adminTest2"
+ADMIN_PASS = "adminTestPassword2"
 
 
-USER = "normalUser"
-USER_PASS = "normalUserPassword"
+USER = "normalUser2"
+USER_PASS = "normalUserPassword2"
 
 
 class BranchAuthTest(TestCase):
@@ -64,7 +64,7 @@ class BranchAuthTest(TestCase):
     def test_unauthorized(self):
         self.client.login(username=USER, password=USER_PASS)
         response = self.client.post(self.url, data=self.postData, format="json")
-        getResponse = self.client.get(reverse("branch-list"))
+        getResponse = self.client.get(self.url)
         self.assertEqual(getResponse.status_code, status.HTTP_200_OK)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.client.logout()

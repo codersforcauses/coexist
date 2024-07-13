@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 
-from api.auth.permissions import isAdminOrReadOnly
+from api.auth.permissions import isStaffOrReadOnly
 
 from .serializers import EventSerializer
 from .serializers import RSVPSerializer
@@ -22,7 +22,7 @@ class EventViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ["title", "location", "is_cancelled"]
     search_fields = ["title", "description", "location", "is_cancelled"]
-    permission_classes = [isAdminOrReadOnly]
+    permission_classes = [isStaffOrReadOnly]
 
 
 @api_view(["GET", "POST"])

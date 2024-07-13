@@ -1,8 +1,8 @@
 from rest_framework import permissions
 
 
-class isAdminOrReadOnly(permissions.BasePermission):
-    message = "User isn't admin!"
+class isStaffOrReadOnly(permissions.BasePermission):
+    message = "User isn't staff!"
 
     def has_permission(self, request, view):
         if request.user and request.user.is_staff:

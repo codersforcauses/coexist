@@ -2,7 +2,6 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 from rest_framework.test import APIClient
-from .models import Event
 from api.branch.models import Branch
 from rest_framework import status
 
@@ -23,21 +22,21 @@ class EventAuthTest(TestCase):
         )
         self.user: User = User.objects.create_user(username=USER, password=USER_PASS)
         self.url = reverse("event-list")
+        self.branch = Branch.objects.create(name="test2", description="test2")
         self.postData = {
             "title": "My Event",
             "description": "This is a description of my event.",
             "start_time": "2024-07-13T14:00:00Z",
             "end_time": "2024-07-13T16:00:00Z",
             "location": "123 Event St",
-            "branch": 1,  # Assuming this branch ID exists in the database
+            "branch": self.branch.pk,  # Assuming this branch ID exists in the database
             "is_cancelled": False,
         }
-        self.branch = Branch.objects.create(name="test2", description="test2")
 
     def test_unauthorized(self):
         self.client.login(username=USER, password=USER_PASS)
         response = self.client.post(self.url, data=self.postData, format="json")
-        getResponse = self.client.get(reverse("event-list"))
+        getResponse = self.client.get(self.url)
         self.assertEqual(getResponse.status_code, status.HTTP_200_OK)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.client.logout()
