@@ -20,7 +20,6 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -61,15 +60,15 @@ const profileFormSchema = z.object({
 // FIXME: Mock data
 const branches = [
   {
-    value: "melbourne",
+    discriminator: "melbourne",
     label: "Melbourne",
   },
   {
-    value: "perth",
+    discriminator: "perth",
     label: "Perth",
   },
   {
-    value: "sydney",
+    discriminator: "sydney",
     label: "Sydney",
   },
 ] as const;
@@ -220,7 +219,8 @@ export default function EditProfileModal({ isOpen, onClose }: Props) {
                           <span>
                             {field.value
                               ? branches.find(
-                                  (branch) => branch.value === field.value,
+                                  (branch) =>
+                                    branch.discriminator === field.value,
                                 )?.label
                               : "Branch"}
                           </span>
@@ -238,9 +238,12 @@ export default function EditProfileModal({ isOpen, onClose }: Props) {
                             {branches.map((branch) => (
                               <CommandItem
                                 value={branch.label}
-                                key={branch.value}
+                                key={branch.discriminator}
                                 onSelect={() => {
-                                  profileForm.setValue("branch", branch.value);
+                                  profileForm.setValue(
+                                    "branch",
+                                    branch.discriminator,
+                                  );
                                   // FIXME: Closes the popover after selecting a branch (~100ms delay). Should we include this?
                                   // setTimeout(() => setOpen(false), 100);
                                 }}
@@ -248,7 +251,7 @@ export default function EditProfileModal({ isOpen, onClose }: Props) {
                                 <Check
                                   className={cn(
                                     "mr-2 h-4 w-4",
-                                    branch.value === field.value
+                                    branch.discriminator === field.value
                                       ? "opacity-100"
                                       : "opacity-0",
                                   )}

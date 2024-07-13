@@ -82,10 +82,11 @@ export default function ChangePasswordModal() {
         {/* Change Password Form */}
         <Form {...pwdForm}>
           <form
-            onSubmit={pwdForm.handleSubmit((values, event) => {
-              event?.preventDefault();
-              console.log(values);
-            })}
+            onSubmit={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              return pwdForm.handleSubmit((data) => console.log(data))(e);
+            }}
             className="mt-6 space-y-6"
           >
             {/* old pwd */}
