@@ -9,7 +9,8 @@ from .serializers import EventSerializer
 class EventViewSetTestCase(APITestCase):
     def setUp(self):
         self.client = APIClient()
-        self.branch = Branch.objects.create(name="Branch 1", description="123 Street")
+        self.branch = Branch.objects.create(name="Branch 1",
+                                            description="123 Street")
         self.event1 = Event.objects.create(
             title="Event 1",
             description="Description 1",
@@ -42,4 +43,14 @@ class EventViewSetTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
 
-    
+    def test_put_events(self):
+        pass
+
+    def test_post_events(self):
+        pass
+
+    def test_patch_events(self):
+        pass
+
+    def test_delete_events(self):
+        pass
