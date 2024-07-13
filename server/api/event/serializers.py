@@ -1,9 +1,12 @@
 from rest_framework import serializers
 from .models import Event
 from .models import RSVP
+from ..branch.serializers import BranchSerializer
 
 
 class EventSerializer(serializers.ModelSerializer):
+    branch = BranchSerializer(read_only=True)
+
     class Meta:
         model = Event
         fields = "__all__"
