@@ -1,4 +1,4 @@
-import { Edit, Mail } from "lucide-react";
+import { Edit, Eye, Mail } from "lucide-react";
 import Image from "next/image";
 
 export default function Event() {
@@ -75,13 +75,16 @@ export default function Event() {
           </div>
         </div>
 
-        <div className="flex gap-2">
-          <button className="flex items-center gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
+        <div className="flex flex-col gap-2 md:flex-row">
+          <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
             Send RSVP <Mail strokeWidth="1" size="20" />
           </button>
           {/* Only show if user has Poster role */}
-          <button className="flex items-center gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
+          <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
             Edit <Edit strokeWidth="1" size="20" />
+          </button>
+          <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
+            View RSVPs <Eye strokeWidth="1" size="20" />
           </button>
         </div>
       </div>
