@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import RsvpListModal from "@/components/main/RsvpListModal";
 import { usePings } from "@/hooks/pings";
 
 import { Button } from "../components/ui/button";
@@ -24,6 +25,7 @@ export default function Home() {
       <p>
         Response from server: <span>{data as string}</span>
       </p>
+      <RsvpListModal />
     </div>
   );
 }
