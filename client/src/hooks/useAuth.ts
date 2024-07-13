@@ -69,6 +69,20 @@ export const useAuth = () => {
     }
   };
 
+  const register = async ({
+    email,
+    password,
+    firstname,
+    lastname,
+  }: {
+    email: string;
+    firstname: string;
+    lastname: string;
+    password: string;
+  }) => {
+    //register endpoint to create a new user
+  };
+
   const logout = () => {
     Cookies.remove("access");
     Cookies.remove("refresh");
