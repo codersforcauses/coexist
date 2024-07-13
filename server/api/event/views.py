@@ -1,22 +1,28 @@
 from rest_framework import viewsets
 
-from .serializers import EventSerializer
-from .serializers import RSVPSerializer
-from .models import Event
-from .models import RSVP
+from .serializers import EventSerializer, RSVPSerializer
+from .models import Event, RSVP
 
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
 from django.shortcuts import get_object_or_404
+
+
+class EventResultPagination(PageNumberPagination):
+    page_size = 5
+    page_size_query_param = "page_size"
+    max_page_size = 100
 
 
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    pagination_class = EventResultPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ["title", "location", "is_cancelled"]
     search_fields = ["title", "description", "location", "is_cancelled"]
