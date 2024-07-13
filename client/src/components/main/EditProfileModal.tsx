@@ -40,10 +40,10 @@ import {
 import { cn } from "@/lib/utils";
 
 const formLabelStyle =
-  "lg:max-5xl:text-lg px-2 mt-2 w-2/6 lg:max-5xl:w-1/5 py-2 align-baseline text-base font-bold";
-const formItemStyle = "flex flex-row gap-x-6";
+  "lg:max-5xl:text-lg px-2 mt-2 w-22 lg:max-5xl:w-48 py-2 align-baseline text-base font-bold";
+const formItemStyle = "flex flex-row gap-x-4 justify-between";
 const formInputStyle =
-  "lg:max-5xl:rounded-lg lg:max-5xl:text-lg w-48 bg-secondary rounded-xl lg:max-5xl:w-96";
+  "lg:max-5xl:rounded-lg lg:max-5xl:text-lg w-44 bg-secondary rounded-xl md:w-56 lg:max-5xl:w-96";
 const formMsgStyle = "w-48 px-1 pt-1 lg:max-5xl:w-96";
 
 const imageLoader = () => {
@@ -130,7 +130,7 @@ export default function EditProfileModal({ isOpen, onClose }: Props) {
         <Form {...profileForm}>
           <form
             onSubmit={profileForm.handleSubmit(onSubmit)}
-            className="mt-6 space-y-6 md:max-5xl:pl-36"
+            className="mx-auto mt-6 space-y-6 md:max-5xl:w-2/3"
           >
             {/* fname */}
             <FormField
@@ -214,7 +214,7 @@ export default function EditProfileModal({ isOpen, onClose }: Props) {
                           variant="outline"
                           role="combobox"
                           aria-expanded={dropdownOpen}
-                          className="space-x-6 pl-4 pr-2 lg:max-5xl:text-base"
+                          className="flex w-44 flex-row justify-between space-x-6 pl-4 pr-2 md:w-56 lg:max-5xl:rounded-lg lg:max-5xl:text-base"
                         >
                           <span>
                             {field.value
@@ -270,10 +270,11 @@ export default function EditProfileModal({ isOpen, onClose }: Props) {
               )}
             />
 
-            <div className="flex flex-row justify-between">
-              <ChangePasswordModal />
+            <ChangePasswordModal />
+
+            <div className="flex flex-row justify-center">
               <Button
-                className="h-8 px-2 md:max-5xl:h-9 md:max-5xl:text-lg"
+                className="h-10 w-full px-2 md:max-5xl:text-lg"
                 variant="outline"
                 type="submit"
               >
