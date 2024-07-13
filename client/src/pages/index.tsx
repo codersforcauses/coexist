@@ -6,8 +6,6 @@ import EventCard from "@/components/ui/EventCard_V3";
 import { usePings } from "@/hooks/pings";
 import { cn } from "@/lib/utils";
 
-import EventCard from "../components/main/EventCard";
-
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -21,6 +19,7 @@ const EventData = {
   date: "2023-05-01",
   name: "Tree Planting & Social Swim",
   location: "Glenoma Park, Brinsmead",
+  city: "Cairns",
   description:
     "2 hours of fun, Tree planting, Music, Swims and food (snacks provided)",
   items: [
@@ -29,6 +28,10 @@ const EventData = {
     "sunscreen,",
     "swimmers for fresh water creek hangout :)",
   ],
+  refImageURL: "/tempEventImg.jpeg",
+  rvspURL: "nil",
+  startTime: "08:00",
+  endTime: "11:00",
 };
 
 export default function Home() {
@@ -51,19 +54,6 @@ export default function Home() {
         fontSans.variable,
       )}
     >
-      <div className="m-6">
-        <EventCard
-          date="2023-04-01"
-          startTime="08:00"
-          endTime="11:00"
-          title="Tree Planting and Social Swim"
-          city="Cairns"
-          location="Glenoma park, Brinstead"
-          description="3 hours of Fun, Tree Planting, Music, Swims & Food (Snacks Provided!)"
-          refImageURL="/tempEventImg.jpeg"
-          rsvpURL="nil"
-        />
-      </div>
       {/* The EventCard */}
       <div className="p-5">
         <div className="mb-5 mt-4 flex items-center justify-start">
@@ -81,10 +71,10 @@ export default function Home() {
             <EventCard
               key={index}
               date={EventData.date}
-              name={EventData.name}
+              title={EventData.name}
+              city={EventData.city}
               location={EventData.location}
               description={EventData.description}
-              items={EventData.items}
               position={
                 repeatCount === 1
                   ? "single"
@@ -94,6 +84,10 @@ export default function Home() {
                       ? "last"
                       : "middle"
               }
+              startTime={EventData.startTime}
+              endTime={EventData.endTime}
+              rsvpURL={EventData.rvspURL}
+              refImageURL={EventData.refImageURL}
             />
           ))}
       </div>
