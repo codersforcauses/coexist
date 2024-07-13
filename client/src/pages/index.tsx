@@ -6,18 +6,38 @@ import EventCard from "@/components/ui/EventCard_V3";
 import { usePings } from "@/hooks/pings";
 import { cn } from "@/lib/utils";
 
-import { Button } from "../components/ui/button";
+import EventCard from "../components/main/EventCard";
 
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
+{
+  /* Example data for event card */
+}
+const EventData = {
+  //example data
+  date: "2023-05-01",
+  name: "Tree Planting & Social Swim",
+  location: "Glenoma Park, Brinsmead",
+  description:
+    "2 hours of fun, Tree planting, Music, Swims and food (snacks provided)",
+  items: [
+    "Your hat,",
+    "Water bottle,",
+    "sunscreen,",
+    "swimmers for fresh water creek hangout :)",
+  ],
+};
+
 export default function Home() {
   const [clicked, setClicked] = useState(false);
   const { data, isLoading } = usePings({
     enabled: clicked,
   });
+
+  const repeatCount = 3;
 
   {
     /*   const [isSignUpOpen, setSignUp] = useState(false);
@@ -44,14 +64,39 @@ export default function Home() {
           rsvpURL="nil"
         />
       </div>
+      {/* The EventCard */}
+      <div className="p-5">
+        <div className="mb-5 mt-4 flex items-center justify-start">
+          <h1 className="mr-5 text-xl font-bold">Upcoming Events</h1>
+          <button className="mx-6 flex items-center rounded-lg border-2 border-gray-500 px-4 py-1 text-black">
+            <span className="font-medium">Sign Up or Login to RSVP</span>
+            {/* Add your icon here */}
+            {/* <FontAwesomeIcon icon={faEnvelope} />*/}
+          </button>
+        </div>
 
-      <h1 className="text-3xl text-primary">Test title</h1>
-      <Button onClick={() => setClicked(true)}>
-        {isLoading ? "Loading" : "Ping"}
-      </Button>
-      <p>
-        Response from server: <span>{data as string}</span>
-      </p>
+        {Array(repeatCount)
+          .fill(null)
+          .map((_, index) => (
+            <EventCard
+              key={index}
+              date={EventData.date}
+              name={EventData.name}
+              location={EventData.location}
+              description={EventData.description}
+              items={EventData.items}
+              position={
+                repeatCount === 1
+                  ? "single"
+                  : index === 0
+                    ? "first"
+                    : index === repeatCount - 1
+                      ? "last"
+                      : "middle"
+              }
+            />
+          ))}
+      </div>
     </main>
   );
 }
