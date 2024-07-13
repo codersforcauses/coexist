@@ -11,6 +11,9 @@ class EventSerializer(serializers.ModelSerializer):
 
 
 class RSVPSerializer(serializers.ModelSerializer):
+    # user = UserSerializer(read_only=True)
+
     class Meta:
         model = RSVP
+        depth = 1
         fields = ['id', 'user', 'event', 'created_at', 'updated_at']

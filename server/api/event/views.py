@@ -25,7 +25,9 @@ class EventViewSet(viewsets.ModelViewSet):
 @api_view(['GET', 'POST'])
 def rsvp_list_create(request, event_id):
     if request.method == 'GET':
-        rsvps = RSVP.objects.filter(event__id=event_id)
+        rsvps = RSVP.objects.filter(event__id=event_id)      
+        # for each of thsese rsvsps, get the user id
+        # look up them
         serializer = RSVPSerializer(rsvps, many=True)
         return Response(serializer.data)
 

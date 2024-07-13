@@ -1,4 +1,5 @@
 import { Users } from "lucide-react";
+import React, { useEffect, useState } from "react";
 
 import {
   Dialog,
@@ -16,60 +17,48 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import api from "@/lib/api";
 
-export default function RsvpListModal() {
-  const attendees = [
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-  ];
+interface User {
+  first_name: string;
+  last_name: string;
+  email: string;
+}
+
+interface RSVP {
+  user: User;
+}
+
+interface RsvpListModalProps {
+  eventId: number;
+}
+
+export default function RsvpListModal({ eventId }: RsvpListModalProps) {
+  const [attendees, setAttendees] = useState<RSVP[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchRSVPs() {
+      try {
+        const response = await api.get(
+          `/event/${eventId}/rsvp/`, //add auth token here
+        );
+
+        const data = await response.data;
+        setAttendees(data);
+      } catch (error) {
+        console.error("Error fetching RSVPs:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchRSVPs();
+  }, [eventId]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Dialog>
@@ -97,22 +86,22 @@ export default function RsvpListModal() {
               <TableHead className="border-b border-r border-[#7D916F] text-black">
                 Last Name
               </TableHead>
-              <TableHead className="border-b border-[#7D916F] text-black">
+              <TableHead className="border-b border-r border-[#7D916F] text-black">
                 Email
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="text-black">
             {attendees.map((a) => (
-              <TableRow key={a.email}>
+              <TableRow key={a.user.email}>
                 <TableCell className="border-r border-t border-r-[#7D916F] border-t-[#DEE4DB]">
-                  {a.firstName}
+                  {a.user.first_name}
                 </TableCell>
                 <TableCell className="border-r border-t border-r-[#7D916F] border-t-[#DEE4DB]">
-                  {a.lastName}
+                  {a.user.last_name}
                 </TableCell>
                 <TableCell className="border-t border-t-[#DEE4DB] text-[#5C764B] underline">
-                  <a href={`mailto:${a.email}`}>{a.email}</a>
+                  <a href={`mailto:${a.user.email}`}>{a.user.email}</a>
                 </TableCell>
               </TableRow>
             ))}

@@ -16,6 +16,8 @@ export default function Home() {
      */
   }
 
+  const eventId = 1;
+
   return (
     <div>
       <h1 className="text-3xl text-primary">Test title</h1>
@@ -25,7 +27,7 @@ export default function Home() {
       <p>
         Response from server: <span>{data as string}</span>
       </p>
-      <RsvpListModal />
+      <RsvpListModal eventId={eventId} />
     </div>
   );
 }
