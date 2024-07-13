@@ -1,10 +1,10 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
-from .views import UserViewSet
+from .views import ExtendedUserViewSet
 
 router = DefaultRouter()
-router.register(r"user", UserViewSet, basename="user")
+router.register(r"user", ExtendedUserViewSet, basename="extuser")
 
 urlpatterns = [
-    path('me/', UserViewSet.as_view({'get': 'me'}), name='user-me'),
+    path('me/', ExtendedUserViewSet.as_view({'get': 'me'}), name='user-me'),
 ]
