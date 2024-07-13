@@ -49,12 +49,9 @@ export default function Event() {
             <div className="flex flex-col gap-1">
               <span className="font-semibold">Location:</span>
               <div className="flex gap-3">
-                <a
-                  href={`branch/${event.branch_name}`}
-                  className="self-start rounded bg-[#9DAD93] px-2 text-white"
-                >
+                <span className="self-start rounded bg-[#9DAD93] px-2 text-white">
                   {event.branch_name}
-                </a>
+                </span>
                 <span>{event.location}</span>
               </div>
             </div>
