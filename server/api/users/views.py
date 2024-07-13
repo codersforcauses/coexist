@@ -1,6 +1,4 @@
 from rest_framework import viewsets
-from .serializers import UserSerializer
-from django.contrib.auth.models import User
 
 from .serializers import ExtendedUserSerializer
 from .models import ExtendedUser
@@ -24,24 +22,9 @@ class ExtendedUserViewSet(viewsets.ModelViewSet):
     filterset_fields = []
     search_fields = []
 
-    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    @action(detail=False, methods=['get'],
+            permission_classes=[IsAuthenticated])
     def me(self, request):
         user = request.user.extendeduser
-        serializer = self.get_serializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
-
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = []
-    search_fields = []
-
-    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
-    def me(self, request):
-        user = request.user
         serializer = self.get_serializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
