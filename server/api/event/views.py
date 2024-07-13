@@ -23,9 +23,15 @@ class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     pagination_class = EventResultPagination
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ["title", "location", "is_cancelled"]
-    search_fields = ["title", "description", "location", "is_cancelled"]
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter
+    ]
+    filterset_fields = ["title", "branch", "is_cancelled"]
+    ordering_fields = ["title", "branch"]
+    ordering = ["title", "branch"]
+    search_fields = ["title", "description", "location", "branch"]
 
 
 @api_view(['GET', 'POST'])
