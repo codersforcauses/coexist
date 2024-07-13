@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -20,13 +21,14 @@ interface Props {
 
 function LogInModal({ isOpen, onClose }: Props) {
   const { login } = useAuth();
-  const [username, setusername] = useState("");
+  const router = useRouter();
+  const [useremail, setUseremail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const success = await login({ username, password });
+    const success = await login({ useremail, password });
     if (!success) {
       setErrorMessage("Login failed, please try again");
       loginfailed();
@@ -36,7 +38,7 @@ function LogInModal({ isOpen, onClose }: Props) {
   };
 
   const loginfailed = () => {
-    setusername("");
+    setUseremail("");
     setPassword("");
   };
 
@@ -66,13 +68,13 @@ function LogInModal({ isOpen, onClose }: Props) {
           <form onSubmit={handleSubmit} className="w-full">
             <div className="grid gap-4 py-4">
               <div className="gap-2">
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
-                  id="username"
-                  placeholder="Enter Username"
+                  id="email"
+                  placeholder="Enter Email"
                   className="w-full"
-                  value={username}
-                  onChange={(e) => setusername(e.target.value)}
+                  value={useremail}
+                  onChange={(e) => setUseremail(e.target.value)}
                 />
               </div>
               <div className="gap-2">

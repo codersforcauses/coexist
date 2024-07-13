@@ -43,15 +43,15 @@ export const useAuth = () => {
     }
   }, []);
   const login = async ({
-    username,
+    useremail,
     password,
   }: {
-    username: string;
+    useremail: string;
     password: string;
   }) => {
     try {
       const result = await api.post("/auth/token/", {
-        username,
+        username: useremail,
         password,
       });
       if (result.status !== 200) {
