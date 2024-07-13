@@ -74,13 +74,40 @@ export const useAuth = () => {
     password,
     firstname,
     lastname,
+    confirmpassword,
+    //city
   }: {
     email: string;
     firstname: string;
     lastname: string;
     password: string;
+    confirmpassword: string;
+    // city: string;
   }) => {
     //register endpoint to create a new user
+    try {
+      //to be replaced with the real endpoint to create user
+      const result = await api.post("/auth/register/", {
+        email,
+        firstname,
+        lastname,
+        password,
+        confirmpassword,
+        // city
+      });
+      if (result.status !== 200) {
+        return false;
+      }
+
+      //logged the user in here
+
+      router.reload();
+
+      return true;
+    } catch (error) {
+      console.error("Register error:", error);
+      return false;
+    }
   };
 
   const logout = () => {
