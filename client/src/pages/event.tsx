@@ -17,8 +17,8 @@ export default function Event() {
   };
 
   return (
-    <div className="m-3 h-full rounded-lg bg-[#9DAD93] p-3 md:p-6">
-      <div className="flex h-full flex-col items-center rounded-lg bg-white px-8 py-4">
+    <div className="m-3 h-full rounded-[40px] bg-[#9DAD93] p-3 md:p-6 lg:mx-16">
+      <div className="flex h-full flex-col items-center rounded-[32px] bg-white px-8 py-4">
         <div className="text-center text-2xl font-semibold tracking-tight">
           {event.title}
         </div>
@@ -75,10 +75,10 @@ export default function Event() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 md:flex-row">
-          <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
-            Send RSVP <Mail strokeWidth="1" size="20" />
-          </button>
+        <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
+          Send RSVP <Mail strokeWidth="1" size="20" />
+        </button>
+        <div className="mt-2 flex flex-col gap-2 md:flex-row">
           {/* Only show if user has Poster role */}
           <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
             Edit <Edit strokeWidth="1" size="20" />
