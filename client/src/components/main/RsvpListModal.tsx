@@ -61,6 +61,7 @@ export default function RsvpListModal({ eventId }: RsvpListModalProps) {
     return <div>Loading...</div>;
   }
 
+  // Need to add title i.e. RSVPs for {eventTitle}
   return (
     <Dialog>
       <DialogTrigger className="rounded border border-black p-2">
@@ -69,7 +70,7 @@ export default function RsvpListModal({ eventId }: RsvpListModalProps) {
       <DialogContent>
         <DialogHeader>
           <div className="flex flex-col gap-4 md:flex-row">
-            <DialogTitle>RSVPs for Tree Planting & Social Swim</DialogTitle>
+            <DialogTitle>Placeholder</DialogTitle>
             <div className="flex items-center gap-1">
               <Users size="18" />
               <span className="text-sm text-neutral-500">
