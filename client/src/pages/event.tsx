@@ -75,7 +75,7 @@ export default function Event() {
         <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
           Send RSVP <Mail strokeWidth="1" size="20" />
         </button>
-        <div className="mt-2 flex flex-col gap-2 md:flex-row">
+        <div className="mt-2 flex gap-2">
           {/* Only show if user has Poster role */}
           <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
             Edit <Edit strokeWidth="1" size="20" />
