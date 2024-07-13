@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -14,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
 
+const onErrorStyle = "border-2 border-red-500";
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -21,25 +21,21 @@ interface Props {
 
 function LogInModal({ isOpen, onClose }: Props) {
   const { login } = useAuth();
-  const router = useRouter();
   const [useremail, setUseremail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [loginError, setLoginError] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const success = await login({ useremail, password });
     if (!success) {
-      setErrorMessage("Login failed, please try again");
-      loginfailed();
-    } else {
-      //authentication success
+      handleError();
     }
   };
 
-  const loginfailed = () => {
-    setUseremail("");
-    setPassword("");
+  const handleError = () => {
+    setLoginError(true);
+    setTimeout(() => setLoginError(false), 2000);
   };
 
   return (
@@ -72,7 +68,7 @@ function LogInModal({ isOpen, onClose }: Props) {
                 <Input
                   id="email"
                   placeholder="Enter Email"
-                  className="w-full"
+                  className={`w-full ${loginError ? onErrorStyle : ""}`}
                   value={useremail}
                   onChange={(e) => setUseremail(e.target.value)}
                 />
@@ -83,17 +79,24 @@ function LogInModal({ isOpen, onClose }: Props) {
                   id="password"
                   type="password"
                   placeholder="Enter password"
-                  className="w-full"
+                  className={`w-full ${loginError ? onErrorStyle : ""}`}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                {loginError ? (
+                  <div className="-mb-4 text-center text-xs font-medium text-red-500">
+                    Invalid Email or password
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
 
             <DialogFooter>
               <div className="mt-1 flex w-full justify-center">
                 <Button type="submit" variant="signup" className="w-[270px]">
-                  Sign in
+                  Login
                 </Button>
               </div>
             </DialogFooter>
