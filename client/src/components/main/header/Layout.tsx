@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 
 import { cn } from "@/lib/utils";
 
-import Header from "./Header";
+import Header from "../header/Header";
 
 const fontSans = FontSans({
   subsets: ["latin"],
