@@ -1,12 +1,11 @@
+import api from "@/lib/api";
+
 export default async function addEvent(data: FormData) {
   try {
-    const response = await fetch("http://localhost:8000/api/event/", {
-      method: "POST",
-      body: data,
-    });
+    const response = await api.post("http://localhost:8000/api/event/", data);
 
-    if (response.ok) {
-      const responseData = await response.json();
+    if (response.status == 201) {
+      const responseData = await response.data;
       return true;
     } else {
       return false;

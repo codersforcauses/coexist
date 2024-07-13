@@ -4,8 +4,8 @@ import Link from "next/link";
 import React, { useRef, useState } from "react";
 
 import addEvent from "../../../hooks/addEvent";
-import { CalenderPickerEnd } from "../../ui/calender-pick-end";
-import { CalenderPickerStart } from "../../ui/calender-pick-start";
+import { CalenderPickerEnd } from "../../ui/calendar-pick-end";
+import { CalenderPickerStart } from "../../ui/calendar-pick-start";
 import FailedEvent from "../../ui/failed-event";
 import { Input } from "../../ui/input";
 import LoadingEvent from "../../ui/loadingevent";
@@ -50,6 +50,8 @@ export default function NewEvent() {
       });
       setfill(true);
       return;
+    } else {
+      setfill(false);
     }
 
     setIsLoading(true);

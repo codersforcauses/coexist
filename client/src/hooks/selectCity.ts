@@ -1,11 +1,11 @@
+import api from "@/lib/api";
+
 export default async function selectCity() {
   try {
-    const response = await fetch("http://localhost:8000/api/branch/", {
-      method: "GET",
-    });
+    const response = await api.get("http://localhost:8000/api/branch/");
 
-    if (response.ok) {
-      const responseData = await response.json();
+    if (response.status == 200) {
+      const responseData = await response.data;
       if (responseData.results.length === 0) {
         return null;
       }
