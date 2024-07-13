@@ -33,7 +33,7 @@ export default function Event() {
           </div>
         </div>
 
-        <div className="my-5 grid h-full w-full grid-rows-[1fr,1px,1fr] md:grid-cols-[1fr,1px,1fr] md:grid-rows-[500px]">
+        <div className="my-5 grid h-full w-full grid-rows-[1fr,1px,1fr] md:grid-cols-[1fr,1px,1fr] md:grid-rows-[400px]">
           <div className="mb-5 flex flex-col items-center justify-center md:mb-0 md:mr-10 md:items-end">
             <div className="relative h-full max-h-[300px] w-full max-w-[500px]">
               <Image
