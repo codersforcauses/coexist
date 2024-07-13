@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/table";
 import api from "@/lib/api";
 
+//we need to connect this to the events page
 interface User {
   first_name: string;
   last_name: string;
