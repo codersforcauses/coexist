@@ -17,7 +17,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ["username"]
+    filterset_fields = []
     search_fields = []
 
     @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
