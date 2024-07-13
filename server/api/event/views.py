@@ -1,5 +1,7 @@
 from rest_framework import viewsets
 
+from api.auth.permissions import isAdminOrReadOnly
+
 from .serializers import EventSerializer
 from .serializers import RSVPSerializer
 from .models import Event
@@ -20,16 +22,17 @@ class EventViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ["title", "location", "is_cancelled"]
     search_fields = ["title", "description", "location", "is_cancelled"]
+    permission_classes = [isAdminOrReadOnly]
 
 
-@api_view(['GET', 'POST'])
+@api_view(["GET", "POST"])
 def rsvp_list_create(request, event_id):
-    if request.method == 'GET':
+    if request.method == "GET":
         rsvps = RSVP.objects.filter(event__id=event_id)
         serializer = RSVPSerializer(rsvps, many=True)
         return Response(serializer.data)
 
-    elif request.method == 'POST':
+    elif request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
         serializer = RSVPSerializer(data=request.data)
         if serializer.is_valid():
@@ -38,21 +41,21 @@ def rsvp_list_create(request, event_id):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'PATCH', 'DELETE'])
+@api_view(["GET", "PATCH", "DELETE"])
 def rsvp_detail(request, event_id, id):
     rsvp = get_object_or_404(RSVP, event__id=event_id, id=id)
 
-    if request.method == 'GET':
+    if request.method == "GET":
         serializer = RSVPSerializer(rsvp)
         return Response(serializer.data)
 
-    elif request.method == 'PATCH':
+    elif request.method == "PATCH":
         serializer = RSVPSerializer(rsvp, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    elif request.method == 'DELETE':
+    elif request.method == "DELETE":
         rsvp.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
