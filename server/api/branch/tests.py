@@ -43,7 +43,6 @@ class BranchTestCase(APITestCase):
         self.branch2 = Branch.objects.create(name="Test2", description="Desc2")
         self.branch3 = Branch.objects.create(name="Test3", description="Desc3")
         self.url = reverse('branch-list')
-        
 
     def test_get_all_branches(self):
         response = self.client.get(self.url)
