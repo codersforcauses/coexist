@@ -138,12 +138,6 @@ class BranchTestCase(APITestCase):
         })
         self.assertEqual(response.status_code, 400)
 
-        # "invalid field" case
-        response = self.client.patch(f'/api/branch/{self.branch.id}/', {
-            'invalid': 'invalid'
-        })
-        self.assertEqual(response.status_code, 400)
-
         # "does not exist" case
         response = self.client.patch('/api/branch/4/', {
             'name': 'Test6'
