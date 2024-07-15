@@ -28,11 +28,10 @@ function LogInModal({ isOpen, onClose }: Props) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const success = await login({ useremail, password });
-    if (!success) {
-      loginfailed();
-      //idk whats happening
+    if (success) {
+      //do successful thing
     } else {
-      //authentication success
+      //otherwise
       handleError();
     }
   };

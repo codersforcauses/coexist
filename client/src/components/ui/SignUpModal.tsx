@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
 
+import { SelectBranch } from "./select-branch";
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -34,10 +36,28 @@ function SignUpModal({ isOpen, onClose }: Props) {
   const [confirmpassword, setconfirmPassword] = useState("");
   const [firstname, setfirstname] = useState("");
   const [lastname, setlastname] = useState("");
+  const [city, setCity] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     // alert("Sign up successful");
+
     e.preventDefault();
+
+    // front end checks
+    if (password !== confirmpassword) {
+      return;
+    }
+
+    // empty fields
+    if (
+      !email.trim().length ||
+      !password.trim().length ||
+      !confirmpassword.trim().length ||
+      !firstname.trim().length ||
+      !lastname.trim().length
+    ) {
+      return;
+    }
   };
 
   return (
@@ -126,22 +146,12 @@ function SignUpModal({ isOpen, onClose }: Props) {
 
               {/* Select label */}
               <div className="flex flex-col">
-                <Label htmlFor="city">Main City</Label>
-                <Select>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select a city" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Perth">Perth</SelectItem>
-                    <SelectItem value="Sydney">Sydney</SelectItem>
-                    <SelectItem value="Melbourne">Melbourne</SelectItem>
-                    <SelectItem value="Brisbane">Brisbane</SelectItem>
-                    <SelectItem value="Canberra">Canberra</SelectItem>
-                    <SelectItem value="Adelaide">Adelaide</SelectItem>
-                  </SelectContent>
-                </Select>
+                {/* Component uses branch api to get cities from backend*/}
+                <Label htmlFor="branch">Branch</Label>
+                <SelectBranch setValue={setCity} signUp={true} />
               </div>
             </div>
+
             <DialogFooter>
               <div className="mt-1 flex w-full justify-center">
                 <Button type="submit" variant="signup" className="w-[270px]">
