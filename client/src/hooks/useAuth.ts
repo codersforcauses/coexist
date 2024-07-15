@@ -91,24 +91,26 @@ export const useAuth = () => {
       const result = await api.post("/users/", {
         first_name: firstname,
         last_name: lastname,
+        username: email,
         email: email,
         password: password,
         //city: city,
       });
-      if (result.status !== 201) {
+
+      if (result.status === 201) {
+        await login({ useremail: email, password: password });
+        router.reload();
+        return true;
+      } else {
+        return JSON.stringify(result.data);
+      }
+    } catch (error: any) {
+      if (error.response) {
+        return JSON.stringify(error.response.data);
+      } else {
+        console.error("Register error:", error);
         return false;
       }
-
-      //logged the user in here
-
-      //login(email, password);
-      alert("user made");
-      router.reload();
-
-      return true;
-    } catch (error) {
-      console.error("Register error:", error);
-      return false;
     }
   };
 

@@ -45,6 +45,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
 
     // front end checks for empty field and password
     if (password !== confirmpassword) {
+      alert("password err");
       return;
     }
     if (
@@ -54,6 +55,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
       !firstname.trim().length ||
       !lastname.trim().length
     ) {
+      alert("empty field");
       return;
     }
 
@@ -66,12 +68,12 @@ function SignUpModal({ isOpen, onClose }: Props) {
       //city,
     });
 
-    if (success) {
-      //do successful thing
-      alert("good");
-    } else {
-      //otherwise do unsuccesful thing
-      alert("bad");
+    if (typeof success === "string") {
+      if (success.includes("duplicate")) {
+        alert("duplicate user");
+      } else if (success.includes("email")) {
+        alert("invalid email");
+      }
     }
   };
 
@@ -109,6 +111,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
                   Email
                 </Label>
                 <Input
+                  type="text"
                   id="email"
                   placeholder="Enter Email"
                   className="w-full"
@@ -122,6 +125,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
                 <div className="flex w-[49%] flex-col">
                   <Label htmlFor="text">First Name</Label>
                   <Input
+                    type="text"
                     id="firstName"
                     placeholder="Enter text"
                     className="w-full"
@@ -131,6 +135,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
                 <div className="flex w-[49%] flex-col">
                   <Label htmlFor="text">Last Name</Label>
                   <Input
+                    type="text"
                     id="lastName"
                     placeholder="Enter text"
                     className="w-full"
@@ -142,6 +147,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
               <div>
                 <Label htmlFor="password">Password</Label>
                 <Input
+                  type="password"
                   id="password"
                   placeholder="Enter password"
                   className="w-full"
@@ -152,6 +158,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
               <div>
                 <Label htmlFor="password">Confirm Password</Label>
                 <Input
+                  type="password"
                   id="passwordConfirm"
                   placeholder="Enter password again"
                   className="w-full"
