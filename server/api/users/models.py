@@ -4,7 +4,8 @@ from django.core.validators import RegexValidator
 
 
 class ExtendedUser(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,
+                                primary_key=True)
     phone_regex = RegexValidator(
         regex=r'^\+?\d{9,15}$',
         message="Phone number must be entered as normal for"
