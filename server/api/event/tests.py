@@ -1,7 +1,7 @@
 from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
 from django.urls import reverse
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 from .models import Event, Branch
 from .serializers import EventSerializer
 
@@ -9,6 +9,11 @@ from .serializers import EventSerializer
 class EventandRSVPTests(APITestCase):
     def setUp(self):
         self.client = APIClient()
+        # added this to make adding RSVP tests easier
+        self.user = User.objects.create_user(username='testuser',
+                                             password="password",
+                                             email="admin@test.com")
+
         self.branch = Branch.objects.create(name="Branch 1",
                                             description="123 Street")
         self.event1 = Event.objects.create(
@@ -35,6 +40,9 @@ class EventandRSVPTests(APITestCase):
             location="Location 3",
             branch=self.branch,
         )
+        self.client.login(username='testuser',
+                          password='password',
+                          email="admin@test.com")
 
     def test_get_all_events(self):
         response = self.client.get(reverse('event-list'))
