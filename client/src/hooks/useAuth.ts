@@ -42,6 +42,7 @@ export const useAuth = () => {
       setIsLoggedIn(true);
     }
   }, []);
+
   const login = async ({
     useremail,
     password,
@@ -75,14 +76,14 @@ export const useAuth = () => {
     firstname,
     lastname,
     confirmpassword,
-    //city
+    city,
   }: {
     email: string;
     firstname: string;
     lastname: string;
     password: string;
     confirmpassword: string;
-    // city: string;
+    city: string;
   }) => {
     //register endpoint to create a new user
     try {
@@ -93,13 +94,15 @@ export const useAuth = () => {
         lastname,
         password,
         confirmpassword,
-        // city
+        city,
       });
       if (result.status !== 200) {
         return false;
       }
 
       //logged the user in here
+
+      //login(email, password);
 
       router.reload();
 

@@ -29,7 +29,7 @@ interface Props {
 }
 
 function SignUpModal({ isOpen, onClose }: Props) {
-  // const { register } = useAuth();
+  const { register } = useAuth();
 
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
@@ -43,12 +43,10 @@ function SignUpModal({ isOpen, onClose }: Props) {
 
     e.preventDefault();
 
-    // front end checks
+    // front end checks for empty field and password
     if (password !== confirmpassword) {
       return;
     }
-
-    // empty fields
     if (
       !email.trim().length ||
       !password.trim().length ||
@@ -57,6 +55,22 @@ function SignUpModal({ isOpen, onClose }: Props) {
       !lastname.trim().length
     ) {
       return;
+    }
+
+    //make api call
+    const success = await register({
+      email,
+      password,
+      firstname,
+      lastname,
+      confirmpassword,
+      city,
+    });
+
+    if (success) {
+      //do successful thing
+    } else {
+      //otherwise do unsuccesful thing
     }
   };
 
