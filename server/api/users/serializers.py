@@ -13,5 +13,5 @@ class ExtendedUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ExtendedUser
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'role']
-        # Will add 'phone' when we merge PR#73
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'role',
+                  'phone']
