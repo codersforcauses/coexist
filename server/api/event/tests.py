@@ -29,7 +29,7 @@ class EventAuthTest(TestCase):
             "start_time": "2024-07-13T14:00:00Z",
             "end_time": "2024-07-13T16:00:00Z",
             "location": "123 Event St",
-            "branch": self.branch.pk,
+            "branch_id": self.branch.pk,
             "is_cancelled": False,
         }
 
