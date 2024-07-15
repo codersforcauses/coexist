@@ -4,11 +4,12 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import ExtendedUser
+import random
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'password']
-        extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, data):
         user = User.objects.create_user(
@@ -16,12 +17,12 @@ class UserSerializer(serializers.ModelSerializer):
             last_name=data['last_name'],
             username=data['email'],
             email=data['email'],
-            password=data['password']
+            password=data['password'],
+
         )
 
-        # test = ExtendedUser.objects.create(user=user)
-        # test.set_role('Attendee')
-
+        extended_user, created = ExtendedUser.objects.get_or_create(user=user)
+        extended_user.set_role('Attendee')
         return user
 
 @api_view(['POST'])
@@ -32,7 +33,7 @@ def create(request):
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
         except Exception as e:
-            # if 'duplicate' in str(e):
-            #      return Response({'error': 'User already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            if 'duplicate' in str(e):
+                return Response({'error': 'User already exists'}, status=status.HTTP_400_BAD_REQUEST)
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
