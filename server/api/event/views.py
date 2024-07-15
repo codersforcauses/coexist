@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 
-from api.auth.permissions import isStaffOrAuthenticated, isStaffOrReadonly
+from api.auth.permissions import isStaffOrReadonly
 
 from .serializers import EventSerializer, RSVPSerializer
 from .models import Event, RSVP
