@@ -22,6 +22,7 @@ class Migration(migrations.Migration):
                 ('date_time', models.DateTimeField()),
                 ('location', models.CharField(max_length=200)),
                 ('is_cancelled', models.BooleanField(default=False)),
+                ('payment_link', models.CharField(max_length=200)),
             ],
         ),
     ]

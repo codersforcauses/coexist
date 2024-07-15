@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
 
+const onErrorStyle = "border-2 border-red-500";
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -20,22 +21,25 @@ interface Props {
 
 function LogInModal({ isOpen, onClose }: Props) {
   const { login } = useAuth();
-  const [username, setusername] = useState("");
+  const [useremail, setUseremail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const success = await login({ username, password });
+    const success = await login({ useremail, password });
     if (!success) {
       loginfailed();
+      //idk whats happening
     } else {
       //authentication success
+      handleError();
     }
   };
 
-  const loginfailed = () => {
-    setusername("");
-    setPassword("");
+  const handleError = () => {
+    setLoginError(true);
+    setTimeout(() => setLoginError(false), 2000);
   };
 
   return (
@@ -64,13 +68,13 @@ function LogInModal({ isOpen, onClose }: Props) {
           <form onSubmit={handleSubmit} className="w-full">
             <div className="grid gap-4 py-4">
               <div className="gap-2">
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
-                  id="username"
-                  placeholder="Enter Username"
-                  className="w-full"
-                  value={username}
-                  onChange={(e) => setusername(e.target.value)}
+                  id="email"
+                  placeholder="Enter Email"
+                  className={`w-full ${loginError ? onErrorStyle : ""}`}
+                  value={useremail}
+                  onChange={(e) => setUseremail(e.target.value)}
                 />
               </div>
               <div className="gap-2">
@@ -79,17 +83,24 @@ function LogInModal({ isOpen, onClose }: Props) {
                   id="password"
                   type="password"
                   placeholder="Enter password"
-                  className="w-full"
+                  className={`w-full ${loginError ? onErrorStyle : ""}`}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                {loginError ? (
+                  <div className="-mb-4 text-center text-xs font-medium text-red-500">
+                    Invalid Email or password
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
 
             <DialogFooter>
               <div className="mt-1 flex w-full justify-center">
                 <Button type="submit" variant="signup" className="w-[270px]">
-                  Sign in
+                  Login
                 </Button>
               </div>
             </DialogFooter>
