@@ -29,7 +29,7 @@ class EventAuthTest(TestCase):
             "start_time": "2024-07-13T14:00:00Z",
             "end_time": "2024-07-13T16:00:00Z",
             "location": "123 Event St",
-            "branch": self.branch.pk,  # Assuming this branch ID exists in the database
+            "branch": self.branch.pk, 
             "is_cancelled": False,
         }
 
@@ -48,14 +48,3 @@ class EventAuthTest(TestCase):
         self.client.logout()
 
 
-# created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-#     title = models.CharField(max_length=200)
-#     description = models.TextField()
-#     image = models.ImageField(upload_to="static/images", blank=True, null=True)
-#     start_time = models.DateTimeField()
-#     end_time = models.DateTimeField(null=True, blank=True)
-#     location = models.CharField(max_length=200)
-#     branch = models.ForeignKey(Branch, on_delete=models.CASCADE,
-#                                related_name="events")
-#     is_cancelled = models.BooleanField(default=False)

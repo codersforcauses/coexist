@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 
-from api.auth.permissions import isStaffOrReadOnly
+from api.auth.permissions import isStaffOrAuthenticated, isStaffOrReadonly
 
 from .serializers import EventSerializer
 from .serializers import RSVPSerializer
@@ -10,7 +10,7 @@ from .models import RSVP
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
@@ -22,10 +22,11 @@ class EventViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ["title", "location", "is_cancelled"]
     search_fields = ["title", "description", "location", "is_cancelled"]
-    permission_classes = [isStaffOrReadOnly]
+    permission_classes = [isStaffOrReadonly]
 
 
 @api_view(["GET", "POST"])
+@permission_classes([isStaffOrReadonly])
 def rsvp_list_create(request, event_id):
     if request.method == "GET":
         rsvps = RSVP.objects.filter(event__id=event_id)
@@ -42,6 +43,7 @@ def rsvp_list_create(request, event_id):
 
 
 @api_view(["GET", "PATCH", "DELETE"])
+@permission_classes([isStaffOrReadonly])
 def rsvp_detail(request, event_id, id):
     rsvp = get_object_or_404(RSVP, event__id=event_id, id=id)
 

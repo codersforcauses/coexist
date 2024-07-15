@@ -2,7 +2,7 @@ from .models import Branch
 from rest_framework import viewsets
 from .serializers import BranchSerializer
 from rest_framework.pagination import PageNumberPagination
-from api.auth.permissions import isStaffOrReadOnly
+from api.auth.permissions import isStaffOrAuthenticated
 
 
 class BranchResultPagination(PageNumberPagination):
@@ -16,4 +16,4 @@ class BranchViewSet(viewsets.ModelViewSet):
     queryset = Branch.objects.all()
     serializer_class = BranchSerializer
     pagination_class = BranchResultPagination
-    permission_classes = [isStaffOrReadOnly]
+    permission_classes = [isStaffOrAuthenticated]
