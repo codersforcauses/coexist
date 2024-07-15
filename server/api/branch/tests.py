@@ -1,5 +1,7 @@
 from django.test import TestCase
+from rest_framework.test import APITestCase
 from .models import Branch
+from django.urls import reverse
 
 
 # is_deleted model is tested here as well
@@ -33,3 +35,127 @@ class SoftDeleteTestCase(TestCase):
         self.branch.delete()
         self.branch2.delete()
         self.assertEqual(len(Branch.objects_deleted.all()), 2)
+
+
+class BranchTestCase(APITestCase):
+    def setUp(self):
+        self.branch = Branch.objects.create(name="Test1", description="Desc1")
+        self.branch2 = Branch.objects.create(name="Test2", description="Desc2")
+        self.branch3 = Branch.objects.create(name="Test3", description="Desc3")
+        self.url = reverse('branch-list')
+
+    def test_get_all_branches(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+
+        self.assertIn('count', response.data)
+        self.assertIn('next', response.data)
+        self.assertIn('previous', response.data)
+        self.assertIn('results', response.data)
+
+        self.assertEqual(response.data['count'], 3)
+
+    def test_get_single_branch(self):
+        response = self.client.get(f'{self.url}{self.branch.id}/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['name'], 'Test1')
+
+        # "does not exist" case
+        response = self.client.get(f'{self.url}4/')
+        self.assertEqual(response.status_code, 404)
+
+    def test_post_branch(self):
+        response = self.client.post(self.url, {
+            'name': 'Test4',
+            'description': 'Desc4'
+        })
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data['name'], 'Test4')
+
+        # "missing field" case
+        response = self.client.post(self.url, {
+            'name': 'Test4'
+        })
+        self.assertEqual(response.status_code, 400)
+
+        # "empty field" case
+        response = self.client.post(self.url, {
+            'name': '',
+            'description': 'Desc4'
+        })
+        self.assertEqual(response.status_code, 400)
+
+        # "unauthorised" case
+        response = self.client.post(f'{self.url}4/', {
+            'name': 'Test5',
+            'description': 'Desc5'
+        })
+        self.assertEqual(response.status_code, 405)
+
+    def test_put_branch(self):
+        response = self.client.put(f'{self.url}{self.branch.id}/', {
+            'name': 'Test5',
+            'description': 'Desc5'
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['name'], 'Test5')
+
+        # "missing field" case
+        response = self.client.put(f'{self.url}{self.branch.id}/', {
+            'name': 'Test5'
+        })
+        self.assertEqual(response.status_code, 400)
+
+        # "empty field" case
+        response = self.client.put(f'{self.url}{self.branch.id}/', {
+            'name': '',
+            'description': 'Desc5'
+        })
+        self.assertEqual(response.status_code, 400)
+
+        # "invalid field" case
+        response = self.client.put(f'{self.url}{self.branch.id}/', {
+            'name': 'Test6',
+            'invalid': 'invalid'
+        })
+        self.assertEqual(response.status_code, 400)
+
+        # "does not exist" case
+        response = self.client.put(f'{self.url}4/', {
+            'name': 'Test5',
+            'description': 'Desc5'
+        })
+        self.assertEqual(response.status_code, 404)
+
+    def test_patch_branch(self):
+        response = self.client.patch(f'{self.url}{self.branch.id}/', {
+            'name': 'Test6'
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['name'], 'Test6')
+
+        # "empty field" case
+        response = self.client.patch(f'{self.url}{self.branch.id}/', {
+            'name': ''
+        })
+        self.assertEqual(response.status_code, 400)
+
+        # "does not exist" case
+        response = self.client.patch(f'{self.url}4/', {
+            'name': 'Test6'
+        })
+        self.assertEqual(response.status_code, 404)
+
+    def test_delete_branch(self):
+        response = self.client.delete(f'{self.url}{self.branch.id}/')
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(len(Branch.objects.all()), 2)
+        self.assertEqual(len(Branch.objects_deleted.all()), 1)
+        self.assertEqual(Branch.objects_deleted.all()[0].name, 'Test1')
+        self.branch.restore()
+        self.assertEqual(len(Branch.objects.all()), 3)
+        self.assertEqual(len(Branch.objects_deleted.all()), 0)
+
+        # "does not exist" case
+        response = self.client.delete(f'{self.url}4/')
+        self.assertEqual(response.status_code, 404)
