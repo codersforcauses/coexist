@@ -75,35 +75,34 @@ export const useAuth = () => {
     password,
     firstname,
     lastname,
-    confirmpassword,
-    city,
+    // confirmpassword,
+    // city,
   }: {
     email: string;
     firstname: string;
     lastname: string;
     password: string;
-    confirmpassword: string;
-    city: string;
+    // confirmpassword: string;
+    // city: string;
   }) => {
     //register endpoint to create a new user
     try {
       //to be replaced with the real endpoint to create user
-      const result = await api.post("/auth/register/", {
-        email,
-        firstname,
-        lastname,
-        password,
-        confirmpassword,
-        city,
+      const result = await api.post("/users/", {
+        first_name: firstname,
+        last_name: lastname,
+        email: email,
+        password: password,
+        //city: city,
       });
-      if (result.status !== 200) {
+      if (result.status !== 201) {
         return false;
       }
 
       //logged the user in here
 
       //login(email, password);
-
+      alert("user made");
       router.reload();
 
       return true;
@@ -121,7 +120,7 @@ export const useAuth = () => {
     router.push("/");
   };
 
-  return { login, isLoggedIn, userId, logout };
+  return { login, isLoggedIn, userId, logout, register };
 };
 
 export async function refreshAccessToken() {

@@ -63,14 +63,15 @@ function SignUpModal({ isOpen, onClose }: Props) {
       password,
       firstname,
       lastname,
-      confirmpassword,
-      city,
+      //city,
     });
 
     if (success) {
       //do successful thing
+      alert("good");
     } else {
       //otherwise do unsuccesful thing
+      alert("bad");
     }
   };
 
