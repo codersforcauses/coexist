@@ -1,10 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
+from django.core.validators import RegexValidator
 
 
 class ExtendedUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=15, blank=True)
+    phone_regex = RegexValidator(
+        regex=r'^\+?\d{9,15}$',
+        message="Phone number must be entered as normal for"
+                + " Australian numbers, or in the format:"
+                + " '+999999999'. Up to 15 digits allowed."
+    )
+    phone = models.CharField(validators=[phone_regex], max_length=15,
+                             blank=True)
 
     def __str__(self):
         return self.user.username
