@@ -29,7 +29,7 @@ class EventAuthTest(TestCase):
             "start_time": "2024-07-13T14:00:00Z",
             "end_time": "2024-07-13T16:00:00Z",
             "location": "123 Event St",
-            "branch": self.branch.pk, 
+            "branch": self.branch.pk,
             "is_cancelled": False,
         }
 
@@ -47,4 +47,6 @@ class EventAuthTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.client.logout()
 
-
+    def test_authentication(self):
+        response = self.client.get(self.url, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

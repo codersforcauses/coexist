@@ -66,6 +66,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.BasicAuthentication",
     ),
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_PERMISSION_CLASSES": ["api.auth.permissions.isStaffOrAuthenticated"],
 }
 
 MIDDLEWARE = [

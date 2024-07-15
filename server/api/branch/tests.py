@@ -75,4 +75,6 @@ class BranchAuthTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.client.logout()
 
-
+    def test_authentication(self):
+        response = self.client.get(self.url, format="json")
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

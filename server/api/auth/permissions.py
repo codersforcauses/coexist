@@ -3,7 +3,7 @@ from rest_framework.request import HttpRequest
 
 
 class isStaffOrAuthenticated(permissions.BasePermission):
-    message = "User isn't staff!"
+    message = "User isn't staff! or isn't authenticated"
 
     def has_permission(self, request: HttpRequest, view):
         if request.user and request.user.is_staff:
