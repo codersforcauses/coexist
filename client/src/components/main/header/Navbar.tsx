@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import LogInModal from "@/components/ui/LogInModal";
 import SignUpModal from "@/components/ui/SignUpModal";
+import { useAuth } from "@/hooks/useAuth";
 
 import { DropDownNav } from "./DropDown";
 
@@ -13,6 +14,7 @@ const outlineStyle =
   "rounded-lg border-2 border-white p-1 px-4 hover:opacity-70";
 
 function Links({ isHiddenWhenLg }: { isHiddenWhenLg: boolean }) {
+  const { isLoggedIn } = useAuth();
   const [isSignUpOpen, setSignUp] = useState(false);
   const [isLogInOpen, setLogIn] = useState(false);
 
@@ -21,7 +23,7 @@ function Links({ isHiddenWhenLg }: { isHiddenWhenLg: boolean }) {
       id="buttons-container"
       className={`${isHiddenWhenLg ? "max-lg:hidden" : ""} flex flex-col items-center justify-center gap-2 lg:flex-row lg:gap-20`}
     >
-      <Link className={`${onHoverStyle}`} href="/events">
+      <Link className={`${onHoverStyle}`} href="/">
         Upcoming Events
       </Link>
 
@@ -33,15 +35,20 @@ function Links({ isHiddenWhenLg }: { isHiddenWhenLg: boolean }) {
         Profile
       </Link> */}
 
-      <div className="flex flex-col items-center justify-center lg:flex-row lg:gap-5">
-        <button className={`${onHoverStyle}`} onClick={() => setLogIn(true)}>
-          Log in
-        </button>
-        <button className={outlineStyle} onClick={() => setSignUp(true)}>
-          Sign up
-        </button>
-      </div>
-
+      {isLoggedIn ? (
+        <Link href="/profile" className={outlineStyle}>
+          Profile
+        </Link>
+      ) : (
+        <div className="flex flex-col items-center justify-center lg:flex-row lg:gap-5">
+          <button className={`${onHoverStyle}`} onClick={() => setLogIn(true)}>
+            Log in
+          </button>
+          <button className={outlineStyle} onClick={() => setSignUp(true)}>
+            Sign up
+          </button>
+        </div>
+      )}
       <SignUpModal isOpen={isSignUpOpen} onClose={() => setSignUp(false)} />
       <LogInModal isOpen={isLogInOpen} onClose={() => setLogIn(false)} />
     </div>
@@ -59,6 +66,7 @@ export default function Navbar() {
           <Image src="/logo.png" width={155} height={100} alt="logo" />{" "}
         </Link>
       </div>
+
       <Links isHiddenWhenLg={true} />
       <DropDownNav Links={<Links isHiddenWhenLg={false} />} />
     </div>
