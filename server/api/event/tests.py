@@ -44,6 +44,7 @@ class EventAuthTest(TestCase):
     def test_authorized(self):
         self.client.login(username=ADMIN, password=ADMIN_PASS)
         response = self.client.post(self.url, data=self.postData, format="json")
+        print(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.client.logout()
 
