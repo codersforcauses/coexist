@@ -4,6 +4,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 
 from .models import RSVP
 from ..branch.serializers import BranchSerializer
+from ..users.serializers import ExtendedUserSerializer
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -17,7 +18,7 @@ class EventSerializer(serializers.ModelSerializer):
 
 
 class RSVPSerializer(serializers.ModelSerializer):
-    # user = UserSerializer(read_only=True)
+    user = ExtendedUserSerializer(read_only=True)
 
     class Meta:
         model = RSVP
