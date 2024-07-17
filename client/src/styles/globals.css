@@ -4,65 +4,65 @@
 
 @layer base {
   :root {
-    --background: #ffffff;
-    --foreground: #242424;
+    --background: rgb(255, 255, 255);
+    --foreground: rgb(36, 36, 36);
 
-    --card: #ffffff;
-    --card-foreground: #242424;
+    --card: rgb(255, 255, 255);
+    --card-foreground: rgb(36, 36, 36);
 
-    --popover: #ffffff;
-    --popover-foreground: #242424;
+    --popover: rgb(255, 255, 255);
+    --popover-foreground: rgb(36, 36, 36);
 
-    --primary: #5d764c;
-    --primary-foreground: #f8fafc;
+    --primary: rgb(93, 118, 76);
+    --primary-foreground: rgb(248, 250, 252);
 
-    --secondary: #dfe5dc;
-    --secondary-foreground: #5d764c;
+    --secondary: rgb(223, 229, 220);
+    --secondary-foreground: rgb(93, 118, 76);
 
-    --muted: #dfe5dc;
-    --muted-foreground: #64748b;
+    --muted: rgb(223, 229, 220);
+    --muted-foreground: rgb(100, 116, 139);
 
-    --accent: #a4b582;
-    --accent-foreground: #5d764c;
+    --accent: rgb(164, 181, 130);
+    --accent-foreground: rgb(93, 118, 76);
 
-    --destructive: #ef4444;
-    --destructive-foreground: #f8fafc;
+    --destructive: rgb(239, 68, 68);
+    --destructive-foreground: rgb(248, 250, 252);
 
-    --border: #e2e8f0;
-    --input: #e2e8f0;
-    --ring: #242424;
+    --border: rgb(226, 232, 240);
+    --input: rgb(226, 232, 240);
+    --ring: rgb(36, 36, 36);
 
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: #000000;
-    --foreground: #dbdbdb;
+    --background: rgb(0, 0, 0);
+    --foreground: rgb(219, 219, 219);
 
-    --card: #000000;
-    --card-foreground: #dbdbdb;
+    --card: rgb(0, 0, 0);
+    --card-foreground: rgb(219, 219, 219);
 
-    --popover: #000000;
-    --popover-foreground: #dbdbdb;
+    --popover: rgb(0, 0, 0);
+    --popover-foreground: rgb(219, 219, 219);
 
-    --primary: #9ab389;
-    --primary-foreground: #0f172a;
+    --primary: rgb(154, 179, 137);
+    --primary-foreground: rgb(15, 23, 42);
 
-    --secondary: #1d231a;
-    --secondary-foreground: #9ab389;
+    --secondary: rgb(29, 35, 26);
+    --secondary-foreground: rgb(154, 179, 137);
 
-    --muted: #1d231a;
-    --muted-foreground: #94a3b8;
+    --muted: rgb(29, 35, 26);
+    --muted-foreground: rgb(148, 163, 184);
 
-    --accent: #6c7d4a;
-    --accent-foreground: #9ab389;
+    --accent: rgb(108, 125, 74);
+    --accent-foreground: rgb(154, 179, 137);
 
-    --destructive: #7f1d1d;
-    --destructive-foreground: #9ab389;
+    --destructive: rgb(127, 29, 29);
+    --destructive-foreground: rgb(154, 179, 137);
 
-    --border: #1d231a;
-    --input: #1d231a;
-    --ring: #cbd5e1;
+    --border: rgb(29, 35, 26);
+    --input: rgb(29, 35, 26);
+    --ring: rgb(203, 213, 225);
   }
 }
 
