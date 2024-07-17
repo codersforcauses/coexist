@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import Header from "@/components/main/header/Header";
 import EventCard from "@/components/ui/EventCard_V3";
+import { Event } from "@/hooks/eventTypes";
 import { getEvents } from "@/hooks/getEvent";
 import { usePings } from "@/hooks/pings";
 import { cn } from "@/lib/utils";
@@ -41,12 +42,14 @@ export default function Home() {
     enabled: clicked,
   });
 
-
   const repeatCount = 3;
 
   const { data: eventData, isLoading: eventLoading } = getEvents({
     enabled: true,
   });
+
+  console.log("eventData:", eventData);
+  console.log("eventLoading:", eventLoading);
 
   function extractDate(dateTimeString: string): string {
     const [date] = dateTimeString.split("T");
@@ -67,9 +70,15 @@ export default function Home() {
       )}
     >
       <div className="m-6">
+        {eventLoading && <p>Loading events...</p>}
+        {!eventLoading && eventData && eventData.length === 0 && (
+          <p>No events found.</p>
+        )}
         {!eventLoading &&
-          eventData.map((event) => (
+          eventData &&
+          eventData.map((event: Event, index: number) => (
             <EventCard
+              key={event.id || index} // Prefer using event.id if available
               date={extractDate(event.start_time)}
               startTime={extractTime(event.start_time)}
               endTime={extractTime(event.end_time)}
@@ -79,11 +88,20 @@ export default function Home() {
               description={event.description}
               refImageURL=""
               rsvpURL=""
+              position={
+                eventData.length === 1
+                  ? "single"
+                  : index === 0
+                    ? "first"
+                    : index === eventData.length - 1
+                      ? "last"
+                      : "middle"
+              }
             />
           ))}
       </div>
 
-      <p> {JSON.stringify(eventData)}</p>
+      {/*<p> {JSON.stringify(eventData)}</p>*/}
     </main>
   );
 }
