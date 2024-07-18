@@ -49,7 +49,6 @@ class EventAuthTest(TestCase):
         self.client.login(username=ADMIN, password=ADMIN_PASS)
         response = self.client.post(self.url,
                                     data=self.postData, format="json")
-        print(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.client.logout()
 
@@ -115,7 +114,6 @@ class EventTest(APITestCase):
             'branch_id': self.branch.pk,
         }
         response = self.client.put(url, data, format='json')
-        print("PUT Response Data:", response.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.event1.refresh_from_db()
         self.assertEqual(self.event1.title, data['title'])
@@ -139,6 +137,10 @@ class EventTest(APITestCase):
         new_event = Event.objects.get(title="New Event")
         self.assertEqual(new_event.description, data['description'])
         self.assertEqual(new_event.location, data['location'])
+        # negative test case where this is no title
+        data.pop('title')
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_patch_event(self):
         url = reverse('event-detail', kwargs={'pk': self.event1.id})
@@ -151,6 +153,11 @@ class EventTest(APITestCase):
         updated_event = Event.objects.get(id=self.event1.id)
         self.assertEqual(updated_event.title, data['title'])
         self.assertEqual(updated_event.description, data['description'])
+
+        # negative test case where this is no title
+        data = {'title': ""}
+        response = self.client.patch(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_delete_event(self):
         url = reverse('event-detail', kwargs={'pk': self.event1.id})
