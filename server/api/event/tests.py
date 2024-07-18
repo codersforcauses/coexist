@@ -59,7 +59,9 @@ class EventAuthTest(TestCase):
 class EventandRSVPTests(APITestCase):
     def setUp(self):
         self.client = APIClient()
-        # added this to make adding RSVP tests easier
+        self.adminUser: User = User.objects.create_user(
+            username=ADMIN, password=ADMIN_PASS, is_staff=True
+        )
         self.user = User.objects.create_user(username='testuser',
                                              password="password",
                                              email="admin@test.com")
@@ -90,9 +92,7 @@ class EventandRSVPTests(APITestCase):
             location="Location 3",
             branch=self.branch,
         )
-        self.client.login(username='testuser',
-                          password='password',
-                          email="admin@test.com")
+        self.client.login(username=ADMIN, password=ADMIN_PASS)
 
     def test_get_all_events(self):
         response = self.client.get(reverse('event-list'))
