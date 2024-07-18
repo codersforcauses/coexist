@@ -16,6 +16,13 @@ const fontSans = FontSans({
   variable: "--font-sans",
 });
 
+const getPosition = (index: number, length: number) => {
+  if (length === 1) return "single";
+  if (index === 0) return "first";
+  if (index === length - 1) return "last";
+  return "middle";
+};
+
 export default function Home() {
   const [events, setEventData] = useState<EventResponse | null>(null);
   const [eventLoading, setEventLoading] = useState(true);
@@ -40,17 +47,6 @@ export default function Home() {
   console.log("eventData:", eventData);
   console.log("eventLoading:", eventLoading);
 
-  function extractDate(dateTimeString: string): string {
-    const [date] = dateTimeString.split("T");
-    return date;
-  }
-
-  function extractTime(dateTimeString: string): string {
-    const timePart = dateTimeString.split("T")[1];
-    const [hours, minutes] = timePart.split(":");
-    return `${hours}:${minutes}`;
-  }
-
   return (
     <main
       className={cn(
@@ -68,24 +64,8 @@ export default function Home() {
           eventData.map((event: Event, index: number) => (
             <EventCard
               key={event.id || index} // Prefer using event.id if available
-              date={extractDate(event.start_time)}
-              startTime={extractTime(event.start_time)}
-              endTime={extractTime(event.end_time)}
-              title={event.title}
-              city={event.branch.name}
-              location={event.location}
-              description={event.description}
-              refImageURL=""
-              rsvpURL=""
-              position={
-                eventData.length === 1
-                  ? "single"
-                  : index === 0
-                    ? "first"
-                    : index === eventData.length - 1
-                      ? "last"
-                      : "middle"
-              }
+              data={event}
+              position={getPosition(index, eventData.length)}
             />
           ))}
       </div>

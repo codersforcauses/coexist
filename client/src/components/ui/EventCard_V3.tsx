@@ -2,18 +2,11 @@ import { Mail, Share } from "lucide-react";
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
+import { Event } from "@/hooks/eventTypes";
 
 interface EventCardProps {
-  date: string;
-  startTime: string;
-  endTime: string;
-  title: string;
-  city: string;
-  location: string;
-  description: string;
-  refImageURL: string;
-  rsvpURL: string;
   position: "single" | "first" | "middle" | "last";
+  data: Event;
 }
 
 function getDayOfWeek(dateString: string): string {
@@ -56,18 +49,28 @@ function getMonthStr(dateString: string): string {
   return monthAbbr[monthIndex];
 }
 
-const EventCard = ({
-  date,
-  startTime,
-  endTime,
-  title,
-  city,
-  location,
-  description,
-  refImageURL,
-  position,
-  rsvpURL,
-}: EventCardProps) => {
+function extractDate(dateTimeString: string): string {
+  const [date] = dateTimeString.split("T");
+  return date;
+}
+
+function extractTime(dateTimeString: string): string {
+  const timePart = dateTimeString.split("T")[1];
+  const [hours, minutes] = timePart.split(":");
+  return `${hours}:${minutes}`;
+}
+
+const EventCard = ({ position, data }: EventCardProps) => {
+  console.log("EventCard data:", data);
+  const date = extractDate(data.start_time);
+  const startTime = extractTime(data.start_time);
+  const endTime = extractTime(data.end_time);
+  const title = data.title;
+  const city = data.branch.name;
+  const location = data.location;
+  const description = data.description;
+  const refImageURL = data.image ?? ""; // provide a default value of an empty string if data.image is null
+
   const dayOfWeek = getDayOfWeek(date);
   const dayOfMonth = getDayOfMonth(date);
   const MonthStr = getMonthStr(date);
