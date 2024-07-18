@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -10,17 +11,35 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/hooks/useAuth";
 
+const onErrorStyle = "border-2 border-red-500";
 interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
 
 function LogInModal({ isOpen, onClose }: Props) {
+  const { login } = useAuth();
+  const [useremail, setUseremail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState<boolean>(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const success = await login({ useremail, password });
+    if (!success) {
+      handleError();
+    }
+  };
+
+  const handleError = () => {
+    setLoginError(true);
+    setTimeout(() => setLoginError(false), 2000);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogTitle asChild />
-
       <DialogContent
         className="flex h-full max-h-[460px] w-[95%] max-w-[600px] flex-col items-center rounded-[40px] border-0 bg-accent p-1 shadow-lg file:mx-auto"
         style={{ borderRadius: "32px" }}
@@ -41,29 +60,48 @@ function LogInModal({ isOpen, onClose }: Props) {
             </DialogHeader>
           </div>
 
-          {/* Labels */}
-          <div className="grid gap-4 py-4">
-            <div>
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" placeholder="Enter Email" className="w-full" />
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="w-full">
+            <div className="grid gap-4 py-4">
+              <div className="gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  placeholder="Enter Email"
+                  className={`w-full ${loginError ? onErrorStyle : ""}`}
+                  value={useremail}
+                  onChange={(e) => setUseremail(e.target.value)}
+                />
+              </div>
+              <div className="gap-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Enter password"
+                  className={`w-full ${loginError ? onErrorStyle : ""}`}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                {loginError ? (
+                  <div className="-mb-4 text-center text-xs font-medium text-red-500">
+                    Invalid Email or password
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
-            <div>
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                placeholder="Enter password"
-                className="w-full"
-              />
-            </div>
-          </div>
 
-          <DialogFooter>
-            <div className="mt-1 flex w-full justify-center">
-              <Button type="submit" variant="signup" className="w-[270px]">
-                Sign in
-              </Button>
-            </div>
-          </DialogFooter>
+            <DialogFooter>
+              <div className="mt-1 flex w-full justify-center">
+                <Button type="submit" variant="signup" className="w-[270px]">
+                  Login
+                </Button>
+              </div>
+            </DialogFooter>
+          </form>
+          {/* {errorMessage && <p className="mt-2 text-center">{errorMessage}</p>} */}
         </div>
       </DialogContent>
     </Dialog>
