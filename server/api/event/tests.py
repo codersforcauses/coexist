@@ -137,7 +137,7 @@ class EventTest(APITestCase):
         new_event = Event.objects.get(title="New Event")
         self.assertEqual(new_event.description, data['description'])
         self.assertEqual(new_event.location, data['location'])
-        # negative test case where this is no title
+        # negative test case where there is no title
         data.pop('title')
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -154,7 +154,7 @@ class EventTest(APITestCase):
         self.assertEqual(updated_event.title, data['title'])
         self.assertEqual(updated_event.description, data['description'])
 
-        # negative test case where this is no title
+        # negative test case where there is no title
         data = {'title': ""}
         response = self.client.patch(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
