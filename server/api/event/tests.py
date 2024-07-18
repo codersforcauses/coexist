@@ -22,7 +22,8 @@ class EventAuthTest(TestCase):
         self.adminUser: User = User.objects.create_user(
             username=ADMIN, password=ADMIN_PASS, is_staff=True
         )
-        self.user: User = User.objects.create_user(username=USER, password=USER_PASS)
+        self.user: User = User.objects.create_user(username=USER,
+                                                   password=USER_PASS)
         self.url = reverse("event-list")
         self.branch = Branch.objects.create(name="test2", description="test2")
         self.postData = {
@@ -37,7 +38,8 @@ class EventAuthTest(TestCase):
 
     def test_unauthorized(self):
         self.client.login(username=USER, password=USER_PASS)
-        response = self.client.post(self.url, data=self.postData, format="json")
+        response = self.client.post(self.url, data=self.postData,
+                                    format="json")
         getResponse = self.client.get(self.url)
         self.assertEqual(getResponse.status_code, status.HTTP_200_OK)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -45,7 +47,9 @@ class EventAuthTest(TestCase):
 
     def test_authorized(self):
         self.client.login(username=ADMIN, password=ADMIN_PASS)
-        response = self.client.post(self.url, data=self.postData, format="json")
+        response = self.client.post(self.url,
+                                    data=self.postData, format="json")
+        print(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.client.logout()
 
