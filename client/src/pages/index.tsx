@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 
 import Header from "@/components/main/header/Header";
 import EventCard from "@/components/ui/EventCard_V3";
-import { Event } from "@/hooks/eventTypes";
+import { Branch } from "@/hooks/branchTypes";
+import { Event, EventResponse } from "@/hooks/eventTypes";
 import api from "@/lib/api";
 import { cn } from "@/lib/utils";
 
@@ -16,7 +17,7 @@ const fontSans = FontSans({
 });
 
 export default function Home() {
-  const [eventData, setEventData] = useState<Event[]>([]);
+  const [events, setEventData] = useState<EventResponse | null>(null);
   const [eventLoading, setEventLoading] = useState(true);
 
   useEffect(() => {
@@ -33,6 +34,8 @@ export default function Home() {
 
     fetchEventData();
   }, []);
+
+  const eventData = events ? events.results : [];
 
   console.log("eventData:", eventData);
   console.log("eventLoading:", eventLoading);
@@ -69,7 +72,7 @@ export default function Home() {
               startTime={extractTime(event.start_time)}
               endTime={extractTime(event.end_time)}
               title={event.title}
-              city={event.branch}
+              city={event.branch.name}
               location={event.location}
               description={event.description}
               refImageURL=""
