@@ -1,11 +1,10 @@
 import { Work_Sans as FontSans } from "next/font/google";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Header from "@/components/main/header/Header";
 import EventCard from "@/components/ui/EventCard_V3";
 import { Event } from "@/hooks/eventTypes";
-import { getEvents } from "@/hooks/getEvent";
-import { usePings } from "@/hooks/pings";
+import api from "@/lib/api";
 import { cn } from "@/lib/utils";
 
 import NewEvent from "../components/main/newevent/NewEvent";
@@ -16,40 +15,24 @@ const fontSans = FontSans({
   variable: "--font-sans",
 });
 
-{
-  /* Example data for event card */
-}
-const EventData = {
-  //example data
-  date: "2023-05-01",
-  name: "Tree Planting & Social Swim",
-  location: "Glenoma Park, Brinsmead",
-  city: "Cairns",
-  description:
-    "2 hours of fun, Tree planting, Music, Swims and food (snacks provided)",
-  items: [
-    "Your hat,",
-    "Water bottle,",
-    "sunscreen,",
-    "swimmers for fresh water creek hangout :)",
-  ],
-  refImageURL: "/tempEventImg.jpeg",
-  rvspURL: "nil",
-  startTime: "08:00",
-  endTime: "11:00",
-};
-
 export default function Home() {
-  const [clicked, setClicked] = useState(false);
-  const { data: pingData, isLoading: loadingPing } = usePings({
-    enabled: clicked,
-  });
+  const [eventData, setEventData] = useState<Event[]>([]);
+  const [eventLoading, setEventLoading] = useState(true);
 
-  const repeatCount = 3;
+  useEffect(() => {
+    async function fetchEventData() {
+      try {
+        const response = await api.get("/event/");
+        setEventData(response.data);
+        setEventLoading(false);
+      } catch (error) {
+        console.error("Error fetching event data:", error);
+        setEventLoading(false);
+      }
+    }
 
-  const { data: eventData, isLoading: eventLoading } = getEvents({
-    enabled: true,
-  });
+    fetchEventData();
+  }, []);
 
   console.log("eventData:", eventData);
   console.log("eventLoading:", eventLoading);
