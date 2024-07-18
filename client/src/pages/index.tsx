@@ -44,9 +44,6 @@ export default function Home() {
 
   const eventData = events ? events.results : [];
 
-  console.log("eventData:", eventData);
-  console.log("eventLoading:", eventLoading);
-
   return (
     <main
       className={cn(
@@ -69,8 +66,6 @@ export default function Home() {
             />
           ))}
       </div>
-
-      {/*<p> {JSON.stringify(eventData)}</p>*/}
     </main>
   );
 }

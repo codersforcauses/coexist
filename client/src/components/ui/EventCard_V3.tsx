@@ -61,7 +61,6 @@ function extractTime(dateTimeString: string): string {
 }
 
 const EventCard = ({ position, data }: EventCardProps) => {
-  console.log("EventCard data:", data);
   const date = extractDate(data.start_time);
   const startTime = extractTime(data.start_time);
   const endTime = extractTime(data.end_time);
