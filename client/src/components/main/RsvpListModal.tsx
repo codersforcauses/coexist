@@ -23,6 +23,7 @@ import api from "@/lib/api";
 interface User {
   first_name: string;
   last_name: string;
+  username: string;
   email: string;
 }
 
@@ -83,7 +84,7 @@ export default function RsvpListModal({ eventId }: RsvpListModalProps) {
           <TableHeader>
             <TableRow>
               <TableHead className="border-b border-r border-[#7D916F] text-black">
-                First Name
+                Username
               </TableHead>
               <TableHead className="border-b border-r border-[#7D916F] text-black">
                 Last Name
@@ -97,7 +98,7 @@ export default function RsvpListModal({ eventId }: RsvpListModalProps) {
             {attendees.map((a) => (
               <TableRow key={a.user.email}>
                 <TableCell className="border-r border-t border-r-[#7D916F] border-t-[#DEE4DB]">
-                  {a.user.first_name}
+                  {a.user.username}
                 </TableCell>
                 <TableCell className="border-r border-t border-r-[#7D916F] border-t-[#DEE4DB]">
                   {a.user.last_name}
