@@ -65,7 +65,7 @@ export default function NewEvent() {
     formData.append("location", location);
     formData.append("start_time", start_date_time);
     formData.append("end_time", end_date_time);
-    formData.append("branch", city);
+    formData.append("branch_id", city);
 
     if (paymenturl) {
       formData.append("payment_link", paymenturl);
