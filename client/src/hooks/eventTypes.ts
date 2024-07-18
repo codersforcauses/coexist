@@ -6,4 +6,5 @@ export interface Event {
   branch: string;
   location: string;
   description: string;
+  image: string;
 }

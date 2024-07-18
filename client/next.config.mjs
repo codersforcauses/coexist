@@ -18,6 +18,18 @@ const nextConfig = {
         return config;
       }
     : undefined,
+  // image configuration
+  images: {
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "coexist-server",
+        port: "8000",
+        pathname: "/static/images/**",
+      },
+      // Add more patterns if needed for other environments
+    ],
+  },
 };
 
 export default nextConfig;

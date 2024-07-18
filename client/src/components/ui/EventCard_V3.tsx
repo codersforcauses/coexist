@@ -11,7 +11,7 @@ interface EventCardProps {
   city: string;
   location: string;
   description: string;
-  refImageURL: string;
+  image: string;
   rsvpURL: string;
   position: "single" | "first" | "middle" | "last";
 }
@@ -64,10 +64,15 @@ const EventCard = ({
   city,
   location,
   description,
-  refImageURL,
+  image,
   position,
   rsvpURL,
 }: EventCardProps) => {
+  console.log("EventCard props:", {
+    title,
+    image,
+    // log other props as needed
+  });
   const dayOfWeek = getDayOfWeek(date);
   const dayOfMonth = getDayOfMonth(date);
   const MonthStr = getMonthStr(date);
@@ -84,6 +89,7 @@ const EventCard = ({
           : ""
   } ${position !== "last" ? "mb-[-1rem]" : ""}`;
 
+  console.log("Rendering image with URL:", image);
   return (
     //Outer container with green background
     <div className={containerClasses}>
@@ -152,9 +158,12 @@ const EventCard = ({
         <div className="relative order-1 mb-5 h-64 w-full rounded-lg md:order-3 md:mb-0 md:w-96">
           <Image
             fill
-            src={refImageURL}
+            src={image}
             alt="event image"
             className="h-full w-full rounded-md object-cover md:ps-6"
+            onError={(e) => {
+              console.error("Error loading image:", image);
+            }}
           />
         </div>
       </div>

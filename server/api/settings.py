@@ -33,11 +33,8 @@ SECRET_KEY = os.environ.get("API_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("APP_ENV") == "DEVELOPMENT"
 
-ALLOWED_HOSTS = (
-    os.environ.get("API_ALLOWED_HOSTS").split()
-    if os.environ.get("API_ALLOWED_HOSTS")
-    else []
-)
+default_hosts = ["localhost", "127.0.0.1", "coexist-server"]
+ALLOWED_HOSTS = os.environ.get("API_ALLOWED_HOSTS").split() + default_hosts
 
 
 # Application definition
@@ -80,6 +77,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://coexist-client:3000",
 ]
 
 ROOT_URLCONF = "api.urls"
@@ -158,11 +156,17 @@ PROJECT_ROOT = os.path.dirname(
 STATIC_URL = "/static/"
 
 # STATIC_ROOT is where the static files get copied to when "collectstatic" is run.
-STATIC_ROOT = os.path.join(PROJECT_ROOT, "static_files")
+# STATIC_ROOT = os.path.join(PROJECT_ROOT, "static_files")
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # This is where to _find_ static files when 'collectstatic' is run.
 # These files are then copied to the STATIC_ROOT location.
-STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, "static"),)
+# STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, "static"),)
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
+# Media configurations
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

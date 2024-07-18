@@ -1,5 +1,6 @@
 import { Work_Sans as FontSans } from "next/font/google";
-import { useState } from "react";
+import Image from "next/image";
+import React, { useState } from "react";
 
 import Header from "@/components/main/header/Header";
 import EventCard from "@/components/ui/EventCard_V3";
@@ -36,6 +37,12 @@ const EventData = {
   endTime: "11:00",
 };
 
+const adjustImageUrl = (url: string) => {
+  return url
+    .replace("http://localhost:8000", "http://coexist-server:8000")
+    .replace("/media/static/", "/static/");
+};
+
 export default function Home() {
   const [clicked, setClicked] = useState(false);
   const { data: pingData, isLoading: loadingPing } = usePings({
@@ -44,12 +51,24 @@ export default function Home() {
 
   const repeatCount = 3;
 
-  const { data: eventData, isLoading: eventLoading } = getEvents({
+  const {
+    data: eventData,
+    isLoading: eventLoading,
+    error: eventError,
+  } = getEvents({
     enabled: true,
   });
 
   console.log("eventData:", eventData);
   console.log("eventLoading:", eventLoading);
+  console.log("eventError:", eventError);
+
+  // Add this useEffect
+  React.useEffect(() => {
+    if (eventData) {
+      console.log("Event data received:", eventData);
+    }
+  }, [eventData]);
 
   function extractDate(dateTimeString: string): string {
     const [date] = dateTimeString.split("T");
@@ -71,14 +90,18 @@ export default function Home() {
     >
       <div className="m-6">
         {eventLoading && <p>Loading events...</p>}
-        {!eventLoading && eventData && eventData.length === 0 && (
-          <p>No events found.</p>
-        )}
+        {eventError && <p>Error loading events: {eventError.message}</p>}
         {!eventLoading &&
+          !eventError &&
           eventData &&
+          eventData.length === 0 && <p>No events found.</p>}
+        {!eventLoading &&
+          !eventError &&
+          eventData &&
+          eventData.length > 0 &&
           eventData.map((event: Event, index: number) => (
             <EventCard
-              key={event.id || index} // Prefer using event.id if available
+              key={event.id || index}
               date={extractDate(event.start_time)}
               startTime={extractTime(event.start_time)}
               endTime={extractTime(event.end_time)}
@@ -86,7 +109,7 @@ export default function Home() {
               city={event.branch}
               location={event.location}
               description={event.description}
-              refImageURL=""
+              image={adjustImageUrl(event.image)}
               rsvpURL=""
               position={
                 eventData.length === 1
@@ -100,7 +123,6 @@ export default function Home() {
             />
           ))}
       </div>
-
       {/*<p> {JSON.stringify(eventData)}</p>*/}
     </main>
   );
