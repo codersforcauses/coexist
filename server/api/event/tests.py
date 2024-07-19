@@ -104,6 +104,11 @@ class EventTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data)-1, len(serializer.data))
 
+        # negative test case: incorrect URL
+        incorrect_url = reverse('event-list') + 'wrong/'
+        response = self.client.get(incorrect_url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
     def test_put_events(self):
         url = reverse('event-detail', args=[self.event1.id])
         data = {
@@ -144,6 +149,7 @@ class EventTest(APITestCase):
         new_event = Event.objects.get(title="New Event")
         self.assertEqual(new_event.description, data['description'])
         self.assertEqual(new_event.location, data['location'])
+
         # negative test case where there is no title
         data.pop('title')
         response = self.client.post(url, data, format='json')
