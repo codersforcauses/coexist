@@ -69,7 +69,8 @@ class EventTest(APITestCase):
             username='testuser', password="password", email="admin@test.com"
         )
 
-        self.branch = Branch.objects.create(name="Branch 1", description="123 Street")
+        self.branch = Branch.objects.create(name="Branch 1",
+                                            description="123 Street")
         self.event1 = Event.objects.create(
             title="Event 1",
             description="Description 1",
@@ -164,3 +165,9 @@ class EventTest(APITestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(Event.objects.filter(id=self.event1.id).exists())
+
+        # negative test case: attempt to delete non-existent event
+        non_existent_event_id = 9999
+        url = reverse('event-detail', kwargs={'pk': non_existent_event_id})
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
