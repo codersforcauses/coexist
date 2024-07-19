@@ -121,6 +121,12 @@ class EventTest(APITestCase):
         self.assertEqual(self.event1.description, data['description'])
         self.assertEqual(self.event1.location, data['location'])
 
+        # negative test case: invalid data
+        invalid_data = data.copy()
+        invalid_data['start_time'] = "invalid-datetime"
+        response.self.client.put(url, invalid_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_post_events(self):
         url = reverse('event-list')
         data = {
