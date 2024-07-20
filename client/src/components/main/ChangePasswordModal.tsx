@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { useForm } from "react-hook-form";
+import { Control, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -24,22 +24,71 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const formItemStyle = "mx-auto flex w-full flex-col md:max-5xl:w-1/2";
-const formLabelStyle = "w-full text-base font-bold md:max-5xl:text-lg";
-const formInputStyle =
-  "w-full rounded-xl bg-secondary md:max-5xl:w-full md:max-5xl:rounded-lg md:max-5xl:text-lg";
-
 const imageLoader = () => {
   return `https://ui-avatars.com/api/?name=${username}`;
 };
 
-const pwdFormSchema = z.object({
-  oldPwd: z.string().min(5),
-  newPwd: z.string(),
-  confirmPwd: z.string(),
-});
+const pwdFormSchema = z
+  .object({
+    oldPwd: z.string(),
+    newPwd: z.string(),
+    confirmPwd: z.string(),
+  })
+  .refine((data) => data.newPwd === data.confirmPwd, {
+    message: "Passwords do not match",
+    path: ["confirmPwd"],
+  });
 
 const username = "John Doe";
+
+type props = {
+  control: Control<any>;
+  name: string;
+  label: string;
+  placeholder: string;
+};
+
+function CustomFormField({ control, name, label, placeholder }: props) {
+  return (
+    <FormField
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <FormItem className="mx-auto flex w-full flex-col last:pb-4 md:max-5xl:w-1/2">
+          <FormLabel className="w-full text-base font-bold md:max-5xl:text-lg">
+            {label}
+          </FormLabel>
+          <FormControl>
+            <Input
+              className="w-full rounded-xl bg-secondary md:max-5xl:w-full md:max-5xl:rounded-lg md:max-5xl:text-lg"
+              placeholder={placeholder}
+              {...field}
+            />
+          </FormControl>
+          <FormMessage className="w-full px-1 pt-1" />
+        </FormItem>
+      )}
+    />
+  );
+}
+
+const fields = [
+  {
+    label: "Current password",
+    name: "oldPwd",
+    placeholder: "",
+  },
+  {
+    label: "New password",
+    name: "newPwd",
+    placeholder: "",
+  },
+  {
+    label: "Confirm new password",
+    name: "confirmPwd",
+    placeholder: "",
+  },
+];
 
 export default function ChangePasswordModal() {
   const pwdForm = useForm<z.infer<typeof pwdFormSchema>>({
@@ -63,7 +112,7 @@ export default function ChangePasswordModal() {
           <ChevronRight size={20} />
         </Button>
       </DialogTrigger>
-      <DialogContent className="lg:max-5xl:5/6 w-11/12 max-w-[800px] rounded-lg p-4 md:max-5xl:px-10 md:max-5xl:py-8">
+      <DialogContent className="md:max-5xl:5/6 w-11/12 max-w-[900px] rounded-lg p-4 md:max-5xl:px-10 md:max-5xl:py-8">
         <DialogHeader>
           <DialogTitle className="my-2 ml-2 text-left text-2xl md:max-5xl:text-3xl md:max-5xl:font-bold">
             Change Password
@@ -94,70 +143,16 @@ export default function ChangePasswordModal() {
             }}
             className="mt-6 space-y-6"
           >
-            {/* old pwd */}
-            <FormField
-              control={pwdForm.control}
-              name="oldPwd"
-              render={({ field }) => (
-                <FormItem className={formItemStyle}>
-                  <FormLabel className={formLabelStyle}>
-                    Current password
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      className={formInputStyle}
-                      placeholder=""
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* new pwd */}
-            <FormField
-              control={pwdForm.control}
-              name="newPwd"
-              render={({ field }) => (
-                <FormItem className={formItemStyle}>
-                  <FormLabel className={formLabelStyle}>New password</FormLabel>
-                  <div>
-                    <FormControl>
-                      <Input
-                        className={formInputStyle}
-                        placeholder=""
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </div>
-                </FormItem>
-              )}
-            />
-
-            {/* confirm new pwd */}
-            <FormField
-              control={pwdForm.control}
-              name="confirmPwd"
-              render={({ field }) => (
-                <FormItem className={`pb-6 ${formItemStyle}`}>
-                  <FormLabel className={formLabelStyle}>
-                    Confirm new password
-                  </FormLabel>
-                  <div>
-                    <FormControl>
-                      <Input
-                        className={formInputStyle}
-                        placeholder=""
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </div>
-                </FormItem>
-              )}
-            />
+            <div className="space-y-6">
+              {fields.map((field) => (
+                <CustomFormField
+                  control={pwdForm.control}
+                  name={field.name}
+                  label={field.label}
+                  placeholder={field.placeholder}
+                />
+              ))}
+            </div>
 
             <div className="flex flex-row justify-center">
               <Button
