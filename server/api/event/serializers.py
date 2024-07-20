@@ -5,7 +5,6 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from .models import RSVP
 from ..branch.serializers import BranchSerializer
 from ..users.serializers import ExtendedUserSerializer
-from ..users.models import ExtendedUser
 from ..branch.models import Branch
 
 
