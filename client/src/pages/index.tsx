@@ -4,9 +4,11 @@ import React, { useState } from "react";
 
 import Header from "@/components/main/header/Header";
 import EventCard from "@/components/ui/EventCard_V3";
+import EventCardNoImg from "@/components/ui/EventCardNoImg";
 import { Event } from "@/hooks/eventTypes";
 import { getEvents } from "@/hooks/getEvent";
 import { usePings } from "@/hooks/pings";
+import { rsvpEvent } from "@/hooks/rsvpEvent";
 import { cn } from "@/lib/utils";
 
 import NewEvent from "../components/main/newevent/NewEvent";
@@ -16,29 +18,6 @@ const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
-
-{
-  /* Example data for event card */
-}
-const EventData = {
-  //example data
-  date: "2023-05-01",
-  name: "Tree Planting & Social Swim",
-  location: "Glenoma Park, Brinsmead",
-  city: "Cairns",
-  description:
-    "2 hours of fun, Tree planting, Music, Swims and food (snacks provided)",
-  items: [
-    "Your hat,",
-    "Water bottle,",
-    "sunscreen,",
-    "swimmers for fresh water creek hangout :)",
-  ],
-  refImageURL: "/tempEventImg.jpeg",
-  rvspURL: "nil",
-  startTime: "08:00",
-  endTime: "11:00",
-};
 
 const adjustImageUrl = (url: string) => {
   return url

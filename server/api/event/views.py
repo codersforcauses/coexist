@@ -1,6 +1,7 @@
+from django.http import JsonResponse
 from rest_framework import viewsets
 
-from api.auth.permissions import isStaffOrReadonly
+from api.auth.permissions import isStaffOrReadonly, isStaffOrAuthenticated
 
 from .serializers import EventSerializer, RSVPSerializer
 from .models import Event, RSVP
@@ -28,7 +29,7 @@ class EventViewSet(viewsets.ModelViewSet):
     filter_backends = [
         DjangoFilterBackend,
         filters.SearchFilter,
-        filters.OrderingFilter
+        filters.OrderingFilter,
     ]
     filterset_fields = ["title", "branch", "is_cancelled"]
     ordering_fields = ["title", "branch"]
@@ -73,3 +74,14 @@ def rsvp_detail(request, event_id, id):
     elif request.method == "DELETE":
         rsvp.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(["GET"])
+@permission_classes([isStaffOrAuthenticated])
+def has_rsvp(request, event_id):
+    result = (
+        RSVP.objects.filter(event__id=event_id, user__id=request.user.id).count() >= 1
+    )
+    response_data = {}
+    response_data["has_rsvp"] = result
+    return JsonResponse(response_data)
