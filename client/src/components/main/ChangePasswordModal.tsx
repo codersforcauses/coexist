@@ -24,6 +24,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+const formLabelStyle = "w-full text-base font-bold md:max-5xl:text-lg";
+const formInputStyle =
+  "w-full rounded-xl bg-secondary md:max-5xl:w-96 md:max-5xl:rounded-lg md:max-5xl:text-lg";
+
 const imageLoader = () => {
   return `https://ui-avatars.com/api/?name=${username}`;
 };
@@ -94,13 +98,13 @@ export default function ChangePasswordModal() {
               control={pwdForm.control}
               name="oldPwd"
               render={({ field }) => (
-                <FormItem className="mx-auto flex w-full flex-col lg:max-5xl:w-1/2">
-                  <FormLabel className="w-full text-base font-bold lg:max-5xl:text-lg">
+                <FormItem className="mx-auto flex w-full flex-col md:max-5xl:w-1/2">
+                  <FormLabel className={formLabelStyle}>
                     Current password
                   </FormLabel>
                   <FormControl>
                     <Input
-                      className="w-full rounded-xl bg-secondary lg:max-5xl:w-96 lg:max-5xl:rounded-lg lg:max-5xl:text-lg"
+                      className={formInputStyle}
                       placeholder=""
                       {...field}
                     />
@@ -115,14 +119,12 @@ export default function ChangePasswordModal() {
               control={pwdForm.control}
               name="newPwd"
               render={({ field }) => (
-                <FormItem className="mx-auto flex w-full flex-col lg:max-5xl:w-1/2">
-                  <FormLabel className="w-full text-base font-bold lg:max-5xl:text-lg">
-                    New password
-                  </FormLabel>
+                <FormItem className="mx-auto flex w-full flex-col md:max-5xl:w-1/2">
+                  <FormLabel className={formLabelStyle}>New password</FormLabel>
                   <div>
                     <FormControl>
                       <Input
-                        className="w-full rounded-xl bg-secondary lg:max-5xl:w-96 lg:max-5xl:rounded-lg lg:max-5xl:text-lg"
+                        className={formInputStyle}
                         placeholder=""
                         {...field}
                       />
@@ -138,14 +140,14 @@ export default function ChangePasswordModal() {
               control={pwdForm.control}
               name="confirmPwd"
               render={({ field }) => (
-                <FormItem className="mx-auto flex w-full flex-col lg:max-5xl:w-1/2">
-                  <FormLabel className="w-full text-base font-bold lg:max-5xl:text-lg">
+                <FormItem className="mx-auto flex w-full flex-col md:max-5xl:w-1/2">
+                  <FormLabel className={formLabelStyle}>
                     Confirm new password
                   </FormLabel>
                   <div>
                     <FormControl>
                       <Input
-                        className="w-full rounded-xl bg-secondary lg:max-5xl:w-96 lg:max-5xl:rounded-lg lg:max-5xl:text-lg"
+                        className={formInputStyle}
                         placeholder=""
                         {...field}
                       />
