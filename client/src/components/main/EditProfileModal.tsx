@@ -207,64 +207,65 @@ export default function EditProfileModal({ isOpen, onClose }: Props) {
               render={({ field }) => (
                 <FormItem className={`pb-6 ${formItemStyle}`}>
                   <FormLabel className={formLabelStyle}>Branch</FormLabel>
-                  <Popover open={dropdownOpen} onOpenChange={setDropdownOpen}>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant="outline"
-                          role="combobox"
-                          aria-expanded={dropdownOpen}
-                          className="flex w-44 flex-row justify-between space-x-6 pl-4 pr-2 md:w-56 lg:max-5xl:rounded-lg lg:max-5xl:text-base"
-                        >
-                          <span>
-                            {field.value
-                              ? branches.find(
-                                  (branch) =>
-                                    branch.discriminator === field.value,
-                                )?.label
-                              : "Branch"}
-                          </span>
-                          <ChevronDown size={20} />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
+                  <div className="flex justify-start lg:max-5xl:w-full">
+                    <Popover open={dropdownOpen} onOpenChange={setDropdownOpen}>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={dropdownOpen}
+                            className="flex w-44 flex-row justify-between space-x-6 pl-4 pr-2 md:w-56 lg:max-5xl:rounded-lg lg:max-5xl:text-base"
+                          >
+                            <span>
+                              {field.value
+                                ? branches.find(
+                                    (branch) =>
+                                      branch.discriminator === field.value,
+                                  )?.label
+                                : "Branch"}
+                            </span>
+                            <ChevronDown size={20} />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
 
-                    <PopoverContent className="w-[200px] p-0">
-                      <Command>
-                        <CommandInput placeholder="Search branch..." />
-                        <CommandList>
-                          <CommandEmpty>No branch found.</CommandEmpty>
-                          <CommandGroup>
-                            {branches.map((branch) => (
-                              <CommandItem
-                                value={branch.label}
-                                key={branch.discriminator}
-                                onSelect={() => {
-                                  profileForm.setValue(
-                                    "branch",
-                                    branch.discriminator,
-                                  );
-                                  // FIXME: Closes the popover after selecting a branch (~100ms delay). Should we include this?
-                                  // setTimeout(() => setOpen(false), 100);
-                                }}
-                              >
-                                <Check
-                                  className={cn(
-                                    "mr-2 h-4 w-4",
-                                    branch.discriminator === field.value
-                                      ? "opacity-100"
-                                      : "opacity-0",
-                                  )}
-                                />
-                                {branch.label}
-                              </CommandItem>
-                            ))}
-                          </CommandGroup>
-                        </CommandList>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-
+                      <PopoverContent className="w-[200px] p-0">
+                        <Command>
+                          <CommandInput placeholder="Search branch..." />
+                          <CommandList>
+                            <CommandEmpty>No branch found.</CommandEmpty>
+                            <CommandGroup>
+                              {branches.map((branch) => (
+                                <CommandItem
+                                  value={branch.label}
+                                  key={branch.discriminator}
+                                  onSelect={() => {
+                                    profileForm.setValue(
+                                      "branch",
+                                      branch.discriminator,
+                                    );
+                                    // FIXME: Closes the popover after selecting a branch (~100ms delay). Should we include this?
+                                    // setTimeout(() => setOpen(false), 100);
+                                  }}
+                                >
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      branch.discriminator === field.value
+                                        ? "opacity-100"
+                                        : "opacity-0",
+                                    )}
+                                  />
+                                  {branch.label}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                          </CommandList>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
@@ -274,7 +275,7 @@ export default function EditProfileModal({ isOpen, onClose }: Props) {
 
             <div className="flex flex-row justify-center">
               <Button
-                className="h-10 w-full px-2 md:max-5xl:text-lg"
+                className="my-8 h-10 px-2 max-md:w-full max-sm:mt-2 md:max-5xl:w-6/12 md:max-5xl:text-lg"
                 variant="outline"
                 type="submit"
               >
