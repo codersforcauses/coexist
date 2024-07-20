@@ -41,9 +41,7 @@ export default function RsvpListModal({ eventId }: RsvpListModalProps) {
   useEffect(() => {
     async function fetchRSVPs() {
       try {
-        const response = await api.get(
-          `/event/${eventId}/rsvp/`, //add auth token here
-        );
+        const response = await api.get(`/event/${eventId}/rsvp/`);
 
         const data = await response.data;
         setAttendees(data);
@@ -62,6 +60,7 @@ export default function RsvpListModal({ eventId }: RsvpListModalProps) {
   }
 
   // Need to add title i.e. RSVPs for {eventTitle}
+
   return (
     <Dialog>
       <DialogTrigger className="rounded border border-black p-2">
