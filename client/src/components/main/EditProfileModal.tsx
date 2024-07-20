@@ -56,7 +56,7 @@ const profileFormSchema = z.object({
   email: z.string().email(),
   phone: z.string().min(10, {
     message: "Must be 10 or more characters long",
-  }) /* phone NEEDS to be validated */,
+  }),
   branch: z.string(),
 });
 
