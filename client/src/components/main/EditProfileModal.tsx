@@ -54,6 +54,9 @@ const profileFormSchema = z.object({
   fname: z.string().min(2, { message: "Must be 2 or more characters long" }),
   lname: z.string().min(2, { message: "Must be 2 or more characters long" }),
   email: z.string().email(),
+  phone: z.string().min(10, {
+    message: "Must be 10 or more characters long",
+  }) /* phone NEEDS to be validated */,
   branch: z.string(),
 });
 
@@ -89,6 +92,7 @@ export default function EditProfileModal({ isOpen, onClose }: Props) {
       fname: "",
       lname: "",
       email: "",
+      phone: "",
       branch: "",
     },
   });
@@ -182,6 +186,27 @@ export default function EditProfileModal({ isOpen, onClose }: Props) {
               render={({ field }) => (
                 <FormItem className={formItemStyle}>
                   <FormLabel className={formLabelStyle}>Email</FormLabel>
+                  <div>
+                    <FormControl>
+                      <Input
+                        className={formInputStyle}
+                        placeholder=""
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className={formMsgStyle} />
+                  </div>
+                </FormItem>
+              )}
+            />
+
+            {/* phone */}
+            <FormField
+              control={profileForm.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem className={formItemStyle}>
+                  <FormLabel className={formLabelStyle}>Phone</FormLabel>
                   <div>
                     <FormControl>
                       <Input
