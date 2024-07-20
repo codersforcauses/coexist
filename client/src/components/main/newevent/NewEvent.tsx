@@ -149,7 +149,7 @@ export default function NewEvent() {
                 className="h-40 w-full rounded bg-[#EFF1ED] px-1 py-1 text-start placeholder-black focus-visible:outline-none focus-visible:ring-[4px] focus-visible:ring-[#7D916F] md:w-[65%]"
                 disabled={isLoading}
               ></Textarea> */}
-              <div>
+              <div className="h-30 w-full md:w-[65%]">
                 <MDEditor value={description} onChange={setDescription} />
               </div>
             </div>
