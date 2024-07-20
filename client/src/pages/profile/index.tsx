@@ -1,7 +1,9 @@
 import { Pen } from "lucide-react";
+import { useRouter } from "next/router";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
 
 function EventCount({ title, count }: { title: string; count: number }) {
   return (
@@ -21,6 +23,7 @@ function CityStatus({ title, value }: { title: string; value: string }) {
 }
 
 export default function Settings() {
+  const { logout } = useAuth();
   const user = {
     name: "John Doe",
     email: "johndoe@gmai.com",
@@ -67,6 +70,9 @@ export default function Settings() {
             size={"lg"}
             variant={"outline"}
             className="border-accent text-2xl text-accent lg:self-center"
+            onClick={() => {
+              logout();
+            }}
           >
             Sign Out
           </Button>

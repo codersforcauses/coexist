@@ -119,7 +119,7 @@ export const useAuth = () => {
     Cookies.remove("refresh");
     setUserId(undefined);
     setIsLoggedIn(false);
-    router.push("/");
+    router.push("/").then(() => router.reload());
   };
 
   return { login, isLoggedIn, userId, logout, register };
