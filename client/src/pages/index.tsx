@@ -11,6 +11,9 @@ import { usePings } from "@/hooks/pings";
 import { rsvpEvent } from "@/hooks/rsvpEvent";
 import { cn } from "@/lib/utils";
 
+import NewEvent from "../components/main/newevent/NewEvent";
+import { Button } from "../components/ui/button";
+
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",

@@ -14,8 +14,10 @@ class Event(SoftDeleteModel):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField(null=True, blank=True)
     location = models.CharField(max_length=200)
-    branch = models.ForeignKey(Branch, on_delete=models.CASCADE,
-                               related_name="events")
+
+    payment_link = models.CharField(max_length=200, blank=True)
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE, related_name="events")
+
     is_cancelled = models.BooleanField(default=False)
 
     def __str__(self):
@@ -27,16 +29,14 @@ class Event(SoftDeleteModel):
 
 
 class RSVP(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE,
-                             related_name='rsvp_by')
-    event = models.ForeignKey("Event", on_delete=models.CASCADE,
-                              related_name='rsvp_to')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="rsvp_by")
+    event = models.ForeignKey("Event", on_delete=models.CASCADE, related_name="rsvp_to")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     # Ensures that one user can RSVP to a particular event only once
 
     class Meta:
-        unique_together = ('user', 'event')
+        unique_together = ("user", "event")
 
     def __str__(self):
         return f"{self.user.username} - {self.event.title}"
