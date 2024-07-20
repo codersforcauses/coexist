@@ -92,6 +92,7 @@ export async function refreshAccessToken() {
     if (result.status !== 200) {
       throw new Error("Failed to refresh access token");
     }
+    Cookies.set("access", result.data.access);
     return result.data.access;
   } catch (error) {
     console.error("Refresh token error:", error);
