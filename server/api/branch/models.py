@@ -16,3 +16,6 @@ class Branch(SoftDeleteModel):
     # Field: Events
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['id']
