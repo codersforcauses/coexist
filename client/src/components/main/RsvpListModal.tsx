@@ -82,7 +82,7 @@ export default function RsvpListModal({ eventId }: RsvpListModalProps) {
       <DialogContent>
         <DialogHeader>
           <div className="flex flex-col gap-4 md:flex-row">
-            <DialogTitle>Placeholder for {eventTitle} </DialogTitle>
+            <DialogTitle>{eventTitle} </DialogTitle>
             <div className="flex items-center gap-1">
               <Users size="18" />
               <span className="text-sm text-neutral-500">
