@@ -12,7 +12,9 @@ export const rsvpEvent = (
     queryFn: async () => {
       console.log("sending RSVP...");
       try {
-        const response = await api.post(`/event/${eventId}/rsvp`);
+        const response = await api.post(`/event/${eventId}/rsvp`, {
+          event: { eventId },
+        });
         console.log("API response:", response.data);
         return response.data;
       } catch (error) {
