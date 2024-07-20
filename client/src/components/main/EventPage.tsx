@@ -1,9 +1,9 @@
 import { format as dateFormat } from "date-fns";
-import { Edit, Eye, Mail } from "lucide-react";
+import { Edit, Mail } from "lucide-react";
 import Image from "next/image";
 
 import { type Event } from "@/hooks/getEvent";
-import { useAuth } from "@/hooks/useAuth";
+import useUser from "@/hooks/useUser";
 
 import RsvpListModal from "./RsvpListModal";
 
@@ -20,17 +20,13 @@ export const EventPage = ({
     location,
     start_time,
     end_time,
-    is_cancelled,
   },
 }: EventPageProps) => {
   const date_fmt = dateFormat(start_time, "EEEE, do MMM");
   const start_fmt = dateFormat(start_time, "hh:mm aa");
   const end_fmt = dateFormat(end_time, "hh:mm aa");
 
-  const { isLoggedIn, userId } = useAuth();
-
-  // TODO: Fetch this from the useAuth hook?
-  const role: "poster" | "user" = "poster";
+  const { data: userData } = useUser();
 
   const userControls = (
     <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
@@ -48,14 +44,17 @@ export const EventPage = ({
       </button>
     </div>
   );
-
+  
   const controls = () => {
-    if (isLoggedIn && role == "user") {
-      return userControls;
-    } else if (isLoggedIn && role == "poster") {
-      return posterControls;
-    } else {
+    if (userData === undefined) {
+      // Not logged in
       return <></>;
+    } else if (userData.role == "Attendee") {
+      // User is attendee
+      return userControls;
+    } else if (userData.role == "Poster") {
+      // User is poster
+      return posterControls;
     }
   };
 
@@ -109,8 +108,8 @@ export const EventPage = ({
             </div>
           </div>
         </div>
-
-        {controls()}
+        
+        { controls() }
       </div>
     </div>
   );
