@@ -20,6 +20,7 @@ export const EventPage = ({
     location,
     start_time,
     end_time,
+    status,
   },
 }: EventPageProps) => {
   const date_fmt = dateFormat(start_time, "EEEE, do MMM");
@@ -83,6 +84,15 @@ export const EventPage = ({
           </div>
           <div className="border-t border-black md:border-l"></div>
           <div className="mt-5 flex flex-col justify-center gap-4 md:ml-10 md:mt-0">
+          <div className="flex flex-col gap-1">
+              <span className="font-semibold">Status:</span>
+              <div className="flex gap-3">
+                
+                <span className={`self-start rounded ${status == "Cancelled" && "bg-red-500"} ${((status === "Upcoming") || (status === "Ongoing")) && 'bg-[#9DAD93]'} ${status === "Past" && "bg-yellow-500"} px-2 text-white`}>
+                  {status}
+                </span>
+              </div>
+            </div>
             <div className="flex flex-col gap-1">
               <span className="font-semibold">Location:</span>
               <div className="flex gap-3">

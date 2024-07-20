@@ -9,6 +9,8 @@ export type Branch = {
   description: string;
 };
 
+export type EventStatus = "Cancelled" | "Upcoming" | "Past" | "Ongoing";
+
 export type Event = {
   created_at: Date;
   updated_at: Date;
@@ -19,7 +21,7 @@ export type Event = {
   end_time: Date;
   location: string;
   branch: Branch;
-  is_cancelled: boolean;
+  status: EventStatus;
 };
 
 export const useGetEvent = (
