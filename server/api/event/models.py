@@ -16,7 +16,7 @@ class Event(SoftDeleteModel):
     location = models.CharField(max_length=200)
     location_url = models.URLField(max_length=500)
     payment_link = models.CharField(max_length=200, blank=True)
-    branch_id = models.ForeignKey(Branch, on_delete=models.CASCADE, related_name="events")
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE, related_name="events")
 
     is_cancelled = models.BooleanField(default=False)
 
