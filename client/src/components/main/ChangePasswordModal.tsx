@@ -62,7 +62,7 @@ export default function ChangePasswordModal() {
           <ChevronRight size={20} />
         </Button>
       </DialogTrigger>
-      <DialogContent className="md:max-5xl:5/6 w-11/12 max-w-[900px] rounded-lg p-4 md:max-5xl:px-10 md:max-5xl:py-8">
+      <DialogContent className="lg:max-5xl:5/6 w-11/12 max-w-[800px] rounded-lg p-4 md:max-5xl:px-10 md:max-5xl:py-8">
         <DialogHeader>
           <DialogTitle className="my-2 ml-2 text-left text-2xl md:max-5xl:text-3xl md:max-5xl:font-bold">
             Change Password
