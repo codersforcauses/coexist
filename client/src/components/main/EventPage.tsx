@@ -29,7 +29,35 @@ export const EventPage = ({
 
   const { isLoggedIn, userId } = useAuth();
 
-  // const role = api.get('/user/me');
+  // TODO: Fetch this from the useAuth hook?
+  const role: "poster" | "user" = "poster";
+
+  const userControls = (
+    <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
+      Send RSVP <Mail strokeWidth="1" size="20" />
+    </button>
+  );
+
+  const posterControls = (
+    <div className="mt-2 flex gap-2">
+      <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
+        Edit <Edit strokeWidth="1" size="20" />
+      </button>
+      <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
+        <RsvpListModal />
+      </button>
+    </div>
+  );
+
+  const controls = () => {
+    if (isLoggedIn && role == "user") {
+      return userControls;
+    } else if (isLoggedIn && role == "poster") {
+      return posterControls;
+    } else {
+      return <></>;
+    }
+  };
 
   return (
     <div className="m-3 h-full rounded-[40px] bg-[#9DAD93] p-3 md:p-6 lg:mx-16">
@@ -82,22 +110,7 @@ export const EventPage = ({
           </div>
         </div>
 
-        {isLoggedIn && (
-          <>
-            <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
-              Send RSVP <Mail strokeWidth="1" size="20" />
-            </button>
-            <div className="mt-2 flex gap-2">
-              <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
-                Edit <Edit strokeWidth="1" size="20" />
-              </button>
-              <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
-                View RSVPs <Eye strokeWidth="1" size="20" />
-              </button>
-              <RsvpListModal />
-            </div>
-          </>
-        )}
+        {controls()}
       </div>
     </div>
   );

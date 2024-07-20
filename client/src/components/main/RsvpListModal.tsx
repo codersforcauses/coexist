@@ -1,4 +1,4 @@
-import { Users } from "lucide-react";
+import { Eye, Users } from "lucide-react";
 
 import {
   Dialog,
@@ -73,8 +73,8 @@ export default function RsvpListModal() {
 
   return (
     <Dialog>
-      <DialogTrigger className="rounded border border-black p-2">
-        Show RSVPs
+      <DialogTrigger className="flex h-full w-full items-center gap-2">
+        View RSVPs <Eye strokeWidth="1" size="20" />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
