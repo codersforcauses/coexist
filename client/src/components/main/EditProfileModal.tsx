@@ -40,7 +40,7 @@ import {
 import { cn } from "@/lib/utils";
 
 const formLabelStyle =
-  "lg:max-5xl:text-lg px-2 mt-2 w-22 lg:max-5xl:w-48 py-2 align-baseline text-base font-bold";
+  "lg:max-5xl:text-lg px-2 mt-2 w-22 lg:max-5xl:min-w-40 py-2 align-baseline text-base font-bold";
 const formItemStyle = "flex flex-row gap-x-4 justify-between";
 const formInputStyle =
   "lg:max-5xl:rounded-lg lg:max-5xl:text-lg w-44 bg-secondary rounded-xl md:w-56 lg:max-5xl:w-96";
@@ -275,7 +275,7 @@ export default function EditProfileModal({ isOpen, onClose }: Props) {
 
             <div className="flex flex-row justify-center">
               <Button
-                className="my-8 h-10 px-2 max-md:w-full max-sm:mt-2 md:max-5xl:w-6/12 md:max-5xl:text-lg"
+                className="my-4 h-10 px-2 max-md:w-full max-sm:mt-2 md:max-5xl:w-6/12 md:max-5xl:text-lg"
                 variant="outline"
                 type="submit"
               >
