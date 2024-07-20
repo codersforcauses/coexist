@@ -24,17 +24,6 @@ const setCookie = (name: string, tok: string) => {
   });
 };
 
-// const setCookies = (data: TokenResponse) => {
-//   const tokens = ["access", "refresh"] as const;
-//   tokens.forEach((name) => {
-//     const tok = data[name];
-//     Cookies.set(name, tok, {
-//       ...cookieOptions,
-//       expires: getExpiry(tok),
-//     });
-//   });
-// };
-// 0;
 export const useAuth = () => {
   const [userId, setUserId] = useState<string>();
   const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);

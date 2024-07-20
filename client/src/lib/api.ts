@@ -5,11 +5,7 @@ import { refreshAccessToken } from "@/hooks/useAuth";
 
 const api = axios.create({ baseURL: process.env.NEXT_PUBLIC_BACKEND_URL });
 api.interceptors.request.use(async (config) => {
-  let accessTok = Cookies.get("access");
-  // if (!accessTok && Cookies.get("refresh")) {
-
-  //   accessTok = await refreshAccessToken();
-  // }
+  const accessTok = Cookies.get("access");
   if (accessTok) {
     config.headers.Authorization = `Bearer ${accessTok}`;
   }
