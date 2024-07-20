@@ -1,3 +1,4 @@
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { Users } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
@@ -17,37 +18,61 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useEventDetails, useRSVPs } from "@/hooks/getRSVPs";
 import api from "@/lib/api";
+
+//we need to connect this to the events page
+interface User {
+  first_name: string;
+  last_name: string;
+  email: string;
+}
+
+interface RSVP {
+  user: User;
+}
 
 interface RsvpListModalProps {
   eventId: number;
 }
 
 export default function RsvpListModal({ eventId }: RsvpListModalProps) {
-  const {
-    data: attendees,
-    error: rsvpError,
-    isLoading: rsvpsLoading,
-  } = useRSVPs(eventId);
-  const {
-    data: eventDetails,
-    error: eventError,
-    isLoading: eventLoading,
-  } = useEventDetails(eventId);
+  const [attendees, setAttendees] = useState<RSVP[]>([]);
+  const [eventTitle, setEventTitle] = useState<string>("");
+  const [loading, setLoading] = useState(true);
 
-  if (rsvpsLoading || eventLoading) {
+  useEffect(() => {
+    async function fetchRSVPs() {
+      try {
+        const response = await api.get(`/event/${eventId}/rsvp/`);
+
+        const data = await response.data;
+        setAttendees(data);
+      } catch (error) {
+        console.error("Error fetching RSVPs:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchRSVPs();
+  }, [eventId]);
+
+  useEffect(() => {
+    async function fetchEventName() {
+      try {
+        const response = await api.get(`/event/${eventId}/`);
+        const data = response.data;
+        setEventTitle(data.title);
+      } catch (error) {
+        console.error("Error fetching Event details:", error);
+      }
+    }
+
+    fetchEventName();
+  }, [eventId]);
+
+  if (loading) {
     return <div>Loading...</div>;
-  }
-
-  if (rsvpError) {
-    console.error("Error fetching RSVPs:", rsvpError);
-    return <div>Error fetching RSVPs</div>;
-  }
-
-  if (eventError) {
-    console.error("Error fetching Event details:", eventError);
-    return <div>Error fetching Event details</div>;
   }
 
   return (
@@ -58,11 +83,11 @@ export default function RsvpListModal({ eventId }: RsvpListModalProps) {
       <DialogContent>
         <DialogHeader>
           <div className="flex flex-col gap-4 md:flex-row">
-            <DialogTitle>{eventDetails?.title} </DialogTitle>
+            <DialogTitle>{eventTitle} </DialogTitle>
             <div className="flex items-center gap-1">
               <Users size="18" />
               <span className="text-sm text-neutral-500">
-                {attendees?.length}
+                {attendees.length}
               </span>
             </div>
           </div>
@@ -82,7 +107,7 @@ export default function RsvpListModal({ eventId }: RsvpListModalProps) {
             </TableRow>
           </TableHeader>
           <TableBody className="text-black">
-            {attendees?.map((a) => (
+            {attendees.map((a) => (
               <TableRow key={a.user.email}>
                 <TableCell className="border-r border-t border-r-[#7D916F] border-t-[#DEE4DB]">
                   {a.user.first_name}
@@ -90,7 +115,7 @@ export default function RsvpListModal({ eventId }: RsvpListModalProps) {
                 <TableCell className="border-r border-t border-r-[#7D916F] border-t-[#DEE4DB]">
                   {a.user.last_name}
                 </TableCell>
-                <TableCell className="text6789-[#5C764B] border-t border-t-[#DEE4DB] underline">
+                <TableCell className="border-t border-t-[#DEE4DB] text-[#5C764B] underline">
                   <a href={`mailto:${a.user.email}`}>{a.user.email}</a>
                 </TableCell>
               </TableRow>
