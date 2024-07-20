@@ -75,6 +75,7 @@ export const useAuth = () => {
     password,
     firstname,
     lastname,
+    phone,
     // confirmpassword,
     // city,
   }: {
@@ -82,6 +83,7 @@ export const useAuth = () => {
     firstname: string;
     lastname: string;
     password: string;
+    phone: string;
     // confirmpassword: string;
     // city: string;
   }) => {
@@ -94,6 +96,7 @@ export const useAuth = () => {
         username: email,
         email: email,
         password: password,
+        phone: phone,
         //city: city,
       });
 

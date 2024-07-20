@@ -37,6 +37,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
   const [firstname, setfirstname] = useState("");
   const [lastname, setlastname] = useState("");
   const [city, setCity] = useState("");
+  const [phone, setPhone] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     // alert("Sign up successful");
@@ -65,6 +66,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
       password,
       firstname,
       lastname,
+      phone,
       //city,
     });
 
@@ -142,6 +144,17 @@ function SignUpModal({ isOpen, onClose }: Props) {
                     onChange={(e) => setlastname(e.target.value)}
                   />
                 </div>
+              </div>
+
+              <div>
+                <Label htmlFor="text">Phone number</Label>
+                <Input
+                  type="text"
+                  id=""
+                  placeholder="Enter phone number"
+                  className="w-full"
+                  onChange={(e) => setPhone(e.target.value)}
+                />
               </div>
 
               <div>
