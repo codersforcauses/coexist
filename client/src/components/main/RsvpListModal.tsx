@@ -36,6 +36,7 @@ interface RsvpListModalProps {
 
 export default function RsvpListModal({ eventId }: RsvpListModalProps) {
   const [attendees, setAttendees] = useState<RSVP[]>([]);
+  const [eventTitle, setEventTitle] = useState<string>("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -55,11 +56,23 @@ export default function RsvpListModal({ eventId }: RsvpListModalProps) {
     fetchRSVPs();
   }, [eventId]);
 
+  useEffect(() => {
+    async function fetchEventName() {
+      try {
+        const response = await api.get(`/event/${eventId}/`);
+        const data = response.data;
+        setEventTitle(data.title);
+      } catch (error) {
+        console.error("Error fetching Event details:", error);
+      }
+    }
+
+    fetchEventName();
+  }, [eventId]);
+
   if (loading) {
     return <div>Loading...</div>;
   }
-
-  // Need to add title i.e. RSVPs for {eventTitle}
 
   return (
     <Dialog>
@@ -69,7 +82,7 @@ export default function RsvpListModal({ eventId }: RsvpListModalProps) {
       <DialogContent>
         <DialogHeader>
           <div className="flex flex-col gap-4 md:flex-row">
-            <DialogTitle>Placeholder</DialogTitle>
+            <DialogTitle>Placeholder for {eventTitle} </DialogTitle>
             <div className="flex items-center gap-1">
               <Users size="18" />
               <span className="text-sm text-neutral-500">
