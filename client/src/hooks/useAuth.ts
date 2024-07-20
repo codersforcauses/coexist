@@ -17,17 +17,24 @@ interface TokenResponse {
 
 const getExpiry = (tok: string) => new Date(Number(jwtDecode(tok).exp) * 1000);
 
-const setCookies = (data: TokenResponse) => {
-  const tokens = ["access", "refresh"] as const;
-  tokens.forEach((name) => {
-    const tok = data[name];
-    Cookies.set(name, tok, {
-      ...cookieOptions,
-      expires: getExpiry(tok),
-    });
+const setCookie = (name: string, tok: string) => {
+  Cookies.set(name, tok, {
+    ...cookieOptions,
+    expires: getExpiry(tok),
   });
 };
-0;
+
+// const setCookies = (data: TokenResponse) => {
+//   const tokens = ["access", "refresh"] as const;
+//   tokens.forEach((name) => {
+//     const tok = data[name];
+//     Cookies.set(name, tok, {
+//       ...cookieOptions,
+//       expires: getExpiry(tok),
+//     });
+//   });
+// };
+// 0;
 export const useAuth = () => {
   const [userId, setUserId] = useState<string>();
   const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
@@ -58,7 +65,8 @@ export const useAuth = () => {
         return false;
       }
       const data = result.data as TokenResponse;
-      setCookies(data);
+      setCookie("access", data.access);
+      setCookie("refresh", data.refresh);
       const decodedToken = jwtDecode(data.access);
       setUserId(decodedToken.user_id);
       router.reload();
@@ -92,6 +100,7 @@ export async function refreshAccessToken() {
     if (result.status !== 200) {
       throw new Error("Failed to refresh access token");
     }
+    Cookies.set("access", result.data.access);
     return result.data.access;
   } catch (error) {
     console.error("Refresh token error:", error);
