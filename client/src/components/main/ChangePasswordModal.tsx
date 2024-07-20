@@ -24,9 +24,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+const formItemStyle = "mx-auto flex w-full flex-col md:max-5xl:w-1/2";
 const formLabelStyle = "w-full text-base font-bold md:max-5xl:text-lg";
 const formInputStyle =
-  "w-full rounded-xl bg-secondary md:max-5xl:w-96 md:max-5xl:rounded-lg md:max-5xl:text-lg";
+  "w-full rounded-xl bg-secondary md:max-5xl:w-full md:max-5xl:rounded-lg md:max-5xl:text-lg";
 
 const imageLoader = () => {
   return `https://ui-avatars.com/api/?name=${username}`;
@@ -98,7 +99,7 @@ export default function ChangePasswordModal() {
               control={pwdForm.control}
               name="oldPwd"
               render={({ field }) => (
-                <FormItem className="mx-auto flex w-full flex-col md:max-5xl:w-1/2">
+                <FormItem className={formItemStyle}>
                   <FormLabel className={formLabelStyle}>
                     Current password
                   </FormLabel>
@@ -119,7 +120,7 @@ export default function ChangePasswordModal() {
               control={pwdForm.control}
               name="newPwd"
               render={({ field }) => (
-                <FormItem className="mx-auto flex w-full flex-col md:max-5xl:w-1/2">
+                <FormItem className={formItemStyle}>
                   <FormLabel className={formLabelStyle}>New password</FormLabel>
                   <div>
                     <FormControl>
@@ -140,7 +141,7 @@ export default function ChangePasswordModal() {
               control={pwdForm.control}
               name="confirmPwd"
               render={({ field }) => (
-                <FormItem className="mx-auto flex w-full flex-col md:max-5xl:w-1/2">
+                <FormItem className={`pb-6 ${formItemStyle}`}>
                   <FormLabel className={formLabelStyle}>
                     Confirm new password
                   </FormLabel>
@@ -157,13 +158,14 @@ export default function ChangePasswordModal() {
                 </FormItem>
               )}
             />
-            <div className="flex flex-row justify-end">
+
+            <div className="flex flex-row justify-center">
               <Button
-                className="h-8 px-2 md:max-5xl:h-9 md:max-5xl:text-lg"
+                className="my-2 h-10 px-2 max-md:w-full max-sm:mt-2 md:max-5xl:w-6/12 md:max-5xl:text-lg"
                 variant="outline"
                 type="submit"
               >
-                Update Password
+                Update Profile
               </Button>
             </div>
           </form>
