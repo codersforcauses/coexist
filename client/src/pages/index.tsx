@@ -52,26 +52,11 @@ export default function Home() {
     enabled: clicked,
   });
 
-  const repeatCount = 3;
+  const { data: eventData, isLoading, error } = getEvents();
 
-  const {
-    data: eventData,
-    isLoading: eventLoading,
-    error: eventError,
-  } = getEvents({
-    enabled: true,
-  });
-
+  console.log("Main events list index file is running");
   console.log("eventData:", eventData);
-  console.log("eventLoading:", eventLoading);
-  console.log("eventError:", eventError);
-
-  // Add this useEffect
-  React.useEffect(() => {
-    if (eventData) {
-      console.log("Event data received:", eventData);
-    }
-  }, [eventData]);
+  console.log("Error:", error);
 
   function extractDate(dateTimeString: string): string {
     const [date] = dateTimeString.split("T");
@@ -92,41 +77,39 @@ export default function Home() {
       )}
     >
       <div className="m-6">
-        {eventLoading && <p>Loading events...</p>}
-        {eventError && <p>Error loading events: {eventError.message}</p>}
-        {!eventLoading &&
-          !eventError &&
-          eventData &&
-          eventData.length === 0 && <p>No events found.</p>}
-        {!eventLoading &&
-          !eventError &&
-          eventData &&
-          eventData.length > 0 &&
-          eventData.map((event: Event, index: number) => (
+        {!isLoading &&
+        eventData &&
+        eventData.results &&
+        eventData.results.length > 0 ? (
+          eventData.results.map((event: Event, index: number) => (
             <EventCard
               key={event.id || index}
               date={extractDate(event.start_time)}
               startTime={extractTime(event.start_time)}
               endTime={extractTime(event.end_time)}
               title={event.title}
-              city={event.branch}
+              city={event.branch.name}
               location={event.location}
               description={event.description}
               image={adjustImageUrl(event.image)}
               rsvpURL=""
               position={
-                eventData.length === 1
+                eventData.results.length === 1
                   ? "single"
                   : index === 0
                     ? "first"
-                    : index === eventData.length - 1
+                    : index === eventData.results.length - 1
                       ? "last"
                       : "middle"
               }
             />
-          ))}
+          ))
+        ) : (
+          <p>No events found</p>
+        )}
       </div>
-      {/*<p> {JSON.stringify(eventData)}</p>*/}
+
+      {/* <p> {JSON.stringify(eventData)}</p> */}
     </main>
   );
 }

@@ -31,6 +31,7 @@ services:
       dockerfile: ./docker/client/Dockerfile
     restart: unless-stopped
     env_file: ./client/.env
+      - NEXT_PUBLIC_BACKEND_URL=http://coexist-server:8000
     ports:
       - 3000:3000
     volumes:
