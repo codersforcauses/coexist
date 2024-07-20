@@ -14,6 +14,8 @@ export default function Event() {
     date: "Monday, 1st May",
     start_time: "08:00 am",
     end_time: "11:00 am",
+    location_url:
+      "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15270.158808639862!2d145.7088778!3d-16.8986496!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x697864fe8ee140d5%3A0xf00eef26261dd60!2sGlenoma%20Park!5e0!3m2!1sen!2sau!4v1721025698144!5m2!1sen!2sau",
   };
 
   return (
@@ -46,8 +48,16 @@ export default function Event() {
           </div>
           <div className="border-t border-black md:border-l"></div>
           <div className="mt-5 flex flex-col justify-center gap-4 md:ml-10 md:mt-0">
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-3">
               <span className="font-semibold">Location:</span>
+              <div className="">
+                <iframe
+                  src={event.location_url}
+                  className="aspect-[2/1] w-[250px] rounded-lg border-0 lg:w-[450px]"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
               <div className="flex gap-3">
                 <span className="self-start rounded bg-[#9DAD93] px-2 text-white">
                   {event.branch_name}
