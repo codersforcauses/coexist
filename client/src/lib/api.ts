@@ -28,6 +28,7 @@ api.interceptors.response.use(
       !originalRequest._retry &&
       !Cookies.get("access")
     ) {
+      console.log("error happened");
       originalRequest._retry = true;
       const accessTok = await refreshAccessToken();
       axios.defaults.headers.common.Authorization = `Bearer ${accessTok}`;
