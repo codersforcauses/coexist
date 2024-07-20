@@ -1,23 +1,32 @@
 import os from "node:os";
 
 import isInsideContainer from "is-inside-container";
+import removeImports from 'next-remove-imports';
 
 const isWindowsDevContainer = () =>
   os.release().toLowerCase().includes("microsoft") && isInsideContainer();
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const baseConfig = {
   reactStrictMode: true,
-  // dumb fix for windows docker
-  webpack: isWindowsDevContainer()
-    ? (config) => {
-        config.watchOptions = {
-          poll: 1000,
-          aggregateTimeout: 300,
-        };
-        return config;
-      }
-    : undefined,
+  webpack: (config, options) => {
+    if (isWindowsDevContainer()) {
+      config.watchOptions = {
+        poll: 1000,
+        aggregateTimeout: 300,
+      };
+    }
+
+
+    config.module.rules.push({
+      test: /\.md$/,
+      use: 'raw-loader',
+    });
+
+    return config;
+  },
 };
 
-export default nextConfig;
+
+const finalConfig = removeImports(baseConfig);
+
+export default finalConfig;

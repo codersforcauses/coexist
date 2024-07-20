@@ -1,5 +1,9 @@
+import "@uiw/react-md-editor/markdown-editor.css";
+import "@uiw/react-markdown-preview/markdown.css";
+
 import { ArrowLeft, CalendarCheck, CalendarDays, Image } from "lucide-react";
 import next from "next";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import React, { useRef, useState } from "react";
 
@@ -13,6 +17,8 @@ import { Select } from "../../ui/select";
 import { SelectBranch } from "../../ui/select-branch";
 import SuccessEvent from "../../ui/success-event";
 import { Textarea } from "../../ui/textarea";
+
+const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
 export default function NewEvent() {
   const topElement = useRef<HTMLDivElement>(null);
@@ -137,12 +143,15 @@ export default function NewEvent() {
               <label>
                 Description <a className="text-red-500">*</a>
               </label>
-              <Textarea
+              {/* <Textarea
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Enter text"
                 className="h-40 w-full rounded bg-[#EFF1ED] px-1 py-1 text-start placeholder-black focus-visible:outline-none focus-visible:ring-[4px] focus-visible:ring-[#7D916F] md:w-[65%]"
                 disabled={isLoading}
-              ></Textarea>
+              ></Textarea> */}
+              <div>
+                <MDEditor value={description} onChange={setDescription} />
+              </div>
             </div>
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
