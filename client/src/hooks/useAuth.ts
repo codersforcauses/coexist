@@ -88,7 +88,7 @@ export const useAuth = () => {
     //register endpoint to create a new user
     try {
       //to be replaced with the real endpoint to create user
-      const result = await api.post("/users/", {
+      const result = await api.post("/users/register/", {
         first_name: firstname,
         last_name: lastname,
         username: email,
