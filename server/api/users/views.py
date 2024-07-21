@@ -8,11 +8,13 @@ from .models import ExtendedUser
 from .serializers import ExtendedUserSerializer
 
 class UserSerializer(serializers.ModelSerializer):
+    phone = serializers.CharField(write_only=True, required=False, allow_null=True, allow_blank=True)
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'password']
+        fields = ['first_name', 'last_name', 'email', 'password', 'phone']
 
     def create(self, data):
+        number = data.pop('phone')
         user = User.objects.create_user(
             first_name=data['first_name'],
             last_name=data['last_name'],
@@ -24,6 +26,8 @@ class UserSerializer(serializers.ModelSerializer):
 
         extended_user, created = ExtendedUser.objects.get_or_create(user=user)
         extended_user.set_role('Attendee')
+        extended_user.phone = number
+        extended_user.save()
         return user
 
 
