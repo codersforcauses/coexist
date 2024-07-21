@@ -1,7 +1,6 @@
-import { ArrowLeft, CalendarCheck, CalendarDays, Image } from "lucide-react";
-import next from "next";
+import { ArrowLeft, CalendarCheck, Image } from "lucide-react";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import addEvent from "../../../hooks/addEvent";
 import { CalenderPickerEnd } from "../../ui/calendar-pick-end";
@@ -9,17 +8,25 @@ import { CalenderPickerStart } from "../../ui/calendar-pick-start";
 import FailedEvent from "../../ui/failed-event";
 import { Input } from "../../ui/input";
 import LoadingEvent from "../../ui/loadingevent";
-import { Select } from "../../ui/select";
 import { SelectBranch } from "../../ui/select-branch";
 import SuccessEvent from "../../ui/success-event";
 import { Textarea } from "../../ui/textarea";
 
+const validURL = (s: string) => {
+  try {
+    new URL(s);
+    return true;
+  } catch (err) {
+    return false;
+  }
+};
 export default function NewEvent() {
   const topElement = useRef<HTMLDivElement>(null);
   let [title, setTitle] = useState("");
   let [description, setDescription] = useState("");
   let [paymenturl, setPaymenturl] = useState("");
   let [location, setLocation] = useState("");
+  let [locationUrl, setLocationUrl] = useState("");
   let [city, setCity] = useState("");
   let [starttime, setStartTime] = useState("");
   let [endtime, setEndTime] = useState("");
@@ -43,7 +50,8 @@ export default function NewEvent() {
       starttime === "" ||
       endtime === "" ||
       selectedStartDate === null ||
-      selectedEndDate === null
+      selectedEndDate === null ||
+      validURL(locationUrl) == false
     ) {
       topElement.current?.scrollIntoView({
         behavior: "smooth",
@@ -191,6 +199,21 @@ export default function NewEvent() {
               <Input
                 onChange={(e) => setLocation(e.target.value)}
                 className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
+                placeholder="Enter text"
+                disabled={isLoading}
+              ></Input>
+            </div>
+            <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
+              <label>
+                Location Url <a className="text-red-500">*</a>
+              </label>
+              <Input
+                onChange={(e) => setLocationUrl(e.target.value)}
+                className={`w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%] ${
+                  locationUrl.length > 0 && !validURL(locationUrl)
+                    ? "border-red-500 bg-red-100"
+                    : ""
+                }`}
                 placeholder="Enter text"
                 disabled={isLoading}
               ></Input>
