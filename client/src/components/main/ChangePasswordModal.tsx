@@ -146,6 +146,7 @@ export default function ChangePasswordModal() {
             <div className="space-y-6">
               {fields.map((field) => (
                 <CustomFormField
+                  key={field.name}
                   control={pwdForm.control}
                   name={field.name}
                   label={field.label}

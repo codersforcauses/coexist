@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Control, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import ChangePasswordModal from "@/components/main/ChangePasswordModal";
@@ -76,12 +76,71 @@ const branches = [
   },
 ] as const;
 
-const username = "John Doe";
+const username = "John Alderson";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
+
+type FormFieldProps = {
+  control: Control<any>;
+  name: string;
+  label: string;
+  placeholder: string;
+};
+
+function CustomFormField({
+  control,
+  name,
+  label,
+  placeholder,
+}: FormFieldProps) {
+  return (
+    <FormField
+      control={control}
+      name={name}
+      render={({ field }) => (
+        <FormItem className="flex flex-row justify-between gap-x-4">
+          <FormLabel className="w-22 mt-2 px-2 py-2 align-baseline text-base font-bold lg:max-5xl:min-w-40 lg:max-5xl:text-lg">
+            {label}
+          </FormLabel>
+          <FormControl>
+            <Input
+              className="w-44 rounded-xl bg-secondary md:w-56 lg:max-5xl:w-96 lg:max-5xl:rounded-lg lg:max-5xl:text-lg"
+              placeholder={placeholder}
+              {...field}
+            />
+          </FormControl>
+          <FormMessage className="w-48 px-1 pt-1 lg:max-5xl:w-96" />
+        </FormItem>
+      )}
+    />
+  );
+}
+
+const fields = [
+  {
+    label: "First Name",
+    name: "fname",
+    placeholder: "",
+  },
+  {
+    label: "Last Name",
+    name: "lname",
+    placeholder: "",
+  },
+  {
+    label: "Email",
+    name: "email",
+    placeholder: "",
+  },
+  {
+    label: "Phone",
+    name: "phone",
+    placeholder: "",
+  },
+];
 
 export default function EditProfileModal({ isOpen, onClose }: Props) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -136,90 +195,15 @@ export default function EditProfileModal({ isOpen, onClose }: Props) {
             onSubmit={profileForm.handleSubmit(onSubmit)}
             className="mx-auto mt-6 space-y-6 md:max-5xl:w-2/3"
           >
-            {/* fname */}
-            <FormField
-              control={profileForm.control}
-              name="fname"
-              render={({ field }) => (
-                <FormItem className={formItemStyle}>
-                  <FormLabel className={formLabelStyle}>First Name</FormLabel>
-                  <div>
-                    <FormControl>
-                      <Input
-                        className={formInputStyle}
-                        placeholder=""
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className={formMsgStyle} />
-                  </div>
-                </FormItem>
-              )}
-            />
-
-            {/* lname */}
-            <FormField
-              control={profileForm.control}
-              name="lname"
-              render={({ field }) => (
-                <FormItem className={formItemStyle}>
-                  <FormLabel className={formLabelStyle}>Last Name</FormLabel>
-                  <div>
-                    <FormControl>
-                      <Input
-                        className={formInputStyle}
-                        placeholder=""
-                        {...field}
-                      />
-                    </FormControl>
-
-                    <FormMessage className={formMsgStyle} />
-                  </div>
-                </FormItem>
-              )}
-            />
-
-            {/* email */}
-            <FormField
-              control={profileForm.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem className={formItemStyle}>
-                  <FormLabel className={formLabelStyle}>Email</FormLabel>
-                  <div>
-                    <FormControl>
-                      <Input
-                        className={formInputStyle}
-                        placeholder=""
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className={formMsgStyle} />
-                  </div>
-                </FormItem>
-              )}
-            />
-
-            {/* phone */}
-            <FormField
-              control={profileForm.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem className={formItemStyle}>
-                  <FormLabel className={formLabelStyle}>Phone</FormLabel>
-                  <div>
-                    <FormControl>
-                      <Input
-                        className={formInputStyle}
-                        placeholder=""
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className={formMsgStyle} />
-                  </div>
-                </FormItem>
-              )}
-            />
+            {fields.map((field) => (
+              <CustomFormField
+                key={field.name}
+                control={profileForm.control}
+                name={field.name}
+                label={field.label}
+                placeholder={field.placeholder}
+              />
+            ))}
 
             {/* branch */}
             <Popover open={dropdownOpen} onOpenChange={setDropdownOpen}>
