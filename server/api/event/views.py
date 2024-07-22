@@ -1,6 +1,8 @@
+from django.http import JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets
 
-from api.auth.permissions import isStaffOrReadonly
+from api.auth.permissions import isStaffOrReadonly, isStaffOrAuthenticated
 
 from .serializers import EventSerializer, RSVPSerializer
 from .models import Event, RSVP
@@ -28,7 +30,7 @@ class EventViewSet(viewsets.ModelViewSet):
     filter_backends = [
         DjangoFilterBackend,
         filters.SearchFilter,
-        filters.OrderingFilter
+        filters.OrderingFilter,
     ]
     filterset_fields = ["title", "branch", "is_cancelled"]
     ordering_fields = ["title", "branch"]
@@ -73,3 +75,22 @@ def rsvp_detail(request, event_id, id):
     elif request.method == "DELETE":
         rsvp.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(["GET"])
+@permission_classes([isStaffOrAuthenticated])
+def has_rsvp(request, event_id):
+    rsvp_id = None
+    has_rsvp = None
+
+    try:
+        result = RSVP.objects.get(event__id=event_id, user__id=request.user.id)
+        rsvp_id = result.pk
+        has_rsvp = True
+    except ObjectDoesNotExist:
+        has_rsvp = False
+
+    response_data = {}
+    response_data["has_rsvp"] = has_rsvp
+    response_data["rsvp_id"] = rsvp_id
+    return JsonResponse(response_data)
