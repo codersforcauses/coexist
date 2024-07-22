@@ -39,13 +39,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
-const formLabelStyle =
-  "lg:max-5xl:text-lg px-2 mt-2 w-22 lg:max-5xl:min-w-40 py-2 align-baseline text-base font-bold";
-const formItemStyle = "flex flex-row gap-x-4 justify-between";
-const formInputStyle =
-  "lg:max-5xl:rounded-lg lg:max-5xl:text-lg w-44 bg-secondary rounded-xl md:w-56 lg:max-5xl:w-96";
-const formMsgStyle = "w-48 px-1 pt-1 lg:max-5xl:w-96";
-
+// FIXME: Populate user's profile
 const imageLoader = () => {
   return `https://ui-avatars.com/api/?name=${username}`;
 };
@@ -214,8 +208,10 @@ export default function EditProfileModal({ isOpen, onClose }: Props) {
               control={profileForm.control}
               name="branch"
               render={({ field }) => (
-                <FormItem className={`pb-6 ${formItemStyle}`}>
-                  <FormLabel className={formLabelStyle}>Branch</FormLabel>
+                <FormItem className="flex flex-row justify-between gap-x-4 pb-6">
+                  <FormLabel className="w-22 mt-2 px-2 py-2 align-baseline text-base font-bold lg:max-5xl:min-w-40 lg:max-5xl:text-lg">
+                    Branch
+                  </FormLabel>
                   <div className="flex justify-start lg:max-5xl:w-full">
                     <Popover open={dropdownOpen} onOpenChange={setDropdownOpen}>
                       <PopoverTrigger asChild>
