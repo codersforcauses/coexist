@@ -32,15 +32,15 @@ interface Props {
 function SignUpModal({ isOpen, onClose }: Props) {
   const { register } = useAuth();
 
-  const [email, setemail] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmpassword, setconfirmPassword] = useState("");
-  const [firstname, setfirstname] = useState("");
-  const [lastname, setlastname] = useState("");
+  const [confirmpassword, setConfirmPassword] = useState("");
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
   const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
   const onErrorStyle = "border-2 border-red-500";
-  let [error, setError] = useState({
+  const [error, setError] = useState({
     email: false,
     firstname: false,
     lastname: false,
@@ -48,12 +48,47 @@ function SignUpModal({ isOpen, onClose }: Props) {
     password: false,
     confirmpassword: false,
   });
-  let [emsg, setMsg] = useState(Array(5).fill(false));
+  const [emsg, setMsg] = useState(Array(5).fill(false));
   // 0 -  empty fields
   // 1 -  invalid email
   // 2 -  invalid phone
   // 3 -  password mismatch
   // 4 -  duplicate email
+
+  function emptyFields() {
+    let msg = Array(5).fill(false);
+    let temp = {
+      email: false,
+      firstname: false,
+      lastname: false,
+      phone: false,
+      password: false,
+      confirmpassword: false,
+    };
+
+    const fields = { email, firstname, lastname, password, confirmpassword };
+
+    //check each field if its empty
+    Object.entries(fields).forEach(([key, value]) => {
+      if (!value.trim().length) {
+        temp[key as keyof typeof temp] = true;
+      }
+    });
+
+    //if atleast one empty show error message to fill out required fields
+    if (
+      temp["email"] ||
+      temp["firstname"] ||
+      temp["lastname"] ||
+      temp["password"] ||
+      temp["confirmpassword"]
+    ) {
+      msg[0] = true;
+      setMsg(msg);
+      setError(temp);
+      return true;
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     let msg = Array(5).fill(false);
@@ -68,36 +103,12 @@ function SignUpModal({ isOpen, onClose }: Props) {
 
     e.preventDefault();
 
-    // front end checks for empty field and password
-    if (!email.trim().length) {
-      temp["email"] = true;
-    }
-    if (!firstname.trim().length) {
-      temp["firstname"] = true;
-    }
-    if (!lastname.trim().length) {
-      temp["lastname"] = true;
-    }
-    if (!password.trim().length) {
-      temp["password"] = true;
-    }
-    if (!confirmpassword.trim().length) {
-      temp["confirmpassword"] = true;
-    }
-
-    if (
-      temp["email"] ||
-      temp["firstname"] ||
-      temp["lastname"] ||
-      temp["password"] ||
-      temp["confirmpassword"]
-    ) {
-      msg[0] = true;
-      setMsg(msg);
-      setError(temp);
+    // front end checks for empty fields
+    if (emptyFields()) {
       return;
     }
 
+    // mismatching password
     if (password !== confirmpassword) {
       temp["password"] = true;
       temp["confirmpassword"] = true;
@@ -107,6 +118,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
       return;
     }
 
+    //invalid phone number
     if (phone.trim().length) {
       if (!/^\d+$/.test(phone) || phone.length !== 10) {
         temp["phone"] = true;
@@ -127,12 +139,14 @@ function SignUpModal({ isOpen, onClose }: Props) {
       //city,
     });
 
+    //server wont reply or is down
     if (!success) {
       alert(
         "There was an server error when trying to create an account. Please try again later.",
       );
     }
 
+    //invalid email and duplicate email
     if (typeof success === "string") {
       if (success.includes("duplicate")) {
         temp["email"] = true;
@@ -193,8 +207,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
                   id="email"
                   placeholder="Enter Email"
                   className={`w-full ${error["email"] ? onErrorStyle : ""}`}
-                  onChange={(e) => setemail(e.target.value)}
-                  /*style={{ backgroundColor: "#EFF1ED", borderRadius: "5px", height:"33px"}}*/
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -225,7 +238,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
                     id="firstName"
                     placeholder="Enter text"
                     className={`w-full ${error["firstname"] ? onErrorStyle : ""}`}
-                    onChange={(e) => setfirstname(e.target.value)}
+                    onChange={(e) => setFirstName(e.target.value)}
                   />
                 </div>
                 <div className="flex w-[49%] flex-col">
@@ -237,7 +250,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
                     id="lastName"
                     placeholder="Enter text"
                     className={`w-full ${error["lastname"] ? onErrorStyle : ""}`}
-                    onChange={(e) => setlastname(e.target.value)}
+                    onChange={(e) => setLastName(e.target.value)}
                   />
                 </div>
               </div>
@@ -283,7 +296,7 @@ function SignUpModal({ isOpen, onClose }: Props) {
                   id="passwordConfirm"
                   placeholder="Enter password again"
                   className={`w-full ${error["confirmpassword"] ? onErrorStyle : ""}`}
-                  onChange={(e) => setconfirmPassword(e.target.value)}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
 
