@@ -20,11 +20,6 @@ export default function Home() {
     enabled: clicked,
   });
 
-  {
-    /*   const [isSignUpOpen, setSignUp] = useState(false);
-     */
-  }
-
   const eventId = 1;
 
   return (
