@@ -183,3 +183,10 @@ class EventTest(APITestCase):
         url = reverse('event-detail', kwargs={'pk': non_existent_event_id})
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+
+class RSVPTest(APITestCase):
+
+    def setUp(self):
+        pass
+        
