@@ -13,7 +13,7 @@ export type Branch = {
 export type EventStatus = "Cancelled" | "Upcoming" | "Past" | "Ongoing";
 
 export type Event = {
-  id: string;
+  id: number;
   created_at: Date;
   updated_at: Date;
   title: string;
@@ -36,7 +36,7 @@ export type RsvpInfo =
     };
 
 export const useGetEvent = (
-  eventId: string,
+  eventId: number,
   args?: Omit<UseQueryOptions<Event, Error>, "queryKey" | "queryFn">,
 ) => {
   return useQuery<Event, Error>({
@@ -48,7 +48,7 @@ export const useGetEvent = (
 };
 
 export const useGetUserHasRsvp = (
-  eventId: string,
+  eventId: number,
   args?: Omit<UseQueryOptions<RsvpInfo, AxiosError>, "queryKey" | "queryFn">,
 ) => {
   return useQuery<RsvpInfo, AxiosError>({
