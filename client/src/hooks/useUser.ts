@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 import api from "@/lib/api";
+import { User } from "@/types/user";
 
 const useUser = () => {
   return useQuery<User, AxiosError>({

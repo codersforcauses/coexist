@@ -1,4 +1,6 @@
+import { set } from "date-fns";
 import Image from "next/image";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +20,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAuth } from "@/hooks/useAuth";
+
+import { SelectBranch } from "./select-branch";
 
 interface Props {
   isOpen: boolean;
@@ -25,6 +30,137 @@ interface Props {
 }
 
 function SignUpModal({ isOpen, onClose }: Props) {
+  const { register } = useAuth();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmpassword, setConfirmPassword] = useState("");
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
+  const [city, setCity] = useState("");
+  const [phone, setPhone] = useState("");
+  const onErrorStyle = "border-2 border-red-500";
+  const [error, setError] = useState({
+    email: false,
+    firstname: false,
+    lastname: false,
+    phone: false,
+    password: false,
+    confirmpassword: false,
+  });
+  const [emsg, setMsg] = useState(Array(5).fill(false));
+  // 0 -  empty fields
+  // 1 -  invalid email
+  // 2 -  invalid phone
+  // 3 -  password mismatch
+  // 4 -  duplicate email
+
+  function emptyFields() {
+    let msg = Array(5).fill(false);
+    let temp = {
+      email: false,
+      firstname: false,
+      lastname: false,
+      phone: false,
+      password: false,
+      confirmpassword: false,
+    };
+
+    const fields = { email, firstname, lastname, password, confirmpassword };
+
+    //check each field if its empty
+    Object.entries(fields).forEach(([key, value]) => {
+      if (!value.trim().length) {
+        temp[key as keyof typeof temp] = true;
+      }
+    });
+
+    //if atleast one empty show error message to fill out required fields
+    if (
+      temp["email"] ||
+      temp["firstname"] ||
+      temp["lastname"] ||
+      temp["password"] ||
+      temp["confirmpassword"]
+    ) {
+      msg[0] = true;
+      setMsg(msg);
+      setError(temp);
+      return true;
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    let msg = Array(5).fill(false);
+    let temp = {
+      email: false,
+      firstname: false,
+      lastname: false,
+      phone: false,
+      password: false,
+      confirmpassword: false,
+    };
+
+    e.preventDefault();
+
+    // front end checks for empty fields
+    if (emptyFields()) {
+      return;
+    }
+
+    // mismatching password
+    if (password !== confirmpassword) {
+      temp["password"] = true;
+      temp["confirmpassword"] = true;
+      msg[3] = true;
+      setMsg(msg);
+      setError(temp);
+      return;
+    }
+
+    //invalid phone number
+    if (phone.trim().length) {
+      if (!/^\d+$/.test(phone) || phone.length !== 10) {
+        temp["phone"] = true;
+        msg[2] = true;
+        setMsg(msg);
+        setError(temp);
+        return;
+      }
+    }
+
+    //make api call
+    const success = await register({
+      email,
+      password,
+      firstname,
+      lastname,
+      phone,
+      //city,
+    });
+
+    //server wont reply or is down
+    if (!success) {
+      alert(
+        "There was an server error when trying to create an account. Please try again later.",
+      );
+    }
+
+    //invalid email and duplicate email
+    if (typeof success === "string") {
+      if (success.includes("duplicate")) {
+        temp["email"] = true;
+        msg[4] = true;
+      } else if (success.includes("email")) {
+        temp["email"] = true;
+        msg[1] = true;
+      }
+    }
+
+    setError(temp);
+    setMsg(msg);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogTrigger asChild></DialogTrigger>
@@ -51,84 +187,143 @@ function SignUpModal({ isOpen, onClose }: Props) {
             </DialogHeader>
           </div>
 
-          {/* Labels */}
-          <div className="grid gap-4 py-4">
-            <div>
-              <Label htmlFor="email" className="font-semibold">
-                Email
-              </Label>
-              <Input
-                id="email"
-                placeholder="Enter Email"
-                className="w-full"
-                /*style={{ backgroundColor: "#EFF1ED", borderRadius: "5px", height:"33px"}}*/
-              />
-            </div>
+          <form onSubmit={handleSubmit}>
+            {/* Labels */}
+            <div className="grid gap-4 py-4">
+              {emsg[0] ? (
+                <a className="text-xs font-medium text-red-500">
+                  Please fill out all required fields (*).
+                </a>
+              ) : (
+                ""
+              )}
 
-            {/* Name labels */}
-            <div className="flex w-full flex-row gap-2">
-              <div className="flex w-[49%] flex-col">
-                <Label htmlFor="text">First Name</Label>
+              <div>
+                <Label htmlFor="email" className="font-semibold">
+                  Email <a className="text-red-500">*</a>{" "}
+                </Label>
                 <Input
-                  id="firstName"
-                  placeholder="Enter text"
-                  className="w-full"
+                  type="text"
+                  id="email"
+                  placeholder="Enter Email"
+                  className={`w-full ${error["email"] ? onErrorStyle : ""}`}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              <div className="flex w-[49%] flex-col">
-                <Label htmlFor="text">Last Name</Label>
+
+              {emsg[1] ? (
+                <a className="text-xs font-medium text-red-500">
+                  Invalid Email.
+                </a>
+              ) : (
+                ""
+              )}
+
+              {emsg[4] ? (
+                <a className="text-xs font-medium text-red-500">
+                  Email already has been used.
+                </a>
+              ) : (
+                ""
+              )}
+
+              {/* Name labels */}
+              <div className="flex w-full flex-row gap-2">
+                <div className="flex w-[49%] flex-col">
+                  <Label htmlFor="text">
+                    First Name <a className="text-red-500">*</a>{" "}
+                  </Label>
+                  <Input
+                    type="text"
+                    id="firstName"
+                    placeholder="Enter text"
+                    className={`w-full ${error["firstname"] ? onErrorStyle : ""}`}
+                    onChange={(e) => setFirstName(e.target.value)}
+                  />
+                </div>
+                <div className="flex w-[49%] flex-col">
+                  <Label htmlFor="text">
+                    Last Name <a className="text-red-500">*</a>{" "}
+                  </Label>
+                  <Input
+                    type="text"
+                    id="lastName"
+                    placeholder="Enter text"
+                    className={`w-full ${error["lastname"] ? onErrorStyle : ""}`}
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <Label htmlFor="text">Phone number</Label>
                 <Input
-                  id="lastName"
-                  placeholder="Enter text"
-                  className="w-full"
+                  type="text"
+                  id=""
+                  placeholder="Enter phone number"
+                  className={`w-full ${error["phone"] ? onErrorStyle : ""}`}
+                  onChange={(e) => setPhone(e.target.value)}
                 />
+              </div>
+
+              {emsg[2] ? (
+                <a className="text-xs font-medium text-red-500">
+                  Enter a valid phone number.
+                </a>
+              ) : (
+                ""
+              )}
+
+              <div>
+                <Label htmlFor="password">
+                  Password <a className="text-red-500">*</a>{" "}
+                </Label>
+                <Input
+                  type="password"
+                  id="password"
+                  placeholder="Enter password"
+                  className={`w-full ${error["password"] ? onErrorStyle : ""}`}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="password">
+                  Confirm Password <a className="text-red-500">*</a>{" "}
+                </Label>
+                <Input
+                  type="password"
+                  id="passwordConfirm"
+                  placeholder="Enter password again"
+                  className={`w-full ${error["confirmpassword"] ? onErrorStyle : ""}`}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+              </div>
+
+              {emsg[3] ? (
+                <a className="text-xs font-medium text-red-500">
+                  Passwords do not match.
+                </a>
+              ) : (
+                ""
+              )}
+
+              {/* Select label */}
+              <div className="flex flex-col">
+                {/* Component uses branch api to get cities from backend*/}
+                <Label htmlFor="branch">Branch</Label>
+                <SelectBranch setValue={setCity} signUp={true} />
               </div>
             </div>
 
-            <div>
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                placeholder="Enter password"
-                className="w-full"
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="password">Confirm Password</Label>
-              <Input
-                id="passwordConfirm"
-                placeholder="Enter password again"
-                className="w-full"
-              />
-            </div>
-
-            {/* Select label */}
-            <div className="flex flex-col">
-              <Label htmlFor="city">Main City</Label>
-              <Select>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select a city" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Perth">Perth</SelectItem>
-                  <SelectItem value="Sydney">Sydney</SelectItem>
-                  <SelectItem value="Melbourne">Melbourne</SelectItem>
-                  <SelectItem value="Brisbane">Brisbane</SelectItem>
-                  <SelectItem value="Canberra">Canberra</SelectItem>
-                  <SelectItem value="Adelaide">Adelaide</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <DialogFooter>
-            <div className="mt-1 flex w-full justify-center">
-              <Button type="submit" variant="signup" className="w-[270px]">
-                Sign Up
-              </Button>
-            </div>
-          </DialogFooter>
+            <DialogFooter>
+              <div className="mt-1 flex w-full justify-center">
+                <Button type="submit" variant="signup" className="w-[270px]">
+                  Sign Up
+                </Button>
+              </div>
+            </DialogFooter>
+          </form>
         </div>
       </DialogContent>
     </Dialog>

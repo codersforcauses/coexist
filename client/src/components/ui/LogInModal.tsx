@@ -28,7 +28,10 @@ function LogInModal({ isOpen, onClose }: Props) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const success = await login({ useremail, password });
-    if (!success) {
+    if (success) {
+      //do successful thing
+    } else {
+      //otherwise
       handleError();
     }
   };
@@ -101,7 +104,6 @@ function LogInModal({ isOpen, onClose }: Props) {
               </div>
             </DialogFooter>
           </form>
-          {/* {errorMessage && <p className="mt-2 text-center">{errorMessage}</p>} */}
         </div>
       </DialogContent>
     </Dialog>
