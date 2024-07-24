@@ -8,6 +8,7 @@ from .serializers import EventSerializer, RSVPSerializer
 from .models import Event, RSVP
 
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import filters
 
 from rest_framework.decorators import api_view, permission_classes
@@ -40,7 +41,7 @@ class EventViewSet(viewsets.ModelViewSet):
 
 
 @api_view(["GET", "POST"])
-@permission_classes([isStaffOrReadonly])
+@permission_classes([IsAuthenticated])
 def rsvp_list_create(request, event_id):
     if request.method == "GET":
         rsvps = RSVP.objects.filter(event__id=event_id)

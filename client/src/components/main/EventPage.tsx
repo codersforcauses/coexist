@@ -1,11 +1,31 @@
+import { useMutation } from "@tanstack/react-query";
 import { format as dateFormat } from "date-fns";
 import { Edit, Mail } from "lucide-react";
 import Image from "next/image";
 
-import { type Event } from "@/hooks/getEvent";
+import { type Event, useGetUserHasRsvp } from "@/hooks/getEvent";
 import useUser from "@/hooks/useUser";
+import api from "@/lib/api";
 
 import RsvpListModal from "./RsvpListModal";
+
+const useAddRsvp = (event_id: string) => {
+  return useMutation({
+    mutationKey: ["rsvp_add", event_id],
+    mutationFn: () => {
+      return api.post(`/event/${event_id}/rsvp/`);
+    },
+  });
+};
+
+const useDeleteRsvp = (event_id: string) => {
+  return useMutation({
+    mutationKey: ["rsvp_delete", event_id],
+    mutationFn: () => {
+      return api.delete(`/event/${event_id}/rsvp/`);
+    },
+  });
+};
 
 type EventPageProps = {
   event: Event;
@@ -13,6 +33,7 @@ type EventPageProps = {
 
 export const EventPage = ({
   event: {
+    id,
     title,
     description,
     image,
@@ -27,13 +48,36 @@ export const EventPage = ({
   const start_fmt = dateFormat(start_time, "hh:mm aa");
   const end_fmt = dateFormat(end_time, "hh:mm aa");
 
-  const { data: userData } = useUser();
+  const user_query = useUser();
+  const rsvp_query = useGetUserHasRsvp(id);
+  const { mutate: addRsvp } = useAddRsvp(id);
+  const { mutate: deleteRsvp } = useDeleteRsvp(id);
 
-  const userControls = (
-    <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
-      Send RSVP <Mail strokeWidth="1" size="20" />
-    </button>
-  );
+  const attendeeControls = () => {
+    if (rsvp_query.data?.has_rsvp) {
+      return (
+        <button
+          className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]"
+          onClick={() => {
+            deleteRsvp();
+          }}
+        >
+          Remove RSVP <Mail strokeWidth="1" size="20" />
+        </button>
+      );
+    } else {
+      return (
+        <button
+          className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]"
+          onClick={() => {
+            addRsvp();
+          }}
+        >
+          Send RSVP <Mail strokeWidth="1" size="20" />
+        </button>
+      );
+    }
+  };
 
   const posterControls = (
     <div className="mt-2 flex gap-2">
@@ -45,16 +89,20 @@ export const EventPage = ({
       </button>
     </div>
   );
-  
+
   const controls = () => {
-    if (userData === undefined) {
-      // Not logged in
+    if (
+      user_query.error?.response?.status === 401 ||
+      rsvp_query.error?.response?.status === 401 ||
+      user_query.data === undefined ||
+      rsvp_query.data === undefined
+    ) {
       return <></>;
-    } else if (userData.role == "Attendee") {
-      // User is attendee
-      return userControls;
-    } else if (userData.role == "Poster") {
-      // User is poster
+    } else if (user_query.isLoading) {
+      return <div>Loading</div>;
+    } else if (user_query.data.role === "Attendee") {
+      return attendeeControls();
+    } else {
       return posterControls;
     }
   };
@@ -118,8 +166,8 @@ export const EventPage = ({
             </div>
           </div>
         </div>
-        
-        { controls() }
+
+        {controls()}
       </div>
     </div>
   );

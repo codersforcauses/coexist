@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
 import api from "@/lib/api";
 
 const useUser = () => {
-  return useQuery<User>({
+  return useQuery<User, AxiosError>({
     queryKey: ["user"],
     staleTime: 5 * 1000 * 60,
 
