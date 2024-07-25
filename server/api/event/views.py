@@ -1,12 +1,13 @@
+from django.http import JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets
-
-from api.auth.permissions import isStaffOrReadonly
+from rest_framework.request import HttpRequest
+from api.auth.permissions import isStaffOrReadonly, isStaffOrAuthenticated
 
 from .serializers import EventSerializer, RSVPSerializer
 from .models import Event, RSVP
-
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
 from rest_framework.decorators import api_view, permission_classes
@@ -29,7 +30,7 @@ class EventViewSet(viewsets.ModelViewSet):
     filter_backends = [
         DjangoFilterBackend,
         filters.SearchFilter,
-        filters.OrderingFilter
+        filters.OrderingFilter,
     ]
     filterset_fields = ["title", "branch", "is_cancelled"]
     ordering_fields = ["title", "branch"]
@@ -40,20 +41,16 @@ class EventViewSet(viewsets.ModelViewSet):
 
 @api_view(["GET", "POST"])
 @permission_classes([IsAuthenticated])
-def rsvp_list_create(request, event_id):
-    if request.method == 'GET':
+def rsvp_list_create(request: HttpRequest, event_id):
+    if request.method == "GET":
         rsvps = RSVP.objects.filter(event__id=event_id)
-        # for each of thsese rsvsps, get the user id
-        # look up them
-
         serializer = RSVPSerializer(rsvps, many=True)
         return Response(serializer.data)
 
     elif request.method == "POST":
-        event = get_object_or_404(Event, id=event_id)
-        serializer = RSVPSerializer(data=request.data)
+        serializer = RSVPSerializer(data={"event": event_id, "user": request.user.id})
         if serializer.is_valid():
-            serializer.save(user=request.user, event=event)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -77,3 +74,22 @@ def rsvp_detail(request, event_id, id):
     elif request.method == "DELETE":
         rsvp.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(["GET"])
+@permission_classes([isStaffOrAuthenticated])
+def has_rsvp(request, event_id):
+    rsvp_id = None
+    has_rsvp = None
+
+    try:
+        result = RSVP.objects.get(event__id=event_id, user__id=request.user.id)
+        rsvp_id = result.pk
+        has_rsvp = True
+    except ObjectDoesNotExist:
+        has_rsvp = False
+
+    response_data = {}
+    response_data["has_rsvp"] = has_rsvp
+    response_data["rsvp_id"] = rsvp_id
+    return JsonResponse(response_data)
