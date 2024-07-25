@@ -1,12 +1,12 @@
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets
-
+from rest_framework.request import HttpRequest
 from api.auth.permissions import isStaffOrReadonly, isStaffOrAuthenticated
 
 from .serializers import EventSerializer, RSVPSerializer
 from .models import Event, RSVP
-
+from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
@@ -40,18 +40,17 @@ class EventViewSet(viewsets.ModelViewSet):
 
 
 @api_view(["GET", "POST"])
-@permission_classes([isStaffOrReadonly])
-def rsvp_list_create(request, event_id):
+@permission_classes([IsAuthenticated])
+def rsvp_list_create(request: HttpRequest, event_id):
     if request.method == "GET":
         rsvps = RSVP.objects.filter(event__id=event_id)
         serializer = RSVPSerializer(rsvps, many=True)
         return Response(serializer.data)
 
     elif request.method == "POST":
-        event = get_object_or_404(Event, id=event_id)
-        serializer = RSVPSerializer(data=request.data)
+        serializer = RSVPSerializer(data={"event": event_id, "user": request.user.id})
         if serializer.is_valid():
-            serializer.save(user=request.user, event=event)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
