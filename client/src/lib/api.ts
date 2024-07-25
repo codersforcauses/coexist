@@ -30,7 +30,6 @@ api.interceptors.response.use(
       axios.defaults.headers.common.Authorization = `Bearer ${accessTok}`;
       return api(originalRequest);
     }
-    return Promise.reject(error);
   },
 );
 

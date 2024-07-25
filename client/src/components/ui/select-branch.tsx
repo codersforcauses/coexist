@@ -15,10 +15,9 @@ import selectCity from "../../hooks/selectCity";
 
 interface Prop {
   setValue: (value: string) => void;
-  signUp: boolean;
 }
 
-export function SelectBranch({ setValue, signUp }: Prop) {
+export function SelectBranch({ setValue }: Prop) {
   const [branchData, setBranchData] = useState<any>(null);
 
   useEffect(() => {
@@ -37,9 +36,7 @@ export function SelectBranch({ setValue, signUp }: Prop) {
           setValue(value);
         }}
       >
-        <SelectTrigger
-          className={`${signUp ? "w-full" : "w-[180px] rounded-[20px] border-2 bg-[#7D916F] p-1 px-2"}`}
-        >
+        <SelectTrigger className="w-[180px] rounded-[20px] border-2 bg-[#7D916F] p-1 px-2">
           <SelectValue placeholder="City" />
           <SelectContent>
             <SelectItem value="N/A">No cities available</SelectItem>
@@ -63,9 +60,7 @@ export function SelectBranch({ setValue, signUp }: Prop) {
         setValue(nametoid(value));
       }}
     >
-      <SelectTrigger
-        className={`${signUp ? "w-full" : "w-[180px] rounded-[20px] border-2 bg-[#7D916F] p-1 px-2"}`}
-      >
+      <SelectTrigger className="w-[180px] rounded-[20px] border-2 bg-[#7D916F] p-1 px-2">
         <SelectValue placeholder="City" />
       </SelectTrigger>
       <SelectContent>
