@@ -1,8 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, EyeIcon, EyeOffIcon } from "lucide-react";
 import Image from "next/image";
+import { createElement, useState } from "react";
 import { Control, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -48,7 +49,8 @@ type props = {
   placeholder: string;
 };
 
-function CustomFormField({ control, name, label, placeholder }: props) {
+function CustomPasswordFormField({ control, name, label, placeholder }: props) {
+  const [passwordVisibility, setPasswordVisibility] = useState(false);
   return (
     <FormField
       control={control}
@@ -59,11 +61,24 @@ function CustomFormField({ control, name, label, placeholder }: props) {
             {label}
           </FormLabel>
           <FormControl>
-            <Input
-              className="w-full rounded-xl bg-secondary md:max-5xl:w-full md:max-5xl:rounded-lg md:max-5xl:text-lg"
-              placeholder={placeholder}
-              {...field}
-            />
+            <div className="relative">
+              <Input
+                type={passwordVisibility ? "text" : "password"}
+                className="w-full rounded-xl bg-secondary md:max-5xl:w-full md:max-5xl:rounded-lg md:max-5xl:text-lg"
+                placeholder={placeholder}
+                {...field}
+              />
+              <span
+                className="absolute inset-y-0 right-0 flex cursor-pointer items-center p-3 text-muted-foreground"
+                onClick={() => setPasswordVisibility(!passwordVisibility)}
+              >
+                {passwordVisibility ? (
+                  <EyeOffIcon className="h-6 w-6" strokeWidth={1.5} />
+                ) : (
+                  <EyeIcon className="h-6 w-6" strokeWidth={1.5} />
+                )}
+              </span>
+            </div>
           </FormControl>
           <FormMessage className="w-full px-1 pt-1" />
         </FormItem>
@@ -145,7 +160,7 @@ export default function ChangePasswordModal() {
           >
             <div className="space-y-6">
               {fields.map((field) => (
-                <CustomFormField
+                <CustomPasswordFormField
                   key={field.name}
                   control={pwdForm.control}
                   name={field.name}
