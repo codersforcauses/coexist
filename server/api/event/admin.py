@@ -3,7 +3,7 @@ from .models import Event, RSVP
 from api.soft_delete import SoftDeleteAdmin
 
 
-class RSVPAdmin(SoftDeleteAdmin):
+class RSVPAdmin(admin.ModelAdmin):
     list_display = ["user", "event", "created_at", "updated_at"]
     fields = ["user", "event"]
 
