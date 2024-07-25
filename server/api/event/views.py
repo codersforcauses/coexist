@@ -8,6 +8,7 @@ from .serializers import EventSerializer, RSVPSerializer
 from .models import Event, RSVP
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import filters
 
 from rest_framework.decorators import api_view, permission_classes
@@ -44,6 +45,9 @@ class EventViewSet(viewsets.ModelViewSet):
 def rsvp_list_create(request: HttpRequest, event_id):
     if request.method == "GET":
         rsvps = RSVP.objects.filter(event__id=event_id)
+        # for each of thsese rsvsps, get the user id
+        # look up them
+
         serializer = RSVPSerializer(rsvps, many=True)
         return Response(serializer.data)
 

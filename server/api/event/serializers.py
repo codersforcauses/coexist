@@ -4,6 +4,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 
 from .models import RSVP
 from ..branch.serializers import BranchSerializer
+from ..users.serializers import ExtendedUserSerializer
 from ..branch.models import Branch
 
 
@@ -12,7 +13,7 @@ class EventSerializer(serializers.ModelSerializer):
     branch_id = serializers.PrimaryKeyRelatedField(
         queryset=Branch.objects.all(), source="branch"
     )
-
+    status = serializers.CharField(read_only=True)
     class Meta:
         model = Event
         fields = "__all__"
@@ -21,6 +22,9 @@ class EventSerializer(serializers.ModelSerializer):
 
 
 class RSVPSerializer(serializers.ModelSerializer):
+    user = ExtendedUserSerializer(source="user.extendeduser", read_only=True)
+
     class Meta:
         model = RSVP
-        fields = ["id", "user", "event", "created_at", "updated_at"]
+        fields = "__all__"
+        read_only_fields = ("id", "created_time", "updated_time")
