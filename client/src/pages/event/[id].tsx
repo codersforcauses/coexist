@@ -8,7 +8,7 @@ export default function Event() {
   const router = useRouter();
   const eventId = router.query.id as string;
 
-  const { data, isLoading, error } = useGetEvent(eventId);
+  const { data, isLoading, error } = useGetEvent(Number(eventId));
 
   if (error) {
     return <Error statusCode={404} />;
