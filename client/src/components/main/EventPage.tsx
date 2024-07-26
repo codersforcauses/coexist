@@ -64,7 +64,7 @@ export const EventPage = ({
 
   const posterControls = (
     <div className="mt-2 flex gap-2">
-      TODO: Needs to be connected to Edit Event modal
+      {/* TODO: Needs to be connected to Edit Event modal */}
       <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
         Edit <Edit strokeWidth="1" size="20" />
       </button>
