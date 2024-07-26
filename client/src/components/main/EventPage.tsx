@@ -1,5 +1,5 @@
 import { format as dateFormat } from "date-fns";
-import { Edit, Mail } from "lucide-react";
+import { Edit, Mail, X } from "lucide-react";
 import Image from "next/image";
 
 import { type Event } from "@/hooks/useEvent";
@@ -35,7 +35,9 @@ export const EventPage = ({
   const { mutate: deleteRsvp } = useDeleteRsvp(id);
 
   const attendeeControls = () => {
-    if (rsvp_query.data) {
+    if (status != "Upcoming") {
+      return <></>;
+    } else if (rsvp_query.data) {
       return (
         <button
           className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]"
@@ -43,7 +45,7 @@ export const EventPage = ({
             deleteRsvp();
           }}
         >
-          Remove RSVP <Mail strokeWidth="1" size="20" />
+          Remove RSVP <X strokeWidth="1" size="20" />
         </button>
       );
     } else {
@@ -89,6 +91,22 @@ export const EventPage = ({
     }
   };
 
+  const renderImage = () => {
+    if (image != null) {
+      return (
+        <Image
+          fill
+          unoptimized={true}
+          src={image}
+          alt="Event image"
+          className="rounded object-cover"
+        />
+      );
+    } else {
+      return <span className="italic">No image provided for this event</span>;
+    }
+  };
+
   return (
     <div className="m-3 h-full rounded-[40px] bg-[#9DAD93] p-3 md:p-6 lg:mx-16">
       <div className="flex h-full flex-col items-center rounded-[32px] bg-white px-8 py-4">
@@ -102,14 +120,8 @@ export const EventPage = ({
 
         <div className="my-5 grid h-full w-full grid-rows-[1fr,1px,1fr] md:grid-cols-[1fr,1px,1fr] md:grid-rows-[400px]">
           <div className="mb-5 flex flex-col items-center justify-center md:mb-0 md:mr-10 md:items-end">
-            <div className="relative h-full max-h-[300px] w-full max-w-[500px]">
-              <Image
-                fill
-                unoptimized={true}
-                src={image}
-                alt="Event image"
-                className="rounded object-cover"
-              />
+            <div className="relative flex h-full max-h-[300px] w-full max-w-[500px] items-center justify-center">
+              {renderImage()}
             </div>
           </div>
           <div className="border-t border-black md:border-l"></div>
