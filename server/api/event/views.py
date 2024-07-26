@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets
@@ -8,7 +9,6 @@ from .serializers import EventSerializer, RSVPSerializer
 from .models import Event, RSVP
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.permissions import IsAuthenticated
 from rest_framework import filters
 
 from rest_framework.decorators import api_view, permission_classes
@@ -40,23 +40,36 @@ class EventViewSet(viewsets.ModelViewSet):
     permission_classes = [isStaffOrReadonly]
 
 
-@api_view(["GET", "POST"])
+@api_view(["GET", "POST", "DELETE"])
 @permission_classes([IsAuthenticated])
-def rsvp_list_create(request: HttpRequest, event_id):
+def rsvp_event_view(request: HttpRequest, event_id):
     if request.method == "GET":
         rsvps = RSVP.objects.filter(event__id=event_id)
-        # for each of thsese rsvsps, get the user id
-        # look up them
-
         serializer = RSVPSerializer(rsvps, many=True)
         return Response(serializer.data)
 
     elif request.method == "POST":
-        serializer = RSVPSerializer(data={"event": event_id, "user": request.user.id})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        rsvp = RSVP(event_id=event_id, user=request.user)
+        try:
+            rsvp.save()
+        except IntegrityError:
+            return Response(status=status.HTTP_409_CONFLICT)
+        except Exception:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        # Return data
+        response_data = {}
+        response_data["rsvp_id"] = rsvp.id
+        return Response(response_data, status=status.HTTP_201_CREATED)
+
+    elif request.method == "DELETE":
+        try:
+            rsvp = RSVP.objects.get(event_id=event_id, user=request.user)
+        except ObjectDoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        rsvp.delete()
+        return Response(status=status.HTTP_200_OK)
 
 
 @api_view(["GET", "PATCH", "DELETE"])

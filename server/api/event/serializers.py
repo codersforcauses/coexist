@@ -14,6 +14,7 @@ class EventSerializer(serializers.ModelSerializer):
         queryset=Branch.objects.all(), source="branch"
     )
     status = serializers.CharField(read_only=True)
+
     class Meta:
         model = Event
         fields = "__all__"
