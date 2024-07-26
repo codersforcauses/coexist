@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets
@@ -48,11 +49,18 @@ def rsvp_list_create(request: HttpRequest, event_id):
         return Response(serializer.data)
 
     elif request.method == "POST":
-        serializer = RSVPSerializer(data={"event": event_id, "user": request.user.id})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        rsvp = RSVP(event_id=event_id, user=request.user)
+        try:
+            rsvp.save()
+        except IntegrityError:
+            return Response(status=status.HTTP_409_CONFLICT)
+        except Exception:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        # Return data
+        response_data = {}
+        response_data["rsvp_id"] = rsvp.id
+        return Response(response_data, status=status.HTTP_201_CREATED)
 
 
 @api_view(["GET", "PATCH", "DELETE"])
