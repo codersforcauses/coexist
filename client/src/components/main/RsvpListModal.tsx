@@ -1,4 +1,5 @@
-import { Users } from "lucide-react";
+import { Eye, Users } from "lucide-react";
+import React, { useEffect, useState } from "react";
 
 import {
   Dialog,
@@ -16,74 +17,52 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useEventDetails, useRSVPs } from "@/hooks/getRSVPs";
+import api from "@/lib/api";
 
-export default function RsvpListModal() {
-  const attendees = [
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "j.d@email.com",
-    },
-  ];
+interface RsvpListModalProps {
+  eventId: number;
+}
+
+export default function RsvpListModal({ eventId }: RsvpListModalProps) {
+  const {
+    data: attendees,
+    error: rsvpError,
+    isLoading: rsvpsLoading,
+  } = useRSVPs(eventId);
+  const {
+    data: eventDetails,
+    error: eventError,
+    isLoading: eventLoading,
+  } = useEventDetails(eventId);
+
+  if (rsvpsLoading || eventLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (rsvpError) {
+    console.error("Error fetching RSVPs:", rsvpError);
+    return <div>Error fetching RSVPs</div>;
+  }
+
+  if (eventError) {
+    console.error("Error fetching Event details:", eventError);
+    return <div>Error fetching Event details</div>;
+  }
 
   return (
     <Dialog>
-      <DialogTrigger className="rounded border border-black p-2">
-        Show RSVPs
+      <DialogTrigger className="flex h-full w-full items-center gap-2">
+        View RSVPs <Eye strokeWidth="1" size="20" />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <div className="flex flex-col gap-4 md:flex-row">
-            <DialogTitle>RSVPs for Tree Planting & Social Swim</DialogTitle>
+            <DialogTitle>{eventDetails?.title} </DialogTitle>
             <div className="flex items-center gap-1">
               <Users size="18" />
               <span className="text-sm text-neutral-500">
-                {attendees.length}
+                {attendees?.length}
               </span>
             </div>
           </div>
@@ -92,27 +71,27 @@ export default function RsvpListModal() {
           <TableHeader>
             <TableRow>
               <TableHead className="border-b border-r border-[#7D916F] text-black">
-                First Name
+                Username
               </TableHead>
               <TableHead className="border-b border-r border-[#7D916F] text-black">
                 Last Name
               </TableHead>
-              <TableHead className="border-b border-[#7D916F] text-black">
+              <TableHead className="border-b border-r border-[#7D916F] text-black">
                 Email
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="text-black">
-            {attendees.map((a) => (
-              <TableRow key={a.email}>
+            {attendees?.map((a) => (
+              <TableRow key={a.user.email}>
                 <TableCell className="border-r border-t border-r-[#7D916F] border-t-[#DEE4DB]">
-                  {a.firstName}
+                  {a.user.first_name}
                 </TableCell>
                 <TableCell className="border-r border-t border-r-[#7D916F] border-t-[#DEE4DB]">
-                  {a.lastName}
+                  {a.user.last_name}
                 </TableCell>
-                <TableCell className="border-t border-t-[#DEE4DB] text-[#5C764B] underline">
-                  <a href={`mailto:${a.email}`}>{a.email}</a>
+                <TableCell className="text6789-[#5C764B] border-t border-t-[#DEE4DB] underline">
+                  <a href={`mailto:${a.user.email}`}>{a.user.email}</a>
                 </TableCell>
               </TableRow>
             ))}

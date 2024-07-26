@@ -3,6 +3,7 @@ from django.db import models
 from ..users.models import User
 from api.soft_delete import SoftDeleteModel
 from api.branch.models import Branch
+from django.utils import timezone
 
 
 class Event(SoftDeleteModel):
@@ -26,6 +27,16 @@ class Event(SoftDeleteModel):
     @property
     def duration(self):
         return self.end_time - self.start_time
+
+    @property
+    def status(self):
+        if self.is_cancelled:
+            return "Cancelled"
+        if self.start_time > timezone.now():
+            return "Upcoming"
+        if self.end_time < timezone.now():
+            return "Past"
+        return "Ongoing"
 
 
 class RSVP(models.Model):
