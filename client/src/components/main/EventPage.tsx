@@ -1,31 +1,12 @@
-import { useMutation } from "@tanstack/react-query";
 import { format as dateFormat } from "date-fns";
 import { Edit, Mail } from "lucide-react";
 import Image from "next/image";
 
-import { type Event, useGetUserHasRsvp } from "@/hooks/getEvent";
+import { type Event } from "@/hooks/useEvent";
+import { useAddRsvp, useDeleteRsvp, useHasRsvp } from "@/hooks/useRsvp";
 import useUser from "@/hooks/useUser";
-import api from "@/lib/api";
 
 import RsvpListModal from "./RsvpListModal";
-
-const useAddRsvp = (event_id: number) => {
-  return useMutation({
-    mutationKey: ["rsvp_add", event_id],
-    mutationFn: () => {
-      return api.post(`/event/${event_id}/rsvp/`);
-    },
-  });
-};
-
-const useDeleteRsvp = (event_id: number) => {
-  return useMutation({
-    mutationKey: ["rsvp_delete", event_id],
-    mutationFn: () => {
-      return api.delete(`/event/${event_id}/rsvp/`);
-    },
-  });
-};
 
 type EventPageProps = {
   event: Event;
@@ -49,12 +30,12 @@ export const EventPage = ({
   const end_fmt = dateFormat(end_time, "hh:mm aa");
 
   const user_query = useUser();
-  const rsvp_query = useGetUserHasRsvp(id);
+  const rsvp_query = useHasRsvp(id);
   const { mutate: addRsvp } = useAddRsvp(id);
   const { mutate: deleteRsvp } = useDeleteRsvp(id);
 
   const attendeeControls = () => {
-    if (rsvp_query.data?.has_rsvp) {
+    if (rsvp_query.data) {
       return (
         <button
           className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]"
@@ -81,6 +62,7 @@ export const EventPage = ({
 
   const posterControls = (
     <div className="mt-2 flex gap-2">
+      TODO: Needs to be connected to Edit Event modal
       <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
         Edit <Edit strokeWidth="1" size="20" />
       </button>
