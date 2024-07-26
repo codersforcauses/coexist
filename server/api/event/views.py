@@ -40,7 +40,7 @@ class EventViewSet(viewsets.ModelViewSet):
     permission_classes = [isStaffOrReadonly]
 
 
-@api_view(["GET", "POST"])
+@api_view(["GET", "POST", "DELETE"])
 @permission_classes([IsAuthenticated])
 def rsvp_event_view(request: HttpRequest, event_id):
     if request.method == "GET":
@@ -61,6 +61,15 @@ def rsvp_event_view(request: HttpRequest, event_id):
         response_data = {}
         response_data["rsvp_id"] = rsvp.id
         return Response(response_data, status=status.HTTP_201_CREATED)
+
+    elif request.method == "DELETE":
+        try:
+            rsvp = RSVP.objects.get(event_id=event_id, user=request.user)
+        except ObjectDoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        rsvp.delete()
+        return Response(status=status.HTTP_200_OK)
 
 
 @api_view(["GET", "PATCH", "DELETE"])
