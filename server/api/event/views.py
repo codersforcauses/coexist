@@ -42,7 +42,7 @@ class EventViewSet(viewsets.ModelViewSet):
 
 @api_view(["GET", "POST"])
 @permission_classes([IsAuthenticated])
-def rsvp_list_create(request: HttpRequest, event_id):
+def rsvp_event_view(request: HttpRequest, event_id):
     if request.method == "GET":
         rsvps = RSVP.objects.filter(event__id=event_id)
         serializer = RSVPSerializer(rsvps, many=True)
