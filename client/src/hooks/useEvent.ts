@@ -1,5 +1,4 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { AxiosError } from "axios";
 
 import api from "@/lib/api";
 
@@ -26,15 +25,6 @@ export type Event = {
   status: EventStatus;
 };
 
-export type RsvpInfo =
-  | {
-      has_rsvp: boolean;
-      rsvp_id: number;
-    }
-  | {
-      has_rsvp: false;
-    };
-
 export const useGetEvent = (
   eventId: number,
   args?: Omit<UseQueryOptions<Event, Error>, "queryKey" | "queryFn">,
@@ -44,17 +34,5 @@ export const useGetEvent = (
     queryKey: ["event", eventId],
     queryFn: async () => api.get(`/event/${eventId}/`).then((res) => res.data),
     enabled: eventId !== undefined,
-  });
-};
-
-export const useGetUserHasRsvp = (
-  eventId: number,
-  args?: Omit<UseQueryOptions<RsvpInfo, AxiosError>, "queryKey" | "queryFn">,
-) => {
-  return useQuery<RsvpInfo, AxiosError>({
-    ...args,
-    queryKey: ["event_has_rsvp", eventId],
-    queryFn: async () =>
-      api.get(`/event/${eventId}/has_rsvp`).then((res) => res.data.has_rsvp),
   });
 };
