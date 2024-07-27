@@ -28,7 +28,7 @@ export const useAddRsvp = (event_id: number) => {
       return api.post(`/event/${event_id}/rsvp/`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["event_has_rsvp", event_id] });
+      queryClient.setQueryData(["event_has_rsvp", event_id], true);
     },
   });
 };
@@ -41,7 +41,7 @@ export const useDeleteRsvp = (event_id: number) => {
       return api.delete(`/event/${event_id}/rsvp/`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["event_has_rsvp", event_id] });
+      queryClient.setQueryData(["event_has_rsvp", event_id], false);
     },
   });
 };
