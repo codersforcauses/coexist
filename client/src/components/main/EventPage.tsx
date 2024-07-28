@@ -114,12 +114,12 @@ export const EventPage = ({
     <div className="m-3 flex flex-col rounded-[13px] border-2 border-[#9DAD93] p-3 md:p-6 lg:mx-16">
       <span className="text-3xl font-semibold tracking-tight">{title}</span>
       <div className="my-4 border-t border-black"></div>
-      <div className="flex flex-col gap-10 lg:flex-row lg:[&>*]:flex-1">
+      <div className="flex flex-col gap-5 lg:flex-row lg:gap-10 lg:[&>*]:flex-1">
         {/* Description and Image */}
         <div className="flex flex-col gap-6">
           <div className="whitespace-pre-wrap">{description}</div>
           {image && (
-            <div className="relative flex h-[350px] w-[95%] items-center justify-center">
+            <div className="relative mx-auto flex h-[350px] w-full items-center justify-center lg:w-[95%]">
               <Image
                 fill
                 unoptimized
@@ -131,9 +131,9 @@ export const EventPage = ({
           )}
         </div>
         {/* Information, Map and Controls */}
-        <div className="flex flex-col gap-6 [&>*]:mx-auto [&>*]:w-[90%]">
+        <div className="flex w-full flex-col gap-6 lg:[&>*]:mx-auto lg:[&>*]:w-[90%]">
           {/* Date/Time, Status and Location */}
-          <div className="flex gap-10">
+          <div className="lg:space-between flex flex-col gap-5 lg:flex-row">
             <div className="flex flex-col gap-2">
               <div className="flex flex-col gap-1">
                 <span className="font-semibold">Event Date:</span>
@@ -175,25 +175,25 @@ export const EventPage = ({
           </div>
           {/* Location Map */}
           {location_url && (
-            <div>
-              <iframe
-                src={location_url}
-                className="aspect-[2/1] w-full rounded-lg border-0"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
-            </div>
+            <iframe
+              src={location_url}
+              className="aspect-[2/1] w-full rounded-lg border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
           )}
           {/* Links and Controls */}
-          {!!payment_link && status == "Upcoming" && (
-            <a
-              href={payment_link}
-              className="text-[#9DAD93] underline hover:text-[#6B7B6B]"
-            >
-              Payment Required (CLICK HERE)
-            </a>
-          )}
-          <div className="flex gap-3">{controls()}</div>
+          <div className="flex flex-col items-center gap-3 lg:items-start">
+            {!!payment_link && status == "Upcoming" && (
+              <a
+                href={payment_link}
+                className="text-[#9DAD93] underline hover:text-[#6B7B6B]"
+              >
+                Payment Required (CLICK HERE)
+              </a>
+            )}
+            <div className="flex gap-3">{controls()}</div>
+          </div>
         </div>
       </div>
     </div>
