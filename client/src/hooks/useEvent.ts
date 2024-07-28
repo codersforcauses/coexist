@@ -21,7 +21,9 @@ export type Event = {
   start_time: Date;
   end_time: Date;
   location: string;
+  location_url: string;
   branch: Branch;
+  payment_link: string;
   status: EventStatus;
 };
 

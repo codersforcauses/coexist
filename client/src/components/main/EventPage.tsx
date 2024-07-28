@@ -20,14 +20,22 @@ export const EventPage = ({
     image,
     branch,
     location,
+    location_url,
     start_time,
     end_time,
+    payment_link,
     status,
   },
 }: EventPageProps) => {
-  const date_fmt = dateFormat(start_time, "EEEE, do MMM");
-  const start_fmt = dateFormat(start_time, "hh:mm aa");
-  const end_fmt = dateFormat(end_time, "hh:mm aa");
+  const start_date_fmt = dateFormat(start_time, "EEEE, do MMM");
+  const end_date_fmt = dateFormat(end_time, "EEEE, do MMM");
+  const date_fmt =
+    start_date_fmt == end_date_fmt
+      ? start_date_fmt
+      : `${start_date_fmt} - ${end_date_fmt}`;
+
+  const start_time_fmt = dateFormat(start_time, "hh:mm aa");
+  const end_time_fmt = dateFormat(end_time, "hh:mm aa");
 
   const user_query = useUser();
   const rsvp_query = useHasRsvp(id);
@@ -62,18 +70,6 @@ export const EventPage = ({
     }
   };
 
-  const posterControls = (
-    <div className="mt-2 flex gap-2">
-      {/* TODO: Needs to be connected to Edit Event modal */}
-      <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
-        Edit <Edit strokeWidth="1" size="20" />
-      </button>
-      <div className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
-        <RsvpListModal eventId={id} />
-      </div>
-    </div>
-  );
-
   const controls = () => {
     if (
       user_query.error?.response?.status === 401 ||
@@ -81,88 +77,124 @@ export const EventPage = ({
       user_query.data === undefined ||
       rsvp_query.data === undefined
     ) {
-      return <></>;
+      return (
+        <span>
+          <span className="font-bold">NOTE:</span> You are required to RSVP to
+          this event. Please{" "}
+          <a className="text-[#9DAD93] hover:text-[#6B7B6B]" href="/register">
+            make an account
+          </a>{" "}
+          or{" "}
+          <a className="text-[#9DAD93] hover:text-[#6B7B6B]" href="/login">
+            login
+          </a>{" "}
+          to proceed.
+        </span>
+      );
     } else if (user_query.isLoading) {
-      return <div>Loading</div>;
+      return <>Loading</>;
     } else if (user_query.data.role === "Attendee") {
       return attendeeControls();
     } else {
-      return posterControls;
-    }
-  };
-
-  const renderImage = () => {
-    if (image != null) {
       return (
-        <Image
-          fill
-          unoptimized={true}
-          src={image}
-          alt="Event image"
-          className="rounded object-cover"
-        />
+        <div className="mt-2 flex gap-2">
+          {/* TODO: Needs to be connected to Edit Event modal */}
+          <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
+            Edit <Edit strokeWidth="1" size="20" />
+          </button>
+          <div className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
+            <RsvpListModal eventId={id} />
+          </div>
+        </div>
       );
-    } else {
-      return <span className="italic">No image provided for this event</span>;
     }
   };
 
   return (
-    <div className="m-3 h-full rounded-[40px] bg-[#9DAD93] p-3 md:p-6 lg:mx-16">
-      <div className="flex h-full flex-col items-center rounded-[32px] bg-white px-8 py-4">
-        <div className="text-center text-2xl font-semibold tracking-tight">
-          {title}
-        </div>
-        <div className="my-2 w-full border-t border-black"></div>
-        <div className="flex w-full flex-col gap-2 sm:max-w-[80%] md:max-w-[60%] xl:max-w-[35%]">
-          <div className="text-center">{description}</div>
-        </div>
-
-        <div className="my-5 grid h-full w-full grid-rows-[1fr,1px,1fr] md:grid-cols-[1fr,1px,1fr] md:grid-rows-[400px]">
-          <div className="mb-5 flex flex-col items-center justify-center md:mb-0 md:mr-10 md:items-end">
-            <div className="relative flex h-full max-h-[300px] w-full max-w-[500px] items-center justify-center">
-              {renderImage()}
+    <div className="m-3 flex flex-col rounded-[13px] border-2 border-[#9DAD93] p-3 md:p-6 lg:mx-16">
+      <span className="text-3xl font-semibold tracking-tight">{title}</span>
+      <div className="my-4 border-t border-black"></div>
+      <div className="flex flex-col gap-10 lg:flex-row lg:[&>*]:flex-1">
+        {/* Description and Image */}
+        <div className="flex flex-col gap-6">
+          <div className="whitespace-pre-wrap">{description}</div>
+          {image && (
+            <div className="relative flex h-[350px] w-[95%] items-center justify-center">
+              <Image
+                fill
+                unoptimized
+                src={image}
+                alt="Event image"
+                className="rounded object-cover"
+              />
             </div>
-          </div>
-          <div className="border-t border-black md:border-l"></div>
-          <div className="mt-5 flex flex-col justify-center gap-4 md:ml-10 md:mt-0">
-            <div className="flex flex-col gap-1">
-              <span className="font-semibold">Status:</span>
-              <div className="flex gap-3">
-                <span
-                  className={`self-start rounded ${status == "Cancelled" && "bg-red-500"} ${(status === "Upcoming" || status === "Ongoing") && "bg-[#9DAD93]"} ${status === "Past" && "bg-yellow-500"} px-2 text-white`}
-                >
-                  {status}
-                </span>
+          )}
+        </div>
+        {/* Information, Map and Controls */}
+        <div className="flex flex-col gap-6 [&>*]:mx-auto [&>*]:w-[90%]">
+          {/* Date/Time, Status and Location */}
+          <div className="flex gap-10">
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1">
+                <span className="font-semibold">Event Date:</span>
+                <span>{date_fmt}</span>
+              </div>
+              <div className="flex gap-4">
+                <div className="flex flex-col gap-1">
+                  <span className="font-semibold">Start time:</span>
+                  <span>{start_time_fmt}</span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="font-semibold">End time:</span>
+                  <span>{end_time_fmt}</span>
+                </div>
               </div>
             </div>
-            <div className="flex flex-col gap-1">
-              <span className="font-semibold">Location:</span>
-              <div className="flex gap-3">
-                <span className="self-start rounded bg-[#9DAD93] px-2 text-white">
-                  {branch.name}
-                </span>
+            <div className="flex flex-col gap-2">
+              <div className="flex gap-14">
+                <div className="flex flex-col gap-1">
+                  <span className="font-semibold">Branch:</span>
+                  <a href={`/branch/${branch.name}`}>{branch.name}</a>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="font-semibold">Status:</span>
+                  <div className="flex gap-3">
+                    <span
+                      className={`self-start rounded ${status == "Cancelled" && "bg-red-500"} ${(status === "Upcoming" || status === "Ongoing") && "bg-[#9DAD93]"} ${status === "Past" && "bg-yellow-500"} px-2 text-white`}
+                    >
+                      {status}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <span className="font-semibold">Location:</span>
                 <span>{location}</span>
               </div>
             </div>
-            <div className="flex flex-col gap-1">
-              <span className="font-semibold">Event Date:</span>
-              <span>{date_fmt}</span>
-            </div>
-            <div className="flex gap-4">
-              <div className="flex flex-col gap-1">
-                <span className="font-semibold">Start time:</span>
-                <span>{start_fmt}</span>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span className="font-semibold">End time:</span>
-                <span>{end_fmt}</span>
-              </div>
-            </div>
           </div>
+          {/* Location Map */}
+          {location_url && (
+            <div>
+              <iframe
+                src={location_url}
+                className="aspect-[2/1] w-full rounded-lg border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+          )}
+          {/* Links and Controls */}
+          {!!payment_link && status == "Upcoming" && (
+            <a
+              href={payment_link}
+              className="text-[#9DAD93] underline hover:text-[#6B7B6B]"
+            >
+              Payment Required (CLICK HERE)
+            </a>
+          )}
+          <div className="flex gap-3">{controls()}</div>
         </div>
-
-        {controls()}
       </div>
     </div>
   );
