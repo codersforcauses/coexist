@@ -1,5 +1,6 @@
+import { DialogTrigger } from "@radix-ui/react-dialog";
 import Image from "next/image";
-import { useState } from "react";
+import React, { ReactNode, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,12 +15,12 @@ import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
 
 const onErrorStyle = "border-2 border-red-500";
-interface Props {
-  isOpen: boolean;
-  onClose: () => void;
-}
 
-function LogInModal({ isOpen, onClose }: Props) {
+type Props = {
+  children: ReactNode;
+};
+
+function LogInModal({ children }: Props) {
   const { login } = useAuth();
   const [useremail, setUseremail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,7 +40,8 @@ function LogInModal({ isOpen, onClose }: Props) {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         className="flex h-full max-h-[460px] w-[95%] max-w-[600px] flex-col items-center rounded-[40px] border-0 bg-accent p-1 shadow-lg file:mx-auto"
         style={{ borderRadius: "32px" }}
