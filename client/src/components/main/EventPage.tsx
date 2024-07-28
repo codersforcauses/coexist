@@ -133,7 +133,7 @@ export const EventPage = ({
         {/* Information, Map and Controls */}
         <div className="flex w-full flex-col gap-6 lg:[&>*]:mx-auto lg:[&>*]:w-[90%]">
           {/* Date/Time, Status and Location */}
-          <div className="lg:space-between flex flex-col gap-5 lg:flex-row">
+          <div className="flex flex-col gap-5 lg:flex-row lg:justify-between">
             <div className="flex flex-col gap-2">
               <div className="flex flex-col gap-1">
                 <span className="font-semibold">Event Date:</span>
@@ -142,11 +142,11 @@ export const EventPage = ({
               <div className="flex gap-4">
                 <div className="flex flex-col gap-1">
                   <span className="font-semibold">Start time:</span>
-                  <span>{start_time_fmt}</span>
+                  <span className="whitespace-nowrap">{start_time_fmt}</span>
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="font-semibold">End time:</span>
-                  <span>{end_time_fmt}</span>
+                  <span className="whitespace-nowrap">{end_time_fmt}</span>
                 </div>
               </div>
             </div>
