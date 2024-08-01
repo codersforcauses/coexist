@@ -2,7 +2,7 @@ import Error from "next/error";
 import { useRouter } from "next/router";
 
 import { EventPage } from "@/components/main/EventPage";
-import { useGetEvent } from "@/hooks/getEvent";
+import { useGetEvent } from "@/hooks/useEvent";
 
 export default function Event() {
   const router = useRouter();
