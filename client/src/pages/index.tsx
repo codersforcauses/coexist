@@ -70,7 +70,7 @@ export default function Home() {
               city={event.branch.name}
               location={event.location}
               description={event.description}
-              image={adjustImageUrl(event.image)}
+              image={event.image ? adjustImageUrl(event.image) : ""}
               rsvpURL=""
               position={
                 eventData.results.length === 1
