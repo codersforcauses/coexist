@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 
 import Header from "@/components/main/header/Header";
+import RsvpListModal from "@/components/main/RsvpListModal";
 import EventCard from "@/components/ui/EventCard_V3";
 import EventCardNoImg from "@/components/ui/EventCardNoImg";
 import { Event } from "@/hooks/eventTypes";
@@ -11,7 +12,6 @@ import { usePings } from "@/hooks/pings";
 import { rsvpEvent } from "@/hooks/rsvpEvent";
 import { cn } from "@/lib/utils";
 
-import NewEvent from "../components/main/newevent/NewEvent";
 import { Button } from "../components/ui/button";
 
 const fontSans = FontSans({
@@ -47,6 +47,8 @@ export default function Home() {
     const [hours, minutes] = timePart.split(":");
     return `${hours}:${minutes}`;
   }
+
+  const eventId = 1;
 
   return (
     <main
@@ -88,7 +90,14 @@ export default function Home() {
         )}
       </div>
 
-      {/* <p> {JSON.stringify(eventData)}</p> */}
+      {/* <h1 className="text-3xl text-primary">Test title</h1>
+      <Button onClick={() => setClicked(true)}>
+        {isLoading ? "Loading" : "Ping"}
+      </Button>
+      <p>
+        Response from server: <span>{data as string}</span>
+      </p>
+      <RsvpListModal eventId={eventId} /> */}
     </main>
   );
 }
