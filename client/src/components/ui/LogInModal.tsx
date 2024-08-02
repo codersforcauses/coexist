@@ -101,7 +101,6 @@ function LogInModal({ isOpen, onClose }: Props) {
               </div>
             </DialogFooter>
           </form>
-          {/* {errorMessage && <p className="mt-2 text-center">{errorMessage}</p>} */}
         </div>
       </DialogContent>
     </Dialog>

@@ -157,7 +157,7 @@ export default function NewEvent() {
               <label>
                 City (Co-Exist Branch) <a className="text-red-500">*</a>
               </label>
-              <SelectBranch setValue={setCity} />
+              <SelectBranch setValue={setCity} signUp={false} />
             </div>
 
             <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
