@@ -65,6 +65,7 @@ export default function Home() {
           eventData.results.map((event: Event, index: number) => (
             <EventCard
               key={event.id || index}
+              eventId={event.id}
               date={extractDate(event.start_time)}
               startTime={extractTime(event.start_time)}
               endTime={extractTime(event.end_time)}
