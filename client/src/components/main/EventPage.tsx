@@ -6,6 +6,8 @@ import { type Event } from "@/hooks/useEvent";
 import { useAddRsvp, useDeleteRsvp, useHasRsvp } from "@/hooks/useRsvp";
 import useUser from "@/hooks/useUser";
 
+import LogInModal from "../ui/LogInModal";
+import SignUpModal from "../ui/SignUpModal";
 import RsvpListModal from "./RsvpListModal";
 
 type EventPageProps = {
@@ -81,13 +83,17 @@ export const EventPage = ({
         <span>
           <span className="font-bold">NOTE:</span> You are required to RSVP to
           this event. Please{" "}
-          <a className="text-[#9DAD93] hover:text-[#6B7B6B]" href="/register">
-            make an account
-          </a>{" "}
+          <SignUpModal>
+            <a className="cursor-pointer text-[#9DAD93] hover:text-[#6B7B6B]">
+              make an account
+            </a>
+          </SignUpModal>{" "}
           or{" "}
-          <a className="text-[#9DAD93] hover:text-[#6B7B6B]" href="/login">
-            login
-          </a>{" "}
+          <LogInModal>
+            <a className="cursor-pointer text-[#9DAD93] hover:text-[#6B7B6B]">
+              login
+            </a>
+          </LogInModal>{" "}
           to proceed.
         </span>
       );
