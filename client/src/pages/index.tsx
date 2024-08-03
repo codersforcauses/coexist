@@ -2,11 +2,11 @@ import { Work_Sans as FontSans } from "next/font/google";
 import { useState } from "react";
 
 import Header from "@/components/main/header/Header";
+import RsvpListModal from "@/components/main/RsvpListModal";
 import EventCard from "@/components/ui/EventCard_V3";
 import { usePings } from "@/hooks/pings";
 import { cn } from "@/lib/utils";
 
-import NewEvent from "../components/main/newevent/NewEvent";
 import { Button } from "../components/ui/button";
 
 const fontSans = FontSans({
@@ -24,6 +24,8 @@ export default function Home() {
     /*   const [isSignUpOpen, setSignUp] = useState(false);
      */
   }
+
+  const eventId = 1;
 
   return (
     <main
@@ -53,6 +55,7 @@ export default function Home() {
       <p>
         Response from server: <span>{data as string}</span>
       </p>
+      <RsvpListModal eventId={eventId} />
     </main>
   );
 }

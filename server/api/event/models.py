@@ -3,6 +3,7 @@ from django.db import models
 from ..users.models import User
 from api.soft_delete import SoftDeleteModel
 from api.branch.models import Branch
+from django.utils import timezone
 
 
 class Event(SoftDeleteModel):
@@ -14,7 +15,7 @@ class Event(SoftDeleteModel):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField(null=True, blank=True)
     location = models.CharField(max_length=200)
-
+    location_url = models.URLField(max_length=500, blank=True)
     payment_link = models.CharField(max_length=200, blank=True)
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE, related_name="events")
 
@@ -26,6 +27,16 @@ class Event(SoftDeleteModel):
     @property
     def duration(self):
         return self.end_time - self.start_time
+
+    @property
+    def status(self):
+        if self.is_cancelled:
+            return "Cancelled"
+        if self.start_time > timezone.now():
+            return "Upcoming"
+        if self.end_time < timezone.now():
+            return "Past"
+        return "Ongoing"
 
 
 class RSVP(models.Model):

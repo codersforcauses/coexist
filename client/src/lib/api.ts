@@ -19,10 +19,12 @@ api.interceptors.response.use(
   async function (error) {
     const originalRequest = error.config;
     if (
-      error.response.status === 403 &&
+      (error.response.status === 403 ||
+        (error.response.status === 401 && Cookies.get("refresh"))) &&
       !originalRequest._retry &&
       !Cookies.get("access")
     ) {
+      console.log("error happened");
       originalRequest._retry = true;
       const accessTok = await refreshAccessToken();
       axios.defaults.headers.common.Authorization = `Bearer ${accessTok}`;
