@@ -7,6 +7,7 @@ const publicRoutes = [
   pathToRegexp("/event"),
   pathToRegexp("/event/:id"),
   pathToRegexp("/"),
+  pathToRegexp("/test-page"),
   imageRegexp,
 ];
 
