@@ -1,6 +1,6 @@
 import { set } from "date-fns";
 import Image from "next/image";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -25,11 +25,10 @@ import { useAuth } from "@/hooks/useAuth";
 import { SelectBranch } from "./select-branch";
 
 interface Props {
-  isOpen: boolean;
-  onClose: () => void;
+  children: ReactNode;
 }
 
-function SignUpModal({ isOpen, onClose }: Props) {
+function SignUpModal({ children }: Props) {
   const { register } = useAuth();
 
   const [email, setEmail] = useState("");
@@ -162,8 +161,8 @@ function SignUpModal({ isOpen, onClose }: Props) {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogTrigger asChild></DialogTrigger>
+    <Dialog>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       {/* Outer green container */}
       <DialogContent
         className="mx-auto flex h-full max-h-[725px] w-[95%] max-w-[600px] flex-col border-0 bg-accent p-[8px] shadow-lg"

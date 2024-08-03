@@ -41,16 +41,14 @@ function Links({ isHiddenWhenLg }: { isHiddenWhenLg: boolean }) {
         </Link>
       ) : (
         <div className="flex flex-col items-center justify-center lg:flex-row lg:gap-5">
-          <button className={`${onHoverStyle}`} onClick={() => setLogIn(true)}>
-            Log in
-          </button>
-          <button className={outlineStyle} onClick={() => setSignUp(true)}>
-            Sign up
-          </button>
+          <LogInModal>
+            <button className={`${onHoverStyle}`}>Log in</button>
+          </LogInModal>
+          <SignUpModal>
+            <button className={outlineStyle}>Sign up</button>
+          </SignUpModal>
         </div>
       )}
-      <SignUpModal isOpen={isSignUpOpen} onClose={() => setSignUp(false)} />
-      <LogInModal isOpen={isLogInOpen} onClose={() => setLogIn(false)} />
     </div>
   );
 }
