@@ -16,8 +16,10 @@ def create_user_extension(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_user_extension(sender, instance, **kwargs):
-    instance.extendeduser.save()
-
+    try:
+        instance.extendeduser.save()
+    except ExtendedUser.DoesNotExist:
+        ExtendedUser.objects.create(user=instance)
     # If the user is a superuser and not in the Admin group, add them
     if instance.is_superuser:
         if not instance.groups.filter(name='Admin').exists():

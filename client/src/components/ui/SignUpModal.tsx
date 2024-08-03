@@ -36,7 +36,7 @@ function SignUpModal({ children }: Props) {
   const [confirmpassword, setConfirmPassword] = useState("");
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState("N/A");
   const [phone, setPhone] = useState("");
   const onErrorStyle = "border-2 border-red-500";
   const [error, setError] = useState({
@@ -46,6 +46,7 @@ function SignUpModal({ children }: Props) {
     phone: false,
     password: false,
     confirmpassword: false,
+    city: false,
   });
   const [emsg, setMsg] = useState(Array(5).fill(false));
   // 0 -  empty fields
@@ -53,6 +54,7 @@ function SignUpModal({ children }: Props) {
   // 2 -  invalid phone
   // 3 -  password mismatch
   // 4 -  duplicate email
+  //
 
   function emptyFields() {
     let msg = Array(5).fill(false);
@@ -63,6 +65,7 @@ function SignUpModal({ children }: Props) {
       phone: false,
       password: false,
       confirmpassword: false,
+      city: false,
     };
 
     const fields = { email, firstname, lastname, password, confirmpassword };
@@ -98,6 +101,7 @@ function SignUpModal({ children }: Props) {
       phone: false,
       password: false,
       confirmpassword: false,
+      city: false,
     };
 
     e.preventDefault();
@@ -128,6 +132,10 @@ function SignUpModal({ children }: Props) {
       }
     }
 
+    if (city === "N/A") {
+      alert("Please select a city.");
+    }
+
     //make api call
     const success = await register({
       email,
@@ -135,7 +143,7 @@ function SignUpModal({ children }: Props) {
       firstname,
       lastname,
       phone,
-      //city,
+      city,
     });
 
     //server wont reply or is down

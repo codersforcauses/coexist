@@ -19,63 +19,30 @@ interface Prop {
 }
 
 export function SelectBranch({ setValue, signUp }: Prop) {
-  const [branchData, setBranchData] = useState<any>(null);
-
-  useEffect(() => {
-    async function fetchBranch() {
-      const branchArray = await selectCity();
-      setBranchData(branchArray);
-    }
-
-    fetchBranch();
-  }, []);
-
-  if (branchData == false || branchData == null) {
-    return (
-      <Select
-        onValueChange={(value: any) => {
-          setValue(value);
-        }}
-      >
-        <SelectTrigger
-          className={`${signUp ? "w-full" : "w-[180px] rounded-[20px] border-2 bg-[#7D916F] p-1 px-2"}`}
-        >
-          <SelectValue placeholder="City" />
-          <SelectContent>
-            <SelectItem value="N/A">No cities available</SelectItem>
-          </SelectContent>
-        </SelectTrigger>
-      </Select>
-    );
-  }
-
-  function nametoid(name: string) {
-    for (let i = 0; i < branchData.length; i++) {
-      if (branchData[i].name === name) {
-        return branchData[i].id;
-      }
-    }
-  }
+  const cities_query = selectCity();
+  const city_list = cities_query.data?.results;
 
   return (
     <Select
-      onValueChange={(value) => {
-        setValue(nametoid(value));
+      onValueChange={(value: any) => {
+        setValue(value);
       }}
     >
       <SelectTrigger
         className={`${signUp ? "w-full" : "w-[180px] rounded-[20px] border-2 bg-[#7D916F] p-1 px-2"}`}
       >
         <SelectValue placeholder="City" />
+        <SelectContent>
+          {cities_query.isLoading ? (
+            <SelectItem value="N/A">Loading...</SelectItem>
+          ) : (
+            city_list &&
+            city_list.map((city) => (
+              <SelectItem value={city.id.toString()}>{city.name}</SelectItem>
+            ))
+          )}
+        </SelectContent>
       </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>City</SelectLabel>
-          {branchData.map((d: any) => (
-            <SelectItem value={d.name}>{d.name}</SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
     </Select>
   );
 }
