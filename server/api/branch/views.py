@@ -2,7 +2,6 @@ from .models import Branch
 from rest_framework import viewsets
 from .serializers import BranchSerializer
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import AllowAny
 from api.auth.permissions import isStaffOrReadonly
 
 
