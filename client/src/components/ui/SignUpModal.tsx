@@ -48,16 +48,17 @@ function SignUpModal({ children }: Props) {
     confirmpassword: false,
     city: false,
   });
-  const [emsg, setMsg] = useState(Array(5).fill(false));
+  const [emsg, setMsg] = useState(Array(6).fill(false));
   // 0 -  empty fields
   // 1 -  invalid email
   // 2 -  invalid phone
   // 3 -  password mismatch
   // 4 -  duplicate email
+  // 5 -  no branch selected
   //
 
   function emptyFields() {
-    let msg = Array(5).fill(false);
+    let msg = Array(6).fill(false);
     let temp = {
       email: false,
       firstname: false,
@@ -68,7 +69,14 @@ function SignUpModal({ children }: Props) {
       city: false,
     };
 
-    const fields = { email, firstname, lastname, password, confirmpassword };
+    const fields = {
+      email,
+      firstname,
+      lastname,
+      password,
+      confirmpassword,
+      city,
+    };
 
     //check each field if its empty
     Object.entries(fields).forEach(([key, value]) => {
@@ -83,7 +91,8 @@ function SignUpModal({ children }: Props) {
       temp["firstname"] ||
       temp["lastname"] ||
       temp["password"] ||
-      temp["confirmpassword"]
+      temp["confirmpassword"] ||
+      temp["city"]
     ) {
       msg[0] = true;
       setMsg(msg);
@@ -93,7 +102,7 @@ function SignUpModal({ children }: Props) {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    let msg = Array(5).fill(false);
+    let msg = Array(6).fill(false);
     let temp = {
       email: false,
       firstname: false,
@@ -133,7 +142,11 @@ function SignUpModal({ children }: Props) {
     }
 
     if (city === "N/A") {
-      alert("Please select a city.");
+      temp["city"] = true;
+      msg[6] = true;
+      setError(temp);
+      setMsg(msg);
+      return;
     }
 
     //make api call
@@ -153,7 +166,7 @@ function SignUpModal({ children }: Props) {
       );
     }
 
-    //invalid email and duplicate email
+    // invalid email and duplicate email
     if (typeof success === "string") {
       if (success.includes("duplicate")) {
         temp["email"] = true;
@@ -162,6 +175,12 @@ function SignUpModal({ children }: Props) {
         temp["email"] = true;
         msg[1] = true;
       }
+    }
+
+    // No city selected
+    if (city === "N/A") {
+      temp["city"] = true;
+      msg[5] = true;
     }
 
     setError(temp);
@@ -320,6 +339,14 @@ function SignUpModal({ children }: Props) {
                 {/* Component uses branch api to get cities from backend*/}
                 <Label htmlFor="branch">Branch</Label>
                 <SelectBranch setValue={setCity} signUp={true} />
+
+                {emsg[6] ? (
+                  <a className="text-xs font-medium text-red-500">
+                    Please select a branch.
+                  </a>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
 
