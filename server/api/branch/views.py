@@ -14,7 +14,7 @@ class BranchResultPagination(PageNumberPagination):
 
 # Create your views here.
 class BranchViewSet(viewsets.ModelViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [isStaffOrReadonly]
     queryset = Branch.objects.all()
     serializer_class = BranchSerializer
     pagination_class = BranchResultPagination
