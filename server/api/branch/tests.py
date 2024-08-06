@@ -174,7 +174,7 @@ class BranchAuthTest(TestCase):
         response = self.client.post(self.url, data=self.postData, format="json")
         getResponse = self.client.get(self.url)
         self.assertEqual(getResponse.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.client.logout()
 
     def test_authorized(self):
