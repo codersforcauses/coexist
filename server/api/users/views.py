@@ -6,17 +6,23 @@ from django.contrib.auth.models import User
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import ExtendedUser
 from .serializers import ExtendedUserSerializer
+from ..branch.models import Branch
 
 
 class UserSerializer(serializers.ModelSerializer):
-    phone = serializers.CharField(write_only=True, required=False, allow_null=True, allow_blank=True)
+    phone = serializers.CharField(write_only=True, required=False,
+                                  allow_null=True, allow_blank=True)
+    city = serializers.PrimaryKeyRelatedField(queryset=Branch.objects.all(),
+                                              write_only=True)
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'password', 'phone']
+        fields = ['first_name', 'last_name', 'email',
+                  'password', 'phone', 'city']
 
     def create(self, data):
         number = data.pop('phone')
+        city = data.pop('city')
         user = User.objects.create_user(
             first_name=data['first_name'],
             last_name=data['last_name'],
@@ -29,6 +35,7 @@ class UserSerializer(serializers.ModelSerializer):
         extended_user, created = ExtendedUser.objects.get_or_create(user=user)
         extended_user.set_role('Attendee')
         extended_user.phone = number
+        extended_user.branch = city
         extended_user.save()
         return user
 
@@ -42,7 +49,10 @@ def create(request):
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
         except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': str(e)},
+                            status=status.HTTP_400_BAD_REQUEST)
+    else:
+        print("An error occured while serialising!")
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

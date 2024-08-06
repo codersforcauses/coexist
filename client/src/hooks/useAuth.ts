@@ -74,7 +74,7 @@ export const useAuth = () => {
     lastname,
     phone,
     // confirmpassword,
-    // city,
+    city,
   }: {
     email: string;
     firstname: string;
@@ -82,11 +82,21 @@ export const useAuth = () => {
     password: string;
     phone: string;
     // confirmpassword: string;
-    // city: string;
+    city: string;
   }) => {
     //register endpoint to create a new user
     try {
       //to be replaced with the real endpoint to create user
+      console.log("Registering user");
+      console.log({
+        first_name: firstname,
+        last_name: lastname,
+        username: email,
+        email: email,
+        password: password,
+        phone: phone,
+        city: parseInt(city),
+      });
       const result = await api.post("/users/register/", {
         first_name: firstname,
         last_name: lastname,
@@ -94,7 +104,7 @@ export const useAuth = () => {
         email: email,
         password: password,
         phone: phone,
-        //city: city,
+        city: parseInt(city),
       });
 
       if (result.status === 201) {

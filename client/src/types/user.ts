@@ -1,3 +1,5 @@
+import { Branch } from "@/hooks/useEvent";
+
 export interface User {
   id: number;
   username: string;
@@ -6,5 +8,6 @@ export interface User {
   last_name: string;
   role: Role;
   phone: string;
+  branch: string;
 }
 export type Role = "Admin" | "Poster" | "Attendee";

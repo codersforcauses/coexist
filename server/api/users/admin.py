@@ -17,6 +17,7 @@ class UserAdmin(BaseUserAdmin):
         'email',
         'first_name',
         'last_name',
+        'get_branch',
         'is_staff',
         'get_groups'
     )
@@ -24,6 +25,10 @@ class UserAdmin(BaseUserAdmin):
     def get_groups(self, obj):
         return ", ".join([group.name for group in obj.groups.all()])
     get_groups.short_description = 'Groups'
+
+    def get_branch(self, obj):
+        return obj.extendeduser.branch
+    get_branch.short_description = 'Branch'
 
 
 admin.site.unregister(User)

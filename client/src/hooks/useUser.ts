@@ -9,7 +9,11 @@ const useUser = () => {
     queryKey: ["user"],
     staleTime: 5 * 1000 * 60,
 
-    queryFn: () => api.get("users/me/").then((res) => res.data),
+    queryFn: () =>
+      api.get("users/me/").then((res) => {
+        console.log(res.data);
+        return res.data;
+      }),
   });
 };
 
