@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django.core.validators import RegexValidator
+from ..branch.models import Branch
 
 
 class ExtendedUser(models.Model):
@@ -14,6 +15,9 @@ class ExtendedUser(models.Model):
     )
     phone = models.CharField(validators=[phone_regex], max_length=15,
                              blank=True)
+
+    # add a field branch, which references a branch model
+    branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.user.username
