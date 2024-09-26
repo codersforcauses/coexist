@@ -37,17 +37,6 @@ export default function Settings() {
 
   const user_query = useUser();
 
-  // const user = {
-  //   name: "John Doe",
-  //   email: "johndoe@gmai.com",
-  //   city: "Perth",
-  //   status: "Poster",
-  //   attended: 3,
-  //   organised: 1,
-  //   image:
-  //     "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png",
-  // };
-
   const user = user_query.data;
   const placeholderImageURL =
     "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";

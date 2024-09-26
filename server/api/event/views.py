@@ -39,6 +39,12 @@ class EventViewSet(viewsets.ModelViewSet):
     search_fields = ["title", "description", "location", "branch"]
     permission_classes = [isStaffOrReadonly]
 
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def event_by_branch(request, branch_id):
+    events = Event.objects.filter(branch_id=branch_id)
+    serializer = EventSerializer(events, many=True)
+    return Response(serializer.data)
 
 @api_view(["GET", "POST", "DELETE"])
 @permission_classes([IsAuthenticated])
