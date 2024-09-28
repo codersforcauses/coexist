@@ -1,19 +1,25 @@
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+
 import api from "@/lib/api";
 
-export default async function selectCity() {
-  try {
-    const response = await api.get("http://localhost:8000/api/branch/");
-
-    if (response.status == 200) {
-      const responseData = await response.data;
-      if (responseData.results.length === 0) {
-        return null;
-      }
-      return responseData.results;
-    } else {
-      return false;
-    }
-  } catch (error) {
-    return false;
-  }
+interface City {
+  id: number;
+  name: string;
 }
+interface Cities {
+  results: City[];
+}
+
+const selectCity = () => {
+  return useQuery<Cities>({
+    queryKey: ["branches"],
+    queryFn: async () => {
+      const response = await api.get("/branch/");
+      console.log(response.data);
+      return response.data;
+    },
+  });
+};
+
+export default selectCity;
