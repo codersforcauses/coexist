@@ -15,7 +15,6 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-
 load_dotenv()
 
 
@@ -49,25 +48,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "api.healthcheck",
-    "api.users",
-    "corsheaders",
+    "django_extensions",
     "rest_framework",
-    "api.event",
-    "api.branch",
-    "rest_framework_simplejwt",
-    "django_filters",
+    "corsheaders",
+    "api.healthcheck",
 ]
-
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.BasicAuthentication",
-    ),
-    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
-    "DEFAULT_PERMISSION_CLASSES": ["api.auth.permissions.isStaffOrAuthenticated"],
-}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -120,6 +105,7 @@ DATABASES = {
     }
 }
 
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -154,18 +140,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-PROJECT_ROOT = os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-)  # <- '/' directory
+PROJECT_ROOT = os.path.dirname(os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__))))  # <- '/' directory
 
 STATIC_URL = "/static/"
 
 # STATIC_ROOT is where the static files get copied to when "collectstatic" is run.
-STATIC_ROOT = os.path.join(PROJECT_ROOT, "static_files")
+STATIC_ROOT = "static_files"
 
 # This is where to _find_ static files when 'collectstatic' is run.
 # These files are then copied to the STATIC_ROOT location.
-STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, "app", "static"),)
+STATICFILES_DIRS = ("static",)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

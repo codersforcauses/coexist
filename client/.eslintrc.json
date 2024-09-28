@@ -4,13 +4,12 @@
     "plugin:@tanstack/eslint-plugin-query/recommended"
   ],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["simple-import-sort", "import", "@typescript-eslint"],
+  "plugins": ["simple-import-sort", "import"],
   "rules": {
     "simple-import-sort/imports": "warn",
     "simple-import-sort/exports": "warn",
     "import/first": "warn",
     "import/newline-after-import": "warn",
-    "import/no-duplicates": "warn",
-    "@next/next/no-html-link-for-pages": ["error", "client/src/pages"]
+    "import/no-duplicates": "warn"
   }
 }

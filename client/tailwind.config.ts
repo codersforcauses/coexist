@@ -19,11 +19,6 @@ const config = {
       },
     },
     extend: {
-      screens: {
-        "3xl": "1920px",
-        "4xl": "2560px",
-        "5xl": "3840px",
-      },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
@@ -60,9 +55,6 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
-        },
-        buttonOutline: {
-          DEFAULT: "hsl(var(--button-outline))",
         },
       },
       borderRadius: {

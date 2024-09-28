@@ -9,14 +9,6 @@ const isWindowsDevContainer = () =>
 const nextConfig = {
   reactStrictMode: true,
   // dumb fix for windows docker
-  images: {
-    remotePatterns: [{
-      protocol: 'http',
-      hostname: 'localhost',
-      port: '8000',
-      pathname: '/static/images/**'
-    }
-  ]},
   webpack: isWindowsDevContainer()
     ? (config) => {
         config.watchOptions = {
