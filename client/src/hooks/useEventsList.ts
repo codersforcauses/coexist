@@ -35,7 +35,16 @@ export const useGetEventList = (
     ...args,
     queryKey: ["branch", branchId],
     queryFn: async () =>
-      api.get(`/event/branch/${branchId}/`).then((res) => res.data),
+      api.get(`/event/branch/${branchId}/`).then((res) => {
+        // change image url to preppend process.env.NEXT_PUBLIC_BACKEND_URL
+        res.data.forEach((event: Event) => {
+          if (event.image !== null) {
+            event.image =
+              process.env.NEXT_PUBLIC_BACKEND_IMAGES_URL + event.image;
+          }
+        });
+        return res.data;
+      }),
     enabled: branchId !== undefined,
   });
 };

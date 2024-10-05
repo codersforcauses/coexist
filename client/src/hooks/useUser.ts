@@ -11,7 +11,6 @@ const useUser = () => {
 
     queryFn: () =>
       api.get("users/me/").then((res) => {
-        console.log(res.data);
         return res.data;
       }),
   });
