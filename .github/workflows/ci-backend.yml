@@ -73,7 +73,9 @@ jobs:
           POSTGRES_PORT: 5432
           EMAIL_PORT: 1025
           FRONTEND_URL: http://localhost:3000
-        run: poetry run python manage.py migrate
+        run: |
+          source .venv/bin/activate
+          python manage.py migrate
 
       - name: Run tests 🧪
         env:
@@ -85,7 +87,7 @@ jobs:
           EMAIL_PORT: 1025
           FRONTEND_URL: http://localhost:3000
         run: |
-          poetry shell
+          source .venv/bin/activate
           python3 -m pip install coverage
           coverage run manage.py test
           coverage xml
