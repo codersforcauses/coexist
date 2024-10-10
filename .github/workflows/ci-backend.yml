@@ -85,7 +85,6 @@ jobs:
           EMAIL_PORT: 1025
           FRONTEND_URL: http://localhost:3000
         run: |
-          source .venv/bin/activate
           poetry run python3 -m pip install coverage
           poetry run coverage run manage.py test
           poetry run coverage xml
