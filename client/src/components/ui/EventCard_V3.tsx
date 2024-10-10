@@ -38,10 +38,10 @@ const EventCard = ({
   const end_time_fmt = dateFormat(endTime, "hh:mm aa");
 
   return (
-    <div className="flex w-full flex-col rounded-lg border border-secondary p-6 md:flex-row">
+    <div className="flex w-full flex-col gap-x-8 rounded-lg border border-secondary p-6 md:flex-row">
       <div className="order-3 hidden min-w-56 flex-col md:order-2 lg:block">
         <div className="w-fit">
-          <p className="px-1 pb-1 text-2xl font-semibold"> {date} </p>
+          <p className="max-w-72 px-1 pb-1 text-2xl font-semibold"> {date} </p>
           <hr className="border-b-1 mb-4 border-black" />
         </div>
         <div className="me-5 grid grid-cols-1 place-items-center">

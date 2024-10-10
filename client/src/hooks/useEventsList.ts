@@ -28,23 +28,31 @@ export type Event = {
 };
 
 export const useGetEventList = (
-  branchId: number,
+  branchId: string | undefined,
   args?: Omit<UseQueryOptions<Event[], Error>, "queryKey" | "queryFn">,
 ) => {
   return useQuery<Event[], Error>({
     ...args,
     queryKey: ["branch", branchId],
-    queryFn: async () =>
-      api.get(`/event/branch/${branchId}/`).then((res) => {
-        // change image url to preppend process.env.NEXT_PUBLIC_BACKEND_URL
-        res.data.forEach((event: Event) => {
+    queryFn: async () => {
+      // const res = await api.get(`/event/branch/${branchId}/`);
+      let data;
+      if (branchId === undefined) {
+        const res = await api.get(`/event/`);
+        data = res.data.results;
+        console.log("done!");
+      } else {
+        const res = await api.get(`/event/branch/${branchId}/`);
+        data = res.data;
+        data.forEach((event: Event) => {
+          console.log("Noting!");
           if (event.image !== null) {
             event.image =
               process.env.NEXT_PUBLIC_BACKEND_IMAGES_URL + event.image;
           }
         });
-        return res.data;
-      }),
-    enabled: branchId !== undefined,
+      }
+      return data;
+    },
   });
 };

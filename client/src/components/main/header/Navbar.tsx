@@ -60,7 +60,7 @@ export default function Navbar() {
       className="flex w-full items-center justify-between whitespace-nowrap text-xl lg:text-2xl"
     >
       <div id="logo" className="flex w-full items-center justify-start">
-        <Link className="hover:opacity-80" href="/">
+        <Link className="w-28 hover:opacity-80 md:w-auto" href="/">
           <Image src="/logo.png" width={155} height={100} alt="logo" />{" "}
         </Link>
       </div>

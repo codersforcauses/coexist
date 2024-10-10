@@ -9,5 +9,6 @@ export interface User {
   role: Role;
   phone: string;
   branch: string;
+  branch_id: string;
 }
 export type Role = "Admin" | "Poster" | "Attendee";
