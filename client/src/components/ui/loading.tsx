@@ -9,3 +9,11 @@ export function ButtonLoading() {
     </Button>
   );
 }
+
+export function WaitingLoader() {
+  return (
+    <Button className="bg-transparent" disabled>
+      <ReloadIcon className="mr-2 h-[40px] w-[40px] animate-spin text-primary" />
+    </Button>
+  );
+}

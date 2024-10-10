@@ -1,13 +1,15 @@
 from django.db import IntegrityError
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
+
 from rest_framework import viewsets
 from rest_framework.request import HttpRequest
 from api.auth.permissions import isStaffOrReadonly, isStaffOrAuthenticated
 
 from .serializers import EventSerializer, RSVPSerializer
 from .models import Event, RSVP
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
@@ -39,6 +41,26 @@ class EventViewSet(viewsets.ModelViewSet):
     search_fields = ["title", "description", "location", "branch"]
     permission_classes = [isStaffOrReadonly]
 
+    def get_permissions(self):
+        if self.action == 'list':
+            return [AllowAny()]
+        return super().get_permissions()
+
+    def get_queryset(self):
+        if self.action == 'list':
+            current_time = timezone.now()
+            return Event.objects.filter(end_time__gt=current_time)
+        return super().get_queryset()
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def event_by_branch(request, branch_id):
+    current_time = timezone.now()
+    events = Event.objects.filter(branch_id=branch_id, end_time__gt=current_time)
+    serializer = EventSerializer(events, many=True)
+    return Response(serializer.data)
+
 
 @api_view(["GET", "POST", "DELETE"])
 @permission_classes([IsAuthenticated])
@@ -56,7 +78,6 @@ def rsvp_event_view(request: HttpRequest, event_id):
             return Response(status=status.HTTP_409_CONFLICT)
         except Exception:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-
         # Return data
         response_data = {}
         response_data["rsvp_id"] = rsvp.id

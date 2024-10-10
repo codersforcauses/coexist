@@ -1,13 +1,12 @@
 import { Work_Sans as FontSans } from "next/font/google";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import Header from "@/components/main/header/Header";
-import RsvpListModal from "@/components/main/RsvpListModal";
 import EventCard from "@/components/ui/EventCard_V3";
-import { usePings } from "@/hooks/pings";
+import { WaitingLoader } from "@/components/ui/loading";
+import { useAuth } from "@/hooks/useAuth";
+import { useGetEventList } from "@/hooks/useEventsList";
+import useUser from "@/hooks/useUser";
 import { cn } from "@/lib/utils";
-
-import { Button } from "../components/ui/button";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -15,17 +14,32 @@ const fontSans = FontSans({
 });
 
 export default function Home() {
-  const [clicked, setClicked] = useState(false);
-  const { data, isLoading } = usePings({
-    enabled: clicked,
-  });
+  const [branchId, setBranchId] = useState<string | undefined>(undefined);
+  const { isLoggedIn } = useAuth();
+  const { data: user_data } = useUser();
 
-  {
-    /*   const [isSignUpOpen, setSignUp] = useState(false);
-     */
+  useEffect(() => {
+    if (isLoggedIn && user_data) {
+      setBranchId(user_data.branch_id);
+    } else {
+      setBranchId(undefined);
+    }
+  }, [isLoggedIn, user_data]);
+  const { data: events, isLoading, isError } = useGetEventList(branchId);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center pt-24">
+        <WaitingLoader />
+      </div>
+    );
   }
-
-  const eventId = 1;
+  if (isError)
+    return (
+      <div className="flex justify-center px-4 pt-24 text-center text-xl text-destructive">
+        Error loading events. Please contact the administrator.
+      </div>
+    );
 
   return (
     <main
@@ -34,28 +48,27 @@ export default function Home() {
         fontSans.variable,
       )}
     >
-      <div className="m-6">
-        <EventCard
-          date="2023-04-01"
-          startTime="08:00"
-          endTime="11:00"
-          title="Tree Planting and Social Swim"
-          city="Cairns"
-          location="Glenoma park, Brinstead"
-          description="3 hours of Fun, Tree Planting, Music, Swims & Food (Snacks Provided!)"
-          refImageURL="/tempEventImg.jpeg"
-          rsvpURL="nil"
-        />
-      </div>
-
-      <h1 className="text-3xl text-primary">Test title</h1>
-      <Button onClick={() => setClicked(true)}>
-        {isLoading ? "Loading" : "Ping"}
-      </Button>
-      <p>
-        Response from server: <span>{data as string}</span>
-      </p>
-      <RsvpListModal eventId={eventId} />
+      {/* Map out from events, check undefined first */}
+      {events?.length === 0 ? (
+        <h1 className="mt-8 px-4 text-center text-xl text-primary md:text-3xl">
+          No events upcoming at the moment! Check this space later.
+        </h1>
+      ) : (
+        events?.map((event) => (
+          <EventCard
+            key={event.id}
+            id={event.id}
+            startTime={event.start_time}
+            endTime={event.end_time}
+            title={event.title}
+            city={event.branch.name}
+            location={event.location}
+            description={event.description}
+            refImageURL={event.image}
+            rsvpURL={event.payment_link}
+          />
+        ))
+      )}
     </main>
   );
 }

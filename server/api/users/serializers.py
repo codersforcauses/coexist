@@ -11,8 +11,9 @@ class ExtendedUserSerializer(serializers.ModelSerializer):
     last_name = serializers.CharField(source='user.last_name', read_only=True)
     role = serializers.CharField(read_only=True)
     branch = serializers.CharField(source='branch.name', read_only=True)
+    branch_id = serializers.CharField(source='branch.id', read_only=True)
 
     class Meta:
         model = ExtendedUser
         fields = ['id', 'username', 'email', 'first_name', 'last_name', 'role',
-                  'phone', 'branch']
+                  'phone', 'branch', 'branch_id']

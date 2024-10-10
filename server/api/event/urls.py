@@ -7,6 +7,7 @@ router.register(r"", views.EventViewSet, basename="event")
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("branch/<int:branch_id>/", views.event_by_branch, name="event-by-branch"),
     path("<int:event_id>/rsvp/", views.rsvp_event_view, name="rsvp-event-view"),
     path("<int:event_id>/rsvp/<int:id>/", views.rsvp_detail, name="rsvp-detail"),
     path("<int:event_id>/has_rsvp/", views.has_rsvp, name="has-rsvp"),

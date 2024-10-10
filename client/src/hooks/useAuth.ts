@@ -27,6 +27,7 @@ const setCookie = (name: string, tok: string) => {
 export const useAuth = () => {
   const [userId, setUserId] = useState<string>();
   const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
+
   const router = useRouter();
   useEffect(() => {
     const access = Cookies.get("access");
