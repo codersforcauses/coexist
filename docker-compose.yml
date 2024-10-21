@@ -1,7 +1,7 @@
 services:
   db:
     container_name: coexist-db
-    image: postgres
+    image: postgres:16
     restart: unless-stopped
     volumes:
       - ${LOCAL_WORKSPACE_FOLDER:-.}/data/db:/var/lib/postgresql/data
