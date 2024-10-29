@@ -3,7 +3,7 @@ import React from "react";
 
 import NewEvent from "@/components/main/newevent/NewEvent";
 
-import { cn } from "../../lib/utils";
+import { cn } from "../../../lib/utils";
 
 const fontSans = FontSans({
   subsets: ["latin"],
