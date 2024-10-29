@@ -11,16 +11,7 @@ const fontSans = FontSans({
 });
 
 const new_event: React.FC = () => {
-  return (
-    <main
-      className={cn(
-        "m-0 flex min-h-screen max-w-[100vw] flex-col items-center p-0 font-sans",
-        fontSans.variable,
-      )}
-    >
-      <NewEvent />
-    </main>
-  );
+  return <NewEvent />;
 };
 
 export default new_event;

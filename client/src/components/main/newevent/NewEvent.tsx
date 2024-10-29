@@ -1,6 +1,9 @@
 import { ArrowLeft, CalendarCheck, Image } from "lucide-react";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { ReactNode, useRef, useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import PageCard from "@/components/ui/page-card";
 
 import addEvent from "../../../hooks/addEvent";
 import { CalenderPickerEnd } from "../../ui/calendar-pick-end";
@@ -20,6 +23,7 @@ const validURL = (s: string) => {
     return false;
   }
 };
+
 export default function NewEvent() {
   const topElement = useRef<HTMLDivElement>(null);
   let [title, setTitle] = useState("");
@@ -111,120 +115,123 @@ export default function NewEvent() {
   };
 
   return (
-    <div
-      ref={topElement}
-      className="my-8 min-h-[500px] w-[95%] rounded-[13px] border-2 border-[#000] p-5"
-    >
+    <PageCard ref={topElement}>
       <div className="flex justify-between border-b-2 border-[#7D916F] p-1">
         <h1 className="text-lg font-semibold"> Create Event </h1>
-
         <Link href="/">
           <ArrowLeft />
         </Link>
       </div>
 
-      <div className="grid-col-1 my-4 grid h-full text-center lg:grid-cols-2">
-        <div className="mx-auto h-full w-full">
-          <form className="sm:max-w-auto mx-auto flex max-w-[80vw] flex-col text-start">
+      <div className="mt-4 grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
+        {/* Primary Inputs */}
+        <div>
+          <form className="flex flex-col gap-5">
             <p className={`${fill ? "block italic" : "hidden"} text-red-500`}>
               Please fill out all required fields (*).
             </p>
-            <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
+
+            <div className="flex flex-col justify-between gap-1.5 md:flex-row">
               <label>
                 Title <a className="text-red-500">*</a>{" "}
               </label>
               <Input
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
-                placeholder="Enter text"
+                className="bg-[#EFF1ED] placeholder-black md:w-[65%]"
+                placeholder="Day Hike and Barbecue"
                 disabled={isLoading}
               ></Input>
             </div>
 
-            <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
+            <div className="flex flex-col justify-between gap-1.5 md:flex-row">
               <label>
                 Description <a className="text-red-500">*</a>
               </label>
               <Textarea
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Enter text"
-                className="h-40 w-full rounded bg-[#EFF1ED] px-1 py-1 text-start placeholder-black focus-visible:outline-none focus-visible:ring-[4px] focus-visible:ring-[#7D916F] md:w-[65%]"
+                placeholder="A day hike around the waterfall, followed by a barbecue."
+                className="h-40 bg-[#EFF1ED] placeholder-black focus-visible:outline-none focus-visible:ring-[4px] focus-visible:ring-[#7D916F] md:w-[65%]"
                 disabled={isLoading}
               ></Textarea>
             </div>
 
-            <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
+            <div className="flex flex-col justify-between gap-1.5 md:flex-row">
               <label>
-                City (Co-Exist Branch) <a className="text-red-500">*</a>
+                Branch <a className="text-red-500">*</a>
               </label>
               <SelectBranch setValue={setCity} signUp={false} />
             </div>
 
-            <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
+            <div className="flex flex-col justify-between gap-1.5 md:flex-row">
               <label>
                 Start Date and Time <a className="text-red-500">*</a>
               </label>
-              <div className="flex w-full justify-between md:w-[65%]">
+              <div className="flex flex-col gap-1 sm:flex-row md:w-[65%]">
                 <CalenderPickerStart
                   setStartSelectedDate={setStartSelectedDate}
+                  className="w-full flex-1 sm:w-auto"
                 />
-                <input
+                <Input
                   onChange={(e) => setStartTime(e.target.value)}
                   type="time"
-                  className="max-w-1/2 border-2 bg-[#EFF1ED]"
+                  className="flex-1 bg-[#EFF1ED]"
                   disabled={isLoading}
-                ></input>
+                ></Input>
               </div>
             </div>
 
-            <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
+            <div className="flex flex-col justify-between gap-1.5 md:flex-row">
               <label>
                 End Date and Time <a className="text-red-500">*</a>
               </label>
-              <div className="flex w-full justify-between md:w-[65%]">
-                <CalenderPickerEnd setEndSelectedDate={setEndSelectedDate} />
-                <input
+              <div className="flex flex-col gap-1 sm:flex-row md:w-[65%]">
+                <CalenderPickerEnd
+                  setEndSelectedDate={setEndSelectedDate}
+                  className="w-full flex-1 sm:w-auto"
+                />
+                <Input
                   onChange={(e) => setEndTime(e.target.value)}
                   type="time"
-                  className="max-w-1/2 border-2 bg-[#EFF1ED]"
+                  className="flex-1 bg-[#EFF1ED]"
                   disabled={isLoading}
-                ></input>
+                ></Input>
               </div>
             </div>
 
-            <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
+            <div className="flex flex-col justify-between gap-1.5 md:flex-row">
               <label>
-                Location <a className="text-red-500">*</a>
+                Location Name <a className="text-red-500">*</a>
               </label>
               <Input
                 onChange={(e) => setLocation(e.target.value)}
-                className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
-                placeholder="Enter text"
+                className="bg-[#EFF1ED] placeholder-black md:w-[65%]"
+                placeholder="MacKenzie Falls Car Park, Grampians National Park"
                 disabled={isLoading}
               ></Input>
             </div>
-            <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
+
+            <div className="flex flex-col justify-between gap-1.5 md:flex-row">
               <label>
-                Location Url <a className="text-red-500">*</a>
+                Location Link <a className="text-red-500">*</a>
               </label>
               <Input
                 onChange={(e) => setLocationUrl(e.target.value)}
-                className={`w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%] ${
+                className={`bg-[#EFF1ED] placeholder-black md:w-[65%] ${
                   locationUrl.length > 0 && !validURL(locationUrl)
                     ? "border-red-500 bg-red-100"
                     : ""
                 }`}
-                placeholder="Enter text"
+                placeholder="https://maps.app.goo.gl/bS2GdrLSVqz7skDC9"
                 disabled={isLoading}
               ></Input>
             </div>
 
-            <div className="flex flex-col justify-between px-1 py-3 md:flex-row">
-              <label>Payment Url</label>
+            <div className="flex flex-col justify-between gap-1.5 md:flex-row">
+              <label>Payment Link</label>
               <Input
                 onChange={(e) => setPaymenturl(e.target.value)}
-                className="w-full rounded border-2 bg-[#EFF1ED] px-1 placeholder-black md:w-[65%]"
-                placeholder="Enter text"
+                className="bg-[#EFF1ED] placeholder-black md:w-[65%]"
+                placeholder="Link to external payment page"
                 disabled={isLoading}
               ></Input>
             </div>
@@ -234,10 +241,11 @@ export default function NewEvent() {
           <LoadingEvent loading={isLoading}></LoadingEvent>
         </div>
 
-        <div className="flex h-full flex-col items-center">
-          <div className="mx-auto h-full min-h-[325px] w-[90%] max-w-[90vw] overflow-x-scroll rounded-[10px] border-2 border-[#7D916F] p-5 text-start sm:w-4/5 sm:overflow-hidden">
-            <h1 className="text-m flex">
-              Upload Image <Image className="mx-1" />
+        {/* Image Upload */}
+        <div className="flex flex-col gap-5">
+          <div className="min-h-[325px] flex-1 rounded-[10px] border-2 border-[#7D916F] p-5 text-start">
+            <h1 className="flex items-center gap-2 text-lg">
+              Upload Image <Image />
             </h1>
 
             <form encType="multipart/form-data" className="my-2">
@@ -248,7 +256,7 @@ export default function NewEvent() {
                   <input
                     type="file"
                     onChange={loadFile}
-                    className="block w-full text-sm text-slate-500 file:ml-0 file:mr-4 file:rounded-full file:border-0 file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-[#7D916F] hover:file:bg-violet-100"
+                    className="block w-full text-sm text-slate-500 file:ml-0 file:mr-4 file:rounded-full file:border-0 file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-[#7D916F] hover:cursor-pointer hover:file:bg-violet-100"
                     ref={imageInput}
                     accept="image/jpeg, image/png, image/jpg, image/gif"
                     disabled={isLoading}
@@ -256,24 +264,23 @@ export default function NewEvent() {
                 </label>
               </div>
             </form>
+
             <div
               ref={imagePreview}
               className="m-4 mx-auto h-[300px] w-[300px] border-none bg-cover bg-no-repeat object-cover"
             />
           </div>
-          <div className="my-auto mt-5 w-full px-5 text-end">
-            <button
-              className="rounded-[13px] border-2 border-[#181818] p-1 px-2 hover:bg-slate-200 hover:opacity-80"
-              onClick={() => formSubmit()}
-              disabled={isLoading}
-            >
-              <h1 className="text-m flex">
-                Add Event <CalendarCheck className="mx-1 text-[#7D916F]" />
-              </h1>
-            </button>
-          </div>
+
+          <Button
+            variant="outline"
+            onClick={() => formSubmit()}
+            disabled={isLoading}
+            className="inline-flex items-center gap-2 self-end border-[1.5px] border-[#7D916F] text-black"
+          >
+            Add Event <CalendarCheck className="text-[#7D916F]" />
+          </Button>
         </div>
       </div>
-    </div>
+    </PageCard>
   );
 }

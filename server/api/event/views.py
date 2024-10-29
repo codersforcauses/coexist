@@ -5,7 +5,7 @@ from django.utils import timezone
 
 from rest_framework import viewsets
 from rest_framework.request import HttpRequest
-from api.auth.permissions import isStaffOrReadonly, isStaffOrAuthenticated
+from api.auth.permissions import isStaffOrReadonly, isStaffOrAuthenticated, AuthenticatedView_PosterModify
 
 from .serializers import EventSerializer, RSVPSerializer
 from .models import Event, RSVP
@@ -39,12 +39,8 @@ class EventViewSet(viewsets.ModelViewSet):
     ordering_fields = ["title", "branch"]
     ordering = ["title", "branch"]
     search_fields = ["title", "description", "location", "branch"]
-    permission_classes = [isStaffOrReadonly]
 
-    def get_permissions(self):
-        if self.action == 'list':
-            return [AllowAny()]
-        return super().get_permissions()
+    permission_classes = [AuthenticatedView_PosterModify]
 
     def get_queryset(self):
         if self.action == 'list':
