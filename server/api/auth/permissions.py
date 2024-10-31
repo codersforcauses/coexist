@@ -23,8 +23,9 @@ class isStaffOrReadonly(permissions.BasePermission):
             return True
         return False
 
+
 # Allows any authenticated user to view. Only posters can modify
-class AuthenticatedView_PosterModify(permissions.BasePermission):
+class isPosterOrReadonly(permissions.BasePermission):
     def has_permission(self, request: HttpRequest, view):
         if request.user and (request.user.groups.filter(name='Poster').exists() or request.user.is_staff):
             return True

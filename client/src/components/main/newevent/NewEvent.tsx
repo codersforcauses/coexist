@@ -24,19 +24,20 @@ const validURL = (s: string) => {
   }
 };
 
+// TODO: use react-hook-form instead
 export default function NewEvent() {
   const topElement = useRef<HTMLDivElement>(null);
   let [title, setTitle] = useState("");
   let [description, setDescription] = useState("");
-  let [paymenturl, setPaymenturl] = useState("");
+  let [paymentUrl, setPaymentUrl] = useState("");
   let [location, setLocation] = useState("");
   let [locationUrl, setLocationUrl] = useState("");
   let [city, setCity] = useState("");
-  let [starttime, setStartTime] = useState("");
-  let [endtime, setEndTime] = useState("");
+  let [startTime, setStartTime] = useState("");
+  let [endTime, setEndTime] = useState("");
   let imageInput = useRef<HTMLInputElement>(null);
 
-  let [fill, setfill] = useState(false);
+  let [fill, setFill] = useState(false);
   let [selectedStartDate, setStartSelectedDate] = useState<Date>();
   let [selectedEndDate, setEndSelectedDate] = useState<Date>();
   let [success, setSuccess] = useState(false);
@@ -51,25 +52,25 @@ export default function NewEvent() {
       description === "" ||
       location === "" ||
       city === "" ||
-      starttime === "" ||
-      endtime === "" ||
+      startTime === "" ||
+      endTime === "" ||
       selectedStartDate === null ||
       selectedEndDate === null ||
-      validURL(locationUrl) == false
+      (locationUrl.length > 0 && !validURL(locationUrl))
     ) {
       topElement.current?.scrollIntoView({
         behavior: "smooth",
       });
-      setfill(true);
+      setFill(true);
       return;
     } else {
-      setfill(false);
+      setFill(false);
     }
 
     setIsLoading(true);
 
-    let start_date_time = `${selectedStartDate}T${starttime}:00Z`;
-    let end_date_time = `${selectedEndDate}T${endtime}:00Z`;
+    let start_date_time = `${selectedStartDate}T${startTime}:00Z`;
+    let end_date_time = `${selectedEndDate}T${endTime}:00Z`;
     let formData: any = new FormData();
 
     formData.append("title", title);
@@ -79,9 +80,8 @@ export default function NewEvent() {
     formData.append("end_time", end_date_time);
     formData.append("branch_id", city);
 
-    if (paymenturl) {
-      formData.append("payment_link", paymenturl);
-    }
+    if (locationUrl) formData.append("location_url", locationUrl);
+    if (paymentUrl) formData.append("payment_link", paymentUrl);
 
     if (imageInput.current?.files?.[0]) {
       formData.append("image", imageInput.current?.files?.[0]);
@@ -211,9 +211,7 @@ export default function NewEvent() {
             </div>
 
             <div className="flex flex-col justify-between gap-1.5 md:flex-row">
-              <label>
-                Location Link <a className="text-red-500">*</a>
-              </label>
+              <label>Location Link</label>
               <Input
                 onChange={(e) => setLocationUrl(e.target.value)}
                 className={`bg-[#EFF1ED] placeholder-black md:w-[65%] ${
@@ -229,7 +227,7 @@ export default function NewEvent() {
             <div className="flex flex-col justify-between gap-1.5 md:flex-row">
               <label>Payment Link</label>
               <Input
-                onChange={(e) => setPaymenturl(e.target.value)}
+                onChange={(e) => setPaymentUrl(e.target.value)}
                 className="bg-[#EFF1ED] placeholder-black md:w-[65%]"
                 placeholder="Link to external payment page"
                 disabled={isLoading}
