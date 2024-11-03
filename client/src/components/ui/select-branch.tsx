@@ -28,9 +28,7 @@ export function SelectBranch({ setValue, signUp }: Prop) {
         setValue(value);
       }}
     >
-      <SelectTrigger
-        className={`${signUp ? "w-full" : "w-[180px] rounded-[20px] border-2 bg-[#7D916F] p-1 px-2"}`}
-      >
+      <SelectTrigger className={`${signUp ? "w-full" : "w-[180px]"}`}>
         <SelectValue placeholder="City" defaultValue="N/A" />
         <SelectContent>
           {cities_query.isLoading ? (

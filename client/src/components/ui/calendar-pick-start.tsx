@@ -15,8 +15,10 @@ import { cn } from "@/lib/utils";
 
 export function CalenderPickerStart({
   setStartSelectedDate,
+  className,
 }: {
   setStartSelectedDate: React.SetStateAction<any>;
+  className?: string;
 }) {
   const [date, setDate] = React.useState<Date>();
 
@@ -33,6 +35,7 @@ export function CalenderPickerStart({
           className={cn(
             "w-[280px] justify-start text-left font-normal",
             !date && "text-muted-foreground",
+            className,
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
