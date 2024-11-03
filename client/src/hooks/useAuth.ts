@@ -75,7 +75,7 @@ export const useAuth = () => {
     lastname,
     phone,
     // confirmpassword,
-    city,
+    branch,
   }: {
     email: string;
     firstname: string;
@@ -83,21 +83,10 @@ export const useAuth = () => {
     password: string;
     phone: string;
     // confirmpassword: string;
-    city: string;
+    branch: number;
   }) => {
     //register endpoint to create a new user
     try {
-      //to be replaced with the real endpoint to create user
-      console.log("Registering user");
-      console.log({
-        first_name: firstname,
-        last_name: lastname,
-        username: email,
-        email: email,
-        password: password,
-        phone: phone,
-        city: parseInt(city),
-      });
       const result = await api.post("/users/register/", {
         first_name: firstname,
         last_name: lastname,
@@ -105,7 +94,7 @@ export const useAuth = () => {
         email: email,
         password: password,
         phone: phone,
-        city: parseInt(city),
+        city: branch,
       });
 
       if (result.status === 201) {
@@ -119,7 +108,6 @@ export const useAuth = () => {
       if (error.response) {
         return JSON.stringify(error.response.data);
       } else {
-        console.error("Register error:", error);
         return false;
       }
     }

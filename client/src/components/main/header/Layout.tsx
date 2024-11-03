@@ -1,5 +1,6 @@
 import { Work_Sans as FontSans } from "next/font/google";
 import { ReactElement } from "react";
+import { Toaster } from "sonner";
 
 import { cn } from "@/lib/utils";
 
@@ -20,6 +21,7 @@ export default function Layout({ children }: { children: ReactElement }) {
     >
       <Header />
       {children}
+      <Toaster position="bottom-center" />
     </main>
   );
 }

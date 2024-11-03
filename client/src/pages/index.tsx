@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 
 import EventCard from "@/components/ui/EventCard_V3";
 import { WaitingLoader } from "@/components/ui/loading";
+import { useGetEventList } from "@/hooks/queries/event";
 import { useAuth } from "@/hooks/useAuth";
-import { useGetEventList } from "@/hooks/useEventsList";
 import useUser from "@/hooks/useUser";
 import { cn } from "@/lib/utils";
 

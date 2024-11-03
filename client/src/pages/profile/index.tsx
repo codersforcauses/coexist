@@ -1,5 +1,4 @@
 import { Pen } from "lucide-react";
-import { useRouter } from "next/router";
 import { useState } from "react";
 
 import EditProfileModal from "@/components/main/EditProfileModal";
