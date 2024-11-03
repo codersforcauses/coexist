@@ -21,7 +21,7 @@ export default function Layout({ children }: { children: ReactElement }) {
     >
       <Header />
       {children}
-      <Toaster position="bottom-center" />
+      <Toaster position="bottom-center" richColors />
     </main>
   );
 }
