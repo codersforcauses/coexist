@@ -1,42 +1,25 @@
-import { AlertCircle } from "lucide-react";
-import React, { useEffect, useState } from "react";
-
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
-interface prop {
-  failed: boolean;
-  setFailed: React.Dispatch<React.SetStateAction<boolean>>;
-}
+type Props = {
+  message: string | null;
+  onClose: () => void;
+};
 
-export default function FailedEvent({ failed, setFailed }: prop) {
+export default function FailedEvent({ message, onClose }: Props) {
   return (
-    <div>
-      <button
-        onClick={() => {
-          setFailed(false);
-        }}
-      >
-        <AlertDialog open={failed}>
-          <AlertDialogContent className="border-none bg-transparent shadow-none">
-            <Alert variant="destructive" className="border-none bg-[#ffffff]">
-              <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Error</AlertTitle>
-              <AlertDescription>Event failed to be created.</AlertDescription>
-            </Alert>
-          </AlertDialogContent>
-        </AlertDialog>
-      </button>
-    </div>
+    <Dialog open={message !== null} onOpenChange={(v) => !v && onClose()}>
+      <DialogContent smallCloseIcon>
+        <DialogHeader>
+          <DialogTitle className="mb-1.5">Error</DialogTitle>
+          <DialogDescription>{message}</DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
   );
 }

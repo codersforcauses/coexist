@@ -1,4 +1,3 @@
-import { set } from "date-fns";
 import Image from "next/image";
 import { ReactNode, useState } from "react";
 
@@ -13,13 +12,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
 
 import { SelectBranch } from "./select-branch";
@@ -36,7 +28,7 @@ function SignUpModal({ children }: Props) {
   const [confirmpassword, setConfirmPassword] = useState("");
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
-  const [city, setCity] = useState("N/A");
+  const [branch, setBranch] = useState(NaN);
   const [phone, setPhone] = useState("");
   const onErrorStyle = "border-2 border-red-500";
   const [error, setError] = useState({
@@ -75,13 +67,19 @@ function SignUpModal({ children }: Props) {
       lastname,
       password,
       confirmpassword,
-      city,
+      city: branch,
     };
 
     //check each field if its empty
     Object.entries(fields).forEach(([key, value]) => {
-      if (!value.trim().length) {
-        temp[key as keyof typeof temp] = true;
+      if (typeof value === "number") {
+        if (Number.isNaN(value)) {
+          temp[key as keyof typeof temp] = true;
+        }
+      } else {
+        if (!value.trim().length) {
+          temp[key as keyof typeof temp] = true;
+        }
       }
     });
 
@@ -141,7 +139,7 @@ function SignUpModal({ children }: Props) {
       }
     }
 
-    if (city === "N/A") {
+    if (Number.isNaN(branch)) {
       temp["city"] = true;
       msg[6] = true;
       setError(temp);
@@ -156,7 +154,7 @@ function SignUpModal({ children }: Props) {
       firstname,
       lastname,
       phone,
-      city,
+      branch,
     });
 
     //server wont reply or is down
@@ -178,7 +176,7 @@ function SignUpModal({ children }: Props) {
     }
 
     // No city selected
-    if (city === "N/A") {
+    if (Number.isNaN(branch)) {
       temp["city"] = true;
       msg[5] = true;
     }
@@ -338,7 +336,11 @@ function SignUpModal({ children }: Props) {
               <div className="flex flex-col">
                 {/* Component uses branch api to get cities from backend*/}
                 <Label htmlFor="branch">Branch</Label>
-                <SelectBranch setValue={setCity} signUp={true} />
+                <SelectBranch
+                  selectedId={branch}
+                  onChange={setBranch}
+                  className="w-full"
+                />
 
                 {emsg[6] ? (
                   <a className="text-xs font-medium text-red-500">

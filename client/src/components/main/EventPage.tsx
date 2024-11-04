@@ -1,13 +1,15 @@
 import { format as dateFormat } from "date-fns";
 import { Edit, Mail, X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
-import { type Event } from "@/hooks/useEvent";
+import LogInModal from "@/components/ui/LogInModal";
+import PageCard from "@/components/ui/page-card";
+import SignUpModal from "@/components/ui/SignUpModal";
+import { Event } from "@/hooks/queries/event";
 import { useAddRsvp, useDeleteRsvp, useHasRsvp } from "@/hooks/useRsvp";
 import useUser from "@/hooks/useUser";
 
-import LogInModal from "../ui/LogInModal";
-import SignUpModal from "../ui/SignUpModal";
 import RsvpListModal from "./RsvpListModal";
 
 type EventPageProps = {
@@ -104,10 +106,12 @@ export const EventPage = ({
     } else {
       return (
         <div className="mt-2 flex gap-2">
-          {/* TODO: Needs to be connected to Edit Event modal */}
-          <button className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
+          <Link
+            href={`/event/${id}/edit`}
+            className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]"
+          >
             Edit <Edit strokeWidth="1" size="20" />
-          </button>
+          </Link>
           <div className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]">
             <RsvpListModal eventId={id} />
           </div>
@@ -117,7 +121,7 @@ export const EventPage = ({
   };
 
   return (
-    <div className="m-3 flex flex-col rounded-[13px] border-2 border-[#9DAD93] p-3 md:p-6 lg:mx-16">
+    <PageCard>
       <span className="text-3xl font-semibold tracking-tight">{title}</span>
       <div className="my-4 border-t border-black"></div>
       <div className="flex flex-col gap-5 lg:flex-row lg:gap-10 lg:[&>*]:flex-1">
@@ -202,6 +206,6 @@ export const EventPage = ({
           </div>
         </div>
       </div>
-    </div>
+    </PageCard>
   );
 };

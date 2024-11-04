@@ -3,16 +3,16 @@ import { useRouter } from "next/router";
 
 import { EventPage } from "@/components/main/EventPage";
 import { WaitingLoader } from "@/components/ui/loading";
-import { useGetEvent } from "@/hooks/useEvent";
+import { useGetEvent } from "@/hooks/queries/event";
 
 export default function Event() {
   const router = useRouter();
   const eventId = router.query.id as string;
 
-  const { data, isLoading, error } = useGetEvent(Number(eventId));
+  const { data, isLoading, error } = useGetEvent(parseInt(eventId));
 
   if (error) {
-    return <Error statusCode={404} />;
+    return <Error statusCode={error.response?.status || 500} />;
   } else if (isLoading) {
     return (
       <div className="flex justify-center pt-24">
