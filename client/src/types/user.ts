@@ -1,5 +1,3 @@
-import { Branch } from "@/hooks/useEvent";
-
 export interface User {
   id: number;
   username: string;

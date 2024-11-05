@@ -1,46 +1,50 @@
-import { Value } from "@radix-ui/react-select";
-import { useEffect, useState } from "react";
-
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import useGetBranches from "@/hooks/useBranches";
+import { cn } from "@/lib/utils";
 
-import selectCity from "../../hooks/selectCity";
+type Props = {
+  selectedId: number | undefined;
+  onChange: (id: number) => void;
+  className?: string;
+};
 
-interface Prop {
-  setValue: (value: string) => void;
-  signUp: boolean;
-}
+export function SelectBranch({ selectedId, onChange, className }: Props) {
+  const { data: branches, isPending, isError } = useGetBranches();
 
-export function SelectBranch({ setValue, signUp }: Prop) {
-  const cities_query = selectCity();
-  const city_list = cities_query.data?.results;
+  const onValueChange = (value: string) => {
+    const parsed = parseInt(value);
+    if (parsed) {
+      onChange(parsed);
+    }
+  };
 
   return (
     <Select
-      onValueChange={(value: any) => {
-        setValue(value);
-      }}
+      value={selectedId ? selectedId.toString() : ""}
+      onValueChange={onValueChange}
     >
-      <SelectTrigger className={`${signUp ? "w-full" : "w-[180px]"}`}>
-        <SelectValue placeholder="City" defaultValue="N/A" />
-        <SelectContent>
-          {cities_query.isLoading ? (
-            <SelectItem value="N/A">Loading...</SelectItem>
-          ) : (
-            city_list &&
-            city_list.map((city) => (
-              <SelectItem value={city.id.toString()}>{city.name}</SelectItem>
-            ))
-          )}
-        </SelectContent>
+      <SelectTrigger className={cn("w-[180px]", className)}>
+        <SelectValue placeholder="Branch" />
       </SelectTrigger>
+      <SelectContent>
+        {isPending || isError ? (
+          <SelectItem value="NaN" disabled>
+            Loading...
+          </SelectItem>
+        ) : (
+          branches.map((branch) => (
+            <SelectItem value={branch.id.toString()} key={branch.id}>
+              {branch.name}
+            </SelectItem>
+          ))
+        )}
+      </SelectContent>
     </Select>
   );
 }
