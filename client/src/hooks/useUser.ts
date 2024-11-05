@@ -1,14 +1,29 @@
-import { useQuery } from "@tanstack/react-query";
+import {
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+} from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
+import { useAuth } from "@/context/AuthProvider";
 import api from "@/lib/api";
 import { User } from "@/types/user";
 
-const useUser = () => {
+type RegistrationDetails = {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  branch: number;
+};
+
+export const useUser = () => {
+  const { isLoggedIn } = useAuth();
   return useQuery<User, AxiosError>({
     queryKey: ["user"],
     staleTime: 5 * 1000 * 60,
-
+    enabled: isLoggedIn,
     queryFn: () =>
       api.get("users/me/").then((res) => {
         return res.data;
@@ -16,4 +31,23 @@ const useUser = () => {
   });
 };
 
-export default useUser;
+export const useRegister = (
+  args?: Omit<
+    UseMutationOptions<unknown, AxiosError, RegistrationDetails>,
+    "mutationKey" | "mutationFn"
+  >,
+) => {
+  return useMutation({
+    ...args,
+    mutationKey: ["register"],
+    mutationFn: (details: RegistrationDetails) => {
+      const correctDetails = {
+        first_name: details.firstName,
+        last_name: details.lastName,
+        city: details.branch,
+        ...details,
+      };
+      return api.post("users/register/", correctDetails);
+    },
+  });
+};

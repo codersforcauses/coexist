@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import LogInModal from "@/components/ui/LogInModal";
 import SignUpModal from "@/components/ui/SignUpModal";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/context/AuthProvider";
 
 import { DropDownNav } from "./DropDown";
 
@@ -15,8 +15,6 @@ const outlineStyle =
 
 function Links({ isHiddenWhenLg }: { isHiddenWhenLg: boolean }) {
   const { isLoggedIn } = useAuth();
-  const [isSignUpOpen, setSignUp] = useState(false);
-  const [isLogInOpen, setLogIn] = useState(false);
 
   return (
     <div
@@ -30,10 +28,6 @@ function Links({ isHiddenWhenLg }: { isHiddenWhenLg: boolean }) {
       <Link className={`${onHoverStyle}`} href="/about">
         About Us
       </Link>
-
-      {/* <Link href="/profile" className={outlineStyle}>
-        Profile
-      </Link> */}
 
       {isLoggedIn ? (
         <Link href="/profile" className={outlineStyle}>

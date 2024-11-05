@@ -1,12 +1,13 @@
 import { Pen } from "lucide-react";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { toast } from "sonner";
 
 import EditProfileModal from "@/components/main/EditProfileModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/useAuth";
-import useUser from "@/hooks/useUser";
+import { useAuth } from "@/context/AuthProvider";
+import { useUser } from "@/hooks/useUser";
 
 function EventCount({ title, count }: { title: string; count: number }) {
   return (
@@ -32,6 +33,7 @@ function CityStatus({
 }
 
 export default function Settings() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { logout } = useAuth();
 
@@ -81,7 +83,9 @@ export default function Settings() {
           variant={"outline"}
           className="border-accent text-2xl text-accent lg:self-center"
           onClick={() => {
+            router.push("/");
             logout();
+            toast("You have been logged out.");
           }}
         >
           Sign Out

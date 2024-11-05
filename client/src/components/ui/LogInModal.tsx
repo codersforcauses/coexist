@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ReactNode, useState } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/context/AuthProvider";
 
 const onErrorStyle = "border-2 border-red-500";
 interface Props {
@@ -27,8 +28,10 @@ function LogInModal({ children }: Props) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const success = await login({ useremail, password });
-    if (!success) {
+    const success = await login(useremail, password);
+    if (success) {
+      toast.success("You are now logged in.");
+    } else {
       handleError();
     }
   };

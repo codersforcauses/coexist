@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { type Event } from "@/hooks/useEvent";
 import { useAddRsvp, useDeleteRsvp, useHasRsvp } from "@/hooks/useRsvp";
-import useUser from "@/hooks/useUser";
+import { useUser } from "@/hooks/useUser";
 
 import LogInModal from "../ui/LogInModal";
 import SignUpModal from "../ui/SignUpModal";
