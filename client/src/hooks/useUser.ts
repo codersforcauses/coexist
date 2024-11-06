@@ -19,11 +19,11 @@ type RegistrationDetails = {
 };
 
 export const useUser = () => {
-  const { isLoggedIn } = useAuth();
+  const { userId } = useAuth();
   return useQuery<User, AxiosError>({
-    queryKey: ["user"],
+    queryKey: ["user", userId],
     staleTime: 5 * 1000 * 60,
-    enabled: isLoggedIn,
+    enabled: userId != null,
     queryFn: () =>
       api.get("users/me/").then((res) => {
         return res.data;

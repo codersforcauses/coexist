@@ -1,16 +1,15 @@
 import { format as dateFormat } from "date-fns";
-import { Edit, Mail, X } from "lucide-react";
+import { Edit } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import RsvpButton from "@/components/main/RsvpButton";
+import RsvpListModal from "@/components/main/RsvpListModal";
 import LogInModal from "@/components/ui/LogInModal";
 import PageCard from "@/components/ui/page-card";
 import SignUpModal from "@/components/ui/SignUpModal";
 import { Event } from "@/hooks/queries/event";
-import { useAddRsvp, useDeleteRsvp, useHasRsvp } from "@/hooks/useRsvp";
 import { useUser } from "@/hooks/useUser";
-
-import RsvpListModal from "./RsvpListModal";
 
 type EventPageProps = {
   event: Event;
@@ -42,44 +41,11 @@ export const EventPage = ({
   const end_time_fmt = dateFormat(end_time, "hh:mm aa");
 
   const user_query = useUser();
-  const rsvp_query = useHasRsvp(id);
-  const { mutate: addRsvp } = useAddRsvp(id);
-  const { mutate: deleteRsvp } = useDeleteRsvp(id);
-
-  const attendeeControls = () => {
-    if (status != "Upcoming") {
-      return <></>;
-    } else if (rsvp_query.data) {
-      return (
-        <button
-          className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]"
-          onClick={() => {
-            deleteRsvp();
-          }}
-        >
-          Remove RSVP <X strokeWidth="1" size="20" />
-        </button>
-      );
-    } else {
-      return (
-        <button
-          className="flex items-center justify-between gap-2 rounded-xl border border-black px-3 py-1 hover:bg-[#9DAD93]"
-          onClick={() => {
-            addRsvp();
-          }}
-        >
-          Send RSVP <Mail strokeWidth="1" size="20" />
-        </button>
-      );
-    }
-  };
 
   const controls = () => {
     if (
       user_query.error?.response?.status === 401 ||
-      rsvp_query.error?.response?.status === 401 ||
-      user_query.data === undefined ||
-      rsvp_query.data === undefined
+      user_query.data === undefined
     ) {
       return (
         <span>
@@ -101,8 +67,8 @@ export const EventPage = ({
       );
     } else if (user_query.isLoading) {
       return <>Loading</>;
-    } else if (user_query.data.role === "Attendee") {
-      return attendeeControls();
+    } else if (user_query.data.role === "Attendee" && status === "Upcoming") {
+      return <RsvpButton eventId={id} />;
     } else {
       return (
         <div className="mt-2 flex gap-2">
