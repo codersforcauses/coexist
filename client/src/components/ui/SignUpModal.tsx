@@ -1,5 +1,7 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { ReactNode, useState } from "react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +14,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/context/AuthProvider";
+import { useRegister } from "@/hooks/useUser";
 
 import { SelectBranch } from "./select-branch";
 
@@ -21,7 +24,27 @@ interface Props {
 }
 
 function SignUpModal({ children }: Props) {
-  const { register } = useAuth();
+  const router = useRouter();
+  const { login } = useAuth();
+  const { mutate: register } = useRegister({
+    // TODO: Re-write these functions once the form has been changed to use react-hook-form
+    onSuccess: (_, details) => {
+      alert("Account created successfully.");
+      login(details.email, details.password).then(() => {
+        router.push("/profile");
+        toast.success("You are now logged in.");
+      });
+    },
+    onError: (error) => {
+      if (!error.status) {
+        alert(
+          "There was an server error when trying to create an account. Please try again later.",
+        );
+      } else {
+        alert(`Registration Error. Status Code = ${error.status}`);
+      }
+    },
+  });
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -148,41 +171,14 @@ function SignUpModal({ children }: Props) {
     }
 
     //make api call
-    const success = await register({
+    register({
       email,
       password,
-      firstname,
-      lastname,
+      firstName: firstname,
+      lastName: lastname,
       phone,
       branch,
     });
-
-    //server wont reply or is down
-    if (!success) {
-      alert(
-        "There was an server error when trying to create an account. Please try again later.",
-      );
-    }
-
-    // invalid email and duplicate email
-    if (typeof success === "string") {
-      if (success.includes("duplicate")) {
-        temp["email"] = true;
-        msg[4] = true;
-      } else if (success.includes("email")) {
-        temp["email"] = true;
-        msg[1] = true;
-      }
-    }
-
-    // No city selected
-    if (Number.isNaN(branch)) {
-      temp["city"] = true;
-      msg[5] = true;
-    }
-
-    setError(temp);
-    setMsg(msg);
   };
 
   return (

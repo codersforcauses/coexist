@@ -1,6 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { pathToRegexp } from "path-to-regexp";
 
+// TODO: Distinguish between routes that can be accessed by attendees and posters
+
 // This function can be marked `async` if using `await` inside
 const imageRegexp = /\.(png|webp|jpeg|jpg|gif|bmp|svg)$/i;
 const publicRoutes = [
@@ -16,8 +18,8 @@ const isPublicRoute = (s: string) =>
 
 export function middleware(request: NextRequest) {
   const pathName = request.nextUrl.pathname;
-  const isLoggedIn = request.cookies.get("refresh");
-  if (!isPublicRoute(pathName) && !isLoggedIn) {
+  const userRole = request.cookies.get("user_role")?.value;
+  if (!isPublicRoute(pathName) && userRole != "user") {
     return NextResponse.redirect(new URL("/", request.url));
   }
 }

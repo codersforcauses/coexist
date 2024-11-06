@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 
 import EventCard from "@/components/ui/EventCard_V3";
 import { WaitingLoader } from "@/components/ui/loading";
+import { useAuth } from "@/context/AuthProvider";
 import { useGetEventList } from "@/hooks/queries/event";
-import { useAuth } from "@/hooks/useAuth";
-import useUser from "@/hooks/useUser";
+import { useUser } from "@/hooks/useUser";
 import { cn } from "@/lib/utils";
 
 const fontSans = FontSans({

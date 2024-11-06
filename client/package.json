@@ -47,7 +47,9 @@
     "sonner": "^1.6.1",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zustand": "^5.0.1",
+    "zustand-persist": "^0.4.0"
   },
   "devDependencies": {
     "@csstools/postcss-oklab-function": "^3.0.16",

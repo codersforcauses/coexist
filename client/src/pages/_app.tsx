@@ -3,10 +3,10 @@ import "@/styles/globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { AppProps } from "next/app";
-// import { fontFamily } from "tailwindcss/defaultTheme";
 import { Work_Sans as FontSans } from "next/font/google";
 
 import Layout from "@/components/main/header/Layout";
+import { AuthProvider } from "@/context/AuthProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -23,10 +23,12 @@ export default function App({ Component, pageProps }: AppProps) {
         global
       >{`:root { --font-sans: ${fontSans.style.fontFamily};}}`}</style>
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <AuthProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </AuthProvider>
       </QueryClientProvider>
     </>
   );

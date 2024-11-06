@@ -8,7 +8,7 @@ import PageCard from "@/components/ui/page-card";
 import SignUpModal from "@/components/ui/SignUpModal";
 import { Event } from "@/hooks/queries/event";
 import { useAddRsvp, useDeleteRsvp, useHasRsvp } from "@/hooks/useRsvp";
-import useUser from "@/hooks/useUser";
+import { useUser } from "@/hooks/useUser";
 
 import RsvpListModal from "./RsvpListModal";
 
