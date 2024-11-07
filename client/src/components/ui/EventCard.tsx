@@ -1,26 +1,10 @@
-"use client";
 import { format as dateFormat } from "date-fns";
-import { Mail, Share } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
+import RsvpButton from "@/components/main/RsvpButton";
 import { Event } from "@/hooks/queries/event";
 import { cn } from "@/lib/utils";
-
-import RsvpButton from "../main/RsvpButton";
-
-type Props = {
-  id: number;
-  startTime: Date;
-  endTime: Date;
-  title: string;
-  branch: string;
-  location: string;
-  description: string;
-  refImageURL: string;
-  rsvpURL: string;
-};
 
 export default function EventCard({
   event: {
