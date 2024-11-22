@@ -15,7 +15,8 @@ class Event(SoftDeleteModel):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField(null=True, blank=True)
     location = models.CharField(max_length=200)
-    location_url = models.URLField(max_length=500, blank=True)
+    lat = models.DecimalField(max_digits=9, decimal_places=6, null=True)
+    lon = models.DecimalField(max_digits=9, decimal_places=6, null=True)
     payment_link = models.CharField(max_length=200, blank=True)
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE, related_name="events")
 

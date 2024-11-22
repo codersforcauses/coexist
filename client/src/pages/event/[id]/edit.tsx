@@ -24,16 +24,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { WaitingLoader } from "@/components/ui/loading";
+import { LocationInput } from "@/components/ui/location-input";
 import PageCard from "@/components/ui/page-card";
 import { SelectBranch } from "@/components/ui/select-branch";
 import { Textarea } from "@/components/ui/textarea";
-import { Event, useGetEvent, useUpdateEvent } from "@/hooks/queries/event";
-
-function updateDateWithTime(date: Date, time: string): Date {
-  const [hours, minutes] = time.split(":").map(Number);
-  date.setHours(hours, minutes, 0, 0);
-  return date;
-}
+import { useGetEvent, useUpdateEvent } from "@/hooks/queries/event";
+import { updateDateWithTime } from "@/lib/utils";
+import { type Event, schema } from "@/types/event";
 
 export default function EditEvent() {
   const router = useRouter();
@@ -72,17 +69,6 @@ function EditEventForm({ event }: { event: Event }) {
     },
   });
 
-  const schema = z.object({
-    title: z.string().min(1, "Must be at least 1 character"),
-    description: z.string().min(1, "Must be at least 1 character"),
-    branch_id: z.number().int(),
-    start_date: z.date(),
-    end_date: z.date(),
-    location: z.string().min(1, "Must be at least 1 character"),
-    location_url: z.string().url().or(z.string().max(0)),
-    payment_link: z.string().url().or(z.string().max(0)),
-  });
-
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -94,7 +80,7 @@ function EditEventForm({ event }: { event: Event }) {
       end_date: event.end_time,
 
       location: event.location,
-      location_url: event.location_url,
+      coordinates: event.coordinates ?? null,
       payment_link: event.payment_link,
     },
   });
@@ -120,7 +106,7 @@ function EditEventForm({ event }: { event: Event }) {
       start_time: values.start_date.toISOString(),
       end_time: values.end_date.toISOString(),
       location: values.location,
-      location_url: values.location_url,
+      coordinates: values.coordinates ?? undefined,
       payment_link: values.payment_link,
       image: imageFile || undefined,
     });
@@ -281,7 +267,7 @@ function EditEventForm({ event }: { event: Event }) {
               name="location"
               render={({ field }) => (
                 <FormItem className="flex flex-col justify-between gap-1.5 space-y-0 md:flex-row">
-                  <FormLabel required>Location</FormLabel>
+                  <FormLabel required>Location Name</FormLabel>
                   <div className="flex flex-col gap-1 md:w-[65%]">
                     <FormControl>
                       <Input
@@ -298,20 +284,17 @@ function EditEventForm({ event }: { event: Event }) {
 
             <FormField
               control={form.control}
-              name="location_url"
+              name="coordinates"
               render={({ field }) => (
                 <FormItem className="flex flex-col justify-between gap-1.5 space-y-0 md:flex-row">
-                  <FormLabel>Location Link</FormLabel>
-                  <div className="flex flex-col gap-1 md:w-[65%]">
-                    <FormControl>
-                      <Input
-                        {...field}
-                        className="h-11 bg-[#EFF1ED] placeholder-black"
-                        placeholder="https://maps.app.goo.gl/bS2GdrLSVqz7skDC9"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </div>
+                  <FormLabel>Map Location</FormLabel>
+                  <FormControl>
+                    <LocationInput
+                      value={field.value}
+                      onChange={field.onChange}
+                      className="md:w-[65%]"
+                    />
+                  </FormControl>
                 </FormItem>
               )}
             />

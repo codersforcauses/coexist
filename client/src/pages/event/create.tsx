@@ -22,11 +22,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { LocationInput } from "@/components/ui/location-input";
 import PageCard from "@/components/ui/page-card";
 import { SelectBranch } from "@/components/ui/select-branch";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateEvent } from "@/hooks/queries/event";
 import { updateDateWithTime } from "@/lib/utils";
+import { schema } from "@/types/event";
 
 export default function CreateEvent() {
   const router = useRouter();
@@ -42,24 +44,13 @@ export default function CreateEvent() {
     },
   });
 
-  const schema = z.object({
-    title: z.string().min(1, "Must be at least 1 character"),
-    description: z.string().min(1, "Must be at least 1 character"),
-    branch_id: z.number({ message: "Required" }),
-    start_date: z.date(),
-    end_date: z.date(),
-    location: z.string().min(1, "Must be at least 1 character"),
-    location_url: z.string().url().or(z.string().max(0)),
-    payment_link: z.string().url().or(z.string().max(0)),
-  });
-
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
       title: "",
       description: "",
       location: "",
-      location_url: "",
+      coordinates: null,
       payment_link: "",
       branch_id: NaN,
     },
@@ -86,7 +77,7 @@ export default function CreateEvent() {
       start_time: values.start_date.toISOString(),
       end_time: values.end_date.toISOString(),
       location: values.location,
-      location_url: values.location_url,
+      coordinates: values.coordinates ?? undefined,
       payment_link: values.payment_link,
       image: imageFile || undefined,
     });
@@ -247,7 +238,7 @@ export default function CreateEvent() {
               name="location"
               render={({ field }) => (
                 <FormItem className="flex flex-col justify-between gap-1.5 space-y-0 md:flex-row">
-                  <FormLabel required>Location</FormLabel>
+                  <FormLabel required>Location Name</FormLabel>
                   <div className="flex flex-col gap-1 md:w-[65%]">
                     <FormControl>
                       <Input
@@ -264,20 +255,17 @@ export default function CreateEvent() {
 
             <FormField
               control={form.control}
-              name="location_url"
+              name="coordinates"
               render={({ field }) => (
                 <FormItem className="flex flex-col justify-between gap-1.5 space-y-0 md:flex-row">
-                  <FormLabel>Location Link</FormLabel>
-                  <div className="flex flex-col gap-1 md:w-[65%]">
-                    <FormControl>
-                      <Input
-                        {...field}
-                        className="h-11 bg-[#EFF1ED] placeholder-black"
-                        placeholder="https://maps.app.goo.gl/bS2GdrLSVqz7skDC9"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </div>
+                  <FormLabel>Map Location</FormLabel>
+                  <FormControl>
+                    <LocationInput
+                      value={field.value}
+                      onChange={field.onChange}
+                      className="md:w-[65%]"
+                    />
+                  </FormControl>
                 </FormItem>
               )}
             />

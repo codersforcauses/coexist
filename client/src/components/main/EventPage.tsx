@@ -1,3 +1,4 @@
+import { Map, Marker } from "@vis.gl/react-google-maps";
 import { format as dateFormat } from "date-fns";
 import { Edit, Mail, X } from "lucide-react";
 import Image from "next/image";
@@ -6,9 +7,9 @@ import Link from "next/link";
 import LogInModal from "@/components/ui/LogInModal";
 import PageCard from "@/components/ui/page-card";
 import SignUpModal from "@/components/ui/SignUpModal";
-import { Event } from "@/hooks/queries/event";
 import { useAddRsvp, useDeleteRsvp, useHasRsvp } from "@/hooks/useRsvp";
 import { useUser } from "@/hooks/useUser";
+import type { Event } from "@/types/event";
 
 import RsvpListModal from "./RsvpListModal";
 
@@ -24,7 +25,7 @@ export const EventPage = ({
     image,
     branch,
     location,
-    location_url,
+    coordinates,
     start_time,
     end_time,
     payment_link,
@@ -184,13 +185,19 @@ export const EventPage = ({
             </div>
           </div>
           {/* Location Map */}
-          {location_url && (
-            <iframe
-              src={location_url}
-              className="aspect-[2/1] w-full rounded-lg border-0"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
+          {coordinates && (
+            <div className="aspect-[2/1] w-full overflow-hidden rounded-lg">
+              <Map
+                defaultCenter={{ lat: coordinates.lat, lng: coordinates.lon }}
+                defaultZoom={18}
+                gestureHandling="cooperative"
+                controlSize={24}
+              >
+                <Marker
+                  position={{ lat: coordinates.lat, lng: coordinates.lon }}
+                />
+              </Map>
+            </div>
           )}
           {/* Links and Controls */}
           <div className="flex flex-col items-center gap-3 lg:items-start">

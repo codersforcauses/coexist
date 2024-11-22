@@ -7,38 +7,30 @@ import {
 } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
-import { Branch } from "@/hooks/useBranches";
 import api from "@/lib/api";
+import type { Event, EventUpdateDetails } from "@/types/event";
 
-export type EventStatus = "Cancelled" | "Upcoming" | "Past" | "Ongoing";
-
-export type Event = {
-  id: number;
-  created_at: Date;
-  updated_at: Date;
-  title: string;
-  description: string;
-  image: string;
-  start_time: Date;
-  end_time: Date;
-  location: string;
-  location_url: string;
-  branch: Branch;
-  payment_link: string;
-  status: EventStatus;
-};
-
-export type EventUpdateDetails = {
-  title: string;
-  description: string;
-  branch_id: number;
-  start_time: string;
-  end_time: string;
-  location: string;
-  location_url: string;
-  payment_link: string;
-  image?: File;
-};
+// Must use form data in order for image upload to work
+function createFormData(details: EventUpdateDetails): FormData {
+  const formData = new FormData();
+  formData.append("title", details.title);
+  formData.append("description", details.description);
+  formData.append("branch_id", details.branch_id.toString());
+  formData.append("start_time", details.start_time);
+  formData.append("end_time", details.end_time);
+  formData.append("location", details.location);
+  if (details.coordinates) {
+    // Backend API allows max of 9 digits (because it is stored as decimal, not float)
+    formData.append("lat", details.coordinates.lat.toString().substring(0, 9));
+    formData.append("lon", details.coordinates.lon.toString().substring(0, 9));
+  } else {
+    formData.append("lat", "");
+    formData.append("lon", "");
+  }
+  formData.append("payment_link", details.payment_link);
+  if (details.image) formData.append("image", details.image);
+  return formData;
+}
 
 export const useGetEvent = (
   eventId: number,
@@ -48,11 +40,21 @@ export const useGetEvent = (
     ...args,
     queryKey: ["event", eventId],
     queryFn: async () =>
-      api.get(`/event/${eventId}/`).then((res) => ({
-        ...res.data,
-        start_time: new Date(res.data.start_time),
-        end_time: new Date(res.data.end_time),
-      })),
+      api.get(`/event/${eventId}/`).then((res) => {
+        const coordinates =
+          res.data.lat && res.data.lon
+            ? { lat: parseFloat(res.data.lat), lon: parseFloat(res.data.lon) }
+            : undefined;
+
+        return {
+          ...res.data,
+          lat: undefined,
+          lon: undefined,
+          coordinates,
+          start_time: new Date(res.data.start_time),
+          end_time: new Date(res.data.end_time),
+        };
+      }),
     enabled: !isNaN(eventId),
   });
 };
@@ -96,17 +98,7 @@ export const useCreateEvent = (
     ...args,
     mutationKey: ["event_create"],
     mutationFn: (details: EventUpdateDetails) => {
-      const formData = new FormData();
-      formData.append("title", details.title);
-      formData.append("description", details.description);
-      formData.append("branch_id", details.branch_id.toString());
-      formData.append("start_time", details.start_time);
-      formData.append("end_time", details.end_time);
-      formData.append("location", details.location);
-      formData.append("location_url", details.location_url);
-      formData.append("payment_link", details.payment_link);
-      if (details.image) formData.append("image", details.image);
-
+      const formData = createFormData(details);
       return api.post(`/event/`, formData).then((res) => res.data);
     },
     onSuccess: (data, details, context) => {
@@ -129,17 +121,7 @@ export const useUpdateEvent = (
     ...args,
     mutationKey: ["event_update", eventId],
     mutationFn: (details: EventUpdateDetails) => {
-      const formData = new FormData();
-      formData.append("title", details.title);
-      formData.append("description", details.description);
-      formData.append("branch_id", details.branch_id.toString());
-      formData.append("start_time", details.start_time);
-      formData.append("end_time", details.end_time);
-      formData.append("location", details.location);
-      formData.append("location_url", details.location_url);
-      formData.append("payment_link", details.payment_link);
-      if (details.image) formData.append("image", details.image);
-
+      const formData = createFormData(details);
       return api.put(`/event/${eventId}/`, formData);
     },
     onSuccess: (data, details, context) => {
