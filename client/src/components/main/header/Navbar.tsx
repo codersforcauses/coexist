@@ -25,7 +25,7 @@ function Links({ isHiddenWhenLg }: { isHiddenWhenLg: boolean }) {
         Upcoming Events
       </Link>
 
-      <Link className={`${onHoverStyle}`} href="/about">
+      <Link className={`${onHoverStyle}`} href="https://coexistaus.org/">
         About Us
       </Link>
 

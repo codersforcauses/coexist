@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 import os
+import datetime
+
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -155,18 +157,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-PROJECT_ROOT = os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-)  # <- '/' directory
+STATIC_URL = "/static"
 
-STATIC_URL = "/static/"
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# STATIC_ROOT is where the static files get copied to when "collectstatic" is run.
-# STATIC_ROOT = os.path.join(PROJECT_ROOT, "server", "static")
+# Will need to configure this for actual deployment
+STATIC_ROOT = "/var/www/example.com/static/"
 
-# This is where to _find_ static files when 'collectstatic' is run.
-# These files are then copied to the STATIC_ROOT location.
-STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, "server", "static"),)
+STATICFILES_DIRS = [
+    "/static"
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -176,6 +177,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # DRF Simple JWT Configuration
 SIMPLE_JWT = {
-    # "ACCESS_TOKEN_LIFETIME": datetime.timedelta(seconds=10),
-    # "REFRESH_TOKEN_LIFETIME": datetime.timedelta(seconds=30),
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(seconds=10),
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(seconds=30),
 }

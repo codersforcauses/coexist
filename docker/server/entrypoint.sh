@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -e
+
+export DJANGO_SETTINGS_MODULE=api.settings
+
 # Wait until Database is available before continuing
 printf "\n" && echo "Checking Database is up"
 # using psql
@@ -17,9 +21,11 @@ python manage.py migrate --noinput
 echo "Collecting static files"
 python manage.py collectstatic --noinput
 
-# Create Django Superuser
-echo "Creating Django Superuser"
-python manage.py createsuperuser --noinput
+# Check if superuser exists
+if [ "$APP_ENV" = "DEVELOPMENT" ]; then
+  echo "Creating Django Superuser"
+  python manage.py createsuperuser --noinput || true
+fi
 
 # Run inbuilt Django server if ENV is development
 if [ "${APP_ENV^^}" = "DEVELOPMENT" ]; then
