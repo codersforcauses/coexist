@@ -24,12 +24,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import LogInModal from "@/components/ui/LogInModal";
 import { SelectBranch } from "@/components/ui/select-branch";
 import { useAuth } from "@/context/AuthProvider";
 import { useDelayedPending } from "@/hooks/useDelayedPending";
 import { useRegister } from "@/hooks/useUser";
-
-import LogInModal from "../ui/LogInModal";
 
 const schema = z
   .object({
@@ -48,7 +47,7 @@ const schema = z
       ctx.addIssue({
         code: "custom",
         message: "Passwords must match",
-        path: ["confirmPassword"],
+        path: ["password_confirm"],
       });
     }
   });
