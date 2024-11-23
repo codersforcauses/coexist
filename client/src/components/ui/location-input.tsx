@@ -267,7 +267,12 @@ export function LocationPicker({
             <Button variant="outline">Cancel</Button>
           </DialogClose>
           <DialogClose asChild>
-            <Button onClick={() => onConfirm(pinCoordinates)}>Confirm</Button>
+            <Button
+              onClick={() => onConfirm(pinCoordinates)}
+              disabled={pinCoordinates == null}
+            >
+              Confirm
+            </Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
