@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import validator from "validator";
 import { z } from "zod";
 
+import SignInModal from "@/components/modal/sign-in";
 import {
   Dialog,
   DialogContent,
@@ -24,7 +25,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import LogInModal from "@/components/ui/LogInModal";
 import { SelectBranch } from "@/components/ui/select-branch";
 import { useAuth } from "@/context/AuthProvider";
 import { useDelayedPending } from "@/hooks/useDelayedPending";
@@ -232,13 +232,13 @@ function SignUpForm() {
           )}
         />
         <div className="flex flex-col items-start justify-between gap-2.5 sm:flex-row sm:items-center">
-          <LogInModal>
+          <SignInModal>
             <span>
               <button type="button" className="underline">
                 Already have an account?
               </button>
             </span>
-          </LogInModal>
+          </SignInModal>
           <Button type="submit" className="self-stretch">
             {showIsPending ? (
               <ReloadIcon className="size-4 animate-spin text-primary" />

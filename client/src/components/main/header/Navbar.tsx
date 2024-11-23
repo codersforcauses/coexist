@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import SignInModal from "@/components/modal/sign-in";
 import SignUpModal from "@/components/modal/sign-up";
-import LogInModal from "@/components/ui/LogInModal";
 import { useAuth } from "@/context/AuthProvider";
 
 import { DropDownNav } from "./DropDown";
@@ -34,9 +34,9 @@ function Links({ isHiddenWhenLg }: { isHiddenWhenLg: boolean }) {
         </Link>
       ) : (
         <div className="flex flex-col items-center justify-center lg:flex-row lg:gap-5">
-          <LogInModal>
+          <SignInModal>
             <button className={`${onHoverStyle}`}>Log in</button>
-          </LogInModal>
+          </SignInModal>
           <SignUpModal>
             <button className={outlineStyle}>Sign up</button>
           </SignUpModal>
