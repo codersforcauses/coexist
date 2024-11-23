@@ -1,5 +1,5 @@
-import { Event } from "@/hooks/queries/event";
 import { cn } from "@/lib/utils";
+import type { Event } from "@/types/event";
 
 import EventCard from "../ui/EventCard";
 
