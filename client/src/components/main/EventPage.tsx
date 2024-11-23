@@ -6,12 +6,11 @@ import Link from "next/link";
 
 import RsvpButton from "@/components/main/RsvpButton";
 import RsvpListModal from "@/components/main/RsvpListModal";
+import SignUpModal from "@/components/modal/sign-up";
 import LogInModal from "@/components/ui/LogInModal";
 import PageCard from "@/components/ui/page-card";
 import { useUser } from "@/hooks/useUser";
 import type { Event } from "@/types/event";
-
-import SignUpModal from "../modal/sign-up";
 
 type EventPageProps = {
   event: Event;
