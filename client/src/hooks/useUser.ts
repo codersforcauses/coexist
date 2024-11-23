@@ -33,7 +33,11 @@ export const useUser = () => {
 
 export const useRegister = (
   args?: Omit<
-    UseMutationOptions<unknown, AxiosError, RegistrationDetails>,
+    UseMutationOptions<
+      unknown,
+      AxiosError<{ [key: string]: unknown }>,
+      RegistrationDetails
+    >,
     "mutationKey" | "mutationFn"
   >,
 ) => {
