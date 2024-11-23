@@ -1,58 +1,39 @@
-#!/bin/bash
+#!/bin/sh
 
-echo "${APP_NAME^^} - NextJS CONTAINER STARTING..."
-echo $APP_NAME
+set -e
 
-# Display Docker Image / CI / Release details
-echo "Image Build Date/Time: " "$(cat /app/build_timestamp.txt)" "UTC"
+echo "$APP_NAME - NextJS CONTAINER STARTING..."
+echo "APP_NAME: $APP_NAME"
+
+# Display Build Date/Time if available
+if [ -f /app/build_timestamp.txt ]; then
+    echo "Image Build Date/Time: $(cat /app/build_timestamp.txt) UTC"
+fi
 
 echo "-----------------------------------------------------------"
 echo "APP_ENV: ${APP_ENV}"
 
-# # ====================================================================================
-# # Debug / Sanity check info
-# # ====================================================================================
-# echo "  "
-# echo "======= Current Dir / Files (Debug) ============================================================================="
-# pwd
-# ls -al
-
-# echo "  "
-# echo "======= Env Vars (Debug) ========================================================================================"
-# if [ "${APP_ENV^^}" != "PRODUCTION" ]; then
-#   # Only print environment vars in non-prod environments to prevent sensitive variables being sent to logging system
-#   printenv
-# fi
-
-# echo "  "
-# echo "======= Linux version (Debug) ==================================================================================="
-# cat /etc/os-release
-
-# echo "  "
-# echo "======= Node Path & Version (Debug) ==========================================================================="
-# node -v
-
-# Check for required env vars, exit as failure if missing these critical env vars.
-if [[ -z "${APP_ENV}" ]]; then
+# Check for required env vars
+if [ -z "${APP_ENV}" ]; then
     echo "█████████████████████████████████████████████████████████████████████████████████████████████████████████████"
-    echo "█ CRITICAL ERROR: Missing 'APP_ENV' environment variables."
+    echo "█ CRITICAL ERROR: Missing 'APP_ENV' environment variable."
     echo "█████████████████████████████████████████████████████████████████████████████████████████████████████████████"
-    echo "APP_ENV=" $APP_ENV
-    echo "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
-    exit
+    echo "APP_ENV=${APP_ENV}"
+    exit 1
 fi
 
-# CI TEST DOWN THE TRACK
-
-# ====================================================================================
-# Run inbuilt nextjs server if ENV is LOCAL
-# ====================================================================================
-if [ "${APP_ENV^^}" = "DEVELOPMENT" ]; then
-    # Install dependencies (idk why it's not installing the latest ones in the docker image)
+# Start the application based on APP_ENV
+if [ "${APP_ENV}" = "PRODUCTION" ]; then
+    echo "Starting Next.js application in production mode"
+    # Build and run for prod
     npm install
-    # Run developments
-    echo "  "
-    echo "======= Starting inbuilt nextjs webserver ==================================================================="
-    npm run dev
-    exit
+    npm run build
+    npm start
+elif [ "${APP_ENV}" = "DEVELOPMENT" ]; then
+    echo "Starting Next.js application in development mode"
+    npm install
+    exec npm run dev
+else
+    echo "Unknown APP_ENV: ${APP_ENV}"
+    exit 1
 fi
