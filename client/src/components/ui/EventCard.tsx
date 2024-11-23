@@ -3,8 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import RsvpButton from "@/components/main/RsvpButton";
-import { Event } from "@/hooks/queries/event";
 import { cn } from "@/lib/utils";
+import type { Event } from "@/types/event";
 
 export default function EventCard({
   event: {

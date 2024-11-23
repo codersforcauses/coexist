@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { APIProvider as MapsApiProvider } from "@vis.gl/react-google-maps";
 import type { AppProps } from "next/app";
 import { Work_Sans as FontSans } from "next/font/google";
 
@@ -24,10 +25,14 @@ export default function App({ Component, pageProps }: AppProps) {
       >{`:root { --font-sans: ${fontSans.style.fontFamily};}}`}</style>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <MapsApiProvider
+            apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? ""}
+          >
+            <ReactQueryDevtools initialIsOpen={false} />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </MapsApiProvider>
         </AuthProvider>
       </QueryClientProvider>
     </>
