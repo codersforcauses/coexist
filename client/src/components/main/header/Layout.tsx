@@ -20,7 +20,9 @@ export default function Layout({ children }: { children: ReactElement }) {
       )}
     >
       <Header />
-      {children}
+      <div className="mx-auto my-3 w-[95%] max-w-screen-2xl md:my-4">
+        {children}
+      </div>
       <Toaster position="bottom-center" richColors />
     </main>
   );

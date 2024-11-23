@@ -71,13 +71,16 @@ export default function RsvpListModal({ eventId }: RsvpListModalProps) {
           <TableHeader>
             <TableRow>
               <TableHead className="border-b border-r border-[#7D916F] text-black">
-                Username
+                First Name
               </TableHead>
               <TableHead className="border-b border-r border-[#7D916F] text-black">
                 Last Name
               </TableHead>
               <TableHead className="border-b border-r border-[#7D916F] text-black">
                 Email
+              </TableHead>
+              <TableHead className="border-b border-[#7D916F] text-black">
+                Phone Number
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -90,8 +93,11 @@ export default function RsvpListModal({ eventId }: RsvpListModalProps) {
                 <TableCell className="border-r border-t border-r-[#7D916F] border-t-[#DEE4DB]">
                   {a.user.last_name}
                 </TableCell>
-                <TableCell className="text6789-[#5C764B] border-t border-t-[#DEE4DB] underline">
+                <TableCell className="text6789-[#5C764B] border-r border-t border-r-[#7D916F] border-t-[#DEE4DB] underline">
                   <a href={`mailto:${a.user.email}`}>{a.user.email}</a>
+                </TableCell>
+                <TableCell className="border-t border-t-[#DEE4DB]">
+                  {a.user.phone}
                 </TableCell>
               </TableRow>
             ))}
