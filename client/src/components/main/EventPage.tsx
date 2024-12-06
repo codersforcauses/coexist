@@ -6,9 +6,9 @@ import Link from "next/link";
 
 import RsvpButton from "@/components/main/RsvpButton";
 import RsvpListModal from "@/components/main/RsvpListModal";
-import LogInModal from "@/components/ui/LogInModal";
+import SignInModal from "@/components/modal/sign-in";
+import SignUpModal from "@/components/modal/sign-up";
 import PageCard from "@/components/ui/page-card";
-import SignUpModal from "@/components/ui/SignUpModal";
 import { useUser } from "@/hooks/useUser";
 import type { Event } from "@/types/event";
 
@@ -58,11 +58,11 @@ export const EventPage = ({
             </a>
           </SignUpModal>{" "}
           or{" "}
-          <LogInModal>
+          <SignInModal>
             <a className="cursor-pointer text-[#9DAD93] hover:text-[#6B7B6B]">
               login
             </a>
-          </LogInModal>{" "}
+          </SignInModal>{" "}
           to proceed.
         </span>
       );
