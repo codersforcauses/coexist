@@ -32,7 +32,7 @@ if [ "${APP_ENV}" = "PRODUCTION" ]; then
 elif [ "${APP_ENV}" = "DEVELOPMENT" ]; then
     echo "Starting Next.js application in development mode"
     npm install
-    exec npm run dev
+    npm run dev
 else
     echo "Unknown APP_ENV: ${APP_ENV}"
     exit 1

@@ -159,7 +159,13 @@ USE_TZ = True
 
 STATIC_URL = "/static"
 
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+def get_project_root() -> str:
+    if os.environ.get("APP_ENV") == "DEVELOPMENT": 
+        return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    else:
+        return os.environ.get("DJANGO_PROJECT_ROOT")
+
+PROJECT_ROOT = get_project_root()
 
 # Will need to configure this for actual deployment
 STATIC_ROOT = "/var/www/example.com/static/"
@@ -176,7 +182,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # DRF Simple JWT Configuration
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(seconds=10),
-    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(seconds=30),
-}
+# SIMPLE_JWT = {
+#     "ACCESS_TOKEN_LIFETIME": datetime.timedelta(seconds=10),
+#     "REFRESH_TOKEN_LIFETIME": datetime.timedelta(seconds=30),
+# }
