@@ -1,0 +1,35 @@
+# Step 1: Build Stage
+FROM node:20-slim as build-stage
+
+# Set working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY ./client/package.json ./client/package-lock.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy application code
+COPY ./client /app
+
+# Ensure .next/cache directory exists and is writable
+RUN mkdir -p /app/.next/cache && chmod -R 755 /app/.next/cache
+
+# Build the application in standalone mode
+RUN npm run build
+
+# Create build timestamp
+RUN date -u > /app/build_timestamp.txt
+
+# Step 2: Prepare Files for Deployment
+FROM alpine:latest as deployment-stage
+
+# Set working directory
+WORKDIR /app
+
+# Copy the built files from the build stage
+COPY --from=build-stage /app/.next/standalone /app
+COPY --from=build-stage /app/.next/static /app/.next/static
+COPY --from=build-stage /app/public /app/public
+COPY --from=build-stage /app/build_timestamp.txt /app/build_timestamp.txt

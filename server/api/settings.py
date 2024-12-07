@@ -157,7 +157,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "/static"
+STATIC_URL = "/static/"
 
 def get_project_root() -> str:
     if os.environ.get("APP_ENV") == "DEVELOPMENT": 
@@ -171,7 +171,7 @@ PROJECT_ROOT = get_project_root()
 STATIC_ROOT = "/var/www/example.com/static/"
 
 STATICFILES_DIRS = [
-    "/static"
+    "/static/"
 ]
 
 

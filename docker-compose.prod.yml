@@ -12,8 +12,8 @@ services:
       timeout: 3s
       retries: 5
     # Remove port mapping in production for security
-    #ports:
-    #  - "5432:5432"
+    ports:
+     - "5432:5432"
 
   server:
     container_name: coexist-server
@@ -34,9 +34,11 @@ services:
     container_name: coexist-client
     build:
       context: .
-      dockerfile: ./docker/client/Dockerfile
+      dockerfile: ./docker/client/Dockerfile.prod
     restart: unless-stopped
     env_file: ./client/.env
+    environment:
+      - APP_ENV=PRODUCTION
     depends_on:
       - server
     ports:

@@ -20,6 +20,8 @@ RUN pip install --upgrade pip && \
 # Configure Poetry
 RUN poetry config virtualenvs.create false
 
+RUN mkdir -p /var/log/accesslogs
+
 # Copy the application files
 COPY ./server/pyproject.toml ./server/poetry.lock ./
 RUN poetry install --no-dev --no-interaction --no-ansi
