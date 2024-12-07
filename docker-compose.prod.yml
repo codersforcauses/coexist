@@ -3,16 +3,18 @@ services:
     container_name: coexist-db
     image: postgres:16
     restart: unless-stopped
+    env_file: ./server/.env
     volumes:
-      - ${LOCAL_WORKSPACE_FOLDER:-.}/data/db:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 3s
       timeout: 3s
       retries: 5
-    env_file: ./server/.env
-    ports:
-      - 5432:5432
+    # Remove port mapping in production for security
+    #ports:
+    #  - "5432:5432"
+
   server:
     container_name: coexist-server
     build:
@@ -20,10 +22,14 @@ services:
       dockerfile: ./docker/server/Dockerfile
     restart: unless-stopped
     env_file: ./server/.env
+    depends_on:
+      - db
     ports:
-      - 8000:8000
-    volumes:
-      - ${LOCAL_WORKSPACE_FOLDER:-.}/server:/app
+      - "8000:8000"
+    # Remove code volume mounts in production
+    #volumes:
+    #  - ./server:/app
+
   client:
     container_name: coexist-client
     build:
@@ -31,11 +37,13 @@ services:
       dockerfile: ./docker/client/Dockerfile
     restart: unless-stopped
     env_file: ./client/.env
+    depends_on:
+      - server
     ports:
-      - 3000:3000
-    volumes:
-      - ${LOCAL_WORKSPACE_FOLDER:-.}/client:/app
-      - ignore:/app/node_modules
+      - "3000:3000"
+    # Remove code volume mounts in production
+    #volumes:
+    #  - ./client:/app
 
 volumes:
-  ignore:
+  db-data:
