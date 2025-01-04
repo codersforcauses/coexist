@@ -11,27 +11,27 @@ services:
       interval: 3s
       timeout: 3s
       retries: 5
-    # Remove port mapping in production for security
     ports:
      - "5432:5432"
 
   server:
     container_name: coexist-server
+    image: ghcr.io/codersforcauses/coexist-server
     build:
       context: .
       dockerfile: ./docker/server/Dockerfile
     restart: unless-stopped
+    volume:
+      - /var/www/coexist.codersforcauses.org/static:/var/www/coexist.codersforcauses.org/static
     env_file: ./server/.env
     depends_on:
       - db
     ports:
       - "8000:8000"
-    # Remove code volume mounts in production
-    #volumes:
-    #  - ./server:/app
 
   client:
     container_name: coexist-client
+    image: ghcr.io/codersforcauses/coexist-client
     build:
       context: .
       dockerfile: ./docker/client/Dockerfile.prod
@@ -43,9 +43,14 @@ services:
       - server
     ports:
       - "3000:3000"
-    # Remove code volume mounts in production
-    #volumes:
-    #  - ./client:/app
+
+  # watchtower:
+  #   image: containrrr/watchtower
+  #   container_name: coexist_watchtower
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   command: --interval 30
 
 volumes:
   db-data:

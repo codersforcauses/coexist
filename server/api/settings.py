@@ -83,10 +83,17 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
+CORS_ALLOWED_ORIGINS = (
+    os.environ.get("CORS_ALLOWED_ORIGINS").split()
+    if os.environ.get("CORS_ALLOWED_ORIGINS")
+    else []
+)
+
+CSRF_TRUSTED_ORIGINS = (
+    os.environ.get("CSRF_ALLOWED_ORIGINS").split()
+    if os.environ.get("CSRF_ALLOWED_ORIGINS")
+    else []
+)
 
 ROOT_URLCONF = "api.urls"
 
@@ -168,10 +175,10 @@ def get_project_root() -> str:
 PROJECT_ROOT = get_project_root()
 
 # Will need to configure this for actual deployment
-STATIC_ROOT = "/var/www/example.com/static/"
+STATIC_ROOT = "/var/www/coexist.codersforcauses.org/static/"
 
 STATICFILES_DIRS = [
-    "/static/"
+    os.path.join(BASE_DIR, "static")
 ]
 
 

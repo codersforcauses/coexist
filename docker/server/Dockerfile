@@ -41,3 +41,5 @@ RUN chmod +x /entrypoint.sh
 
 # Start the application
 ENTRYPOINT ["/entrypoint.sh"]
+
+LABEL org.opencontainers.image.source https://github.com/codersforcauses/coexist

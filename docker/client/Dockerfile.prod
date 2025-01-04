@@ -7,6 +7,9 @@ WORKDIR /app
 # Copy package.json and package-lock.json
 COPY ./client/package.json ./client/package-lock.json ./
 
+# echo hi
+RUN echo "Building the application..."
+
 # Install dependencies
 RUN npm install
 
@@ -22,8 +25,8 @@ RUN npm run build
 # Create build timestamp
 RUN date -u > /app/build_timestamp.txt
 
-# Step 2: Prepare Files for Deployment
-FROM alpine:latest as deployment-stage
+# Step 2: Production Stage
+FROM node:20-slim as production-stage
 
 # Set working directory
 WORKDIR /app
@@ -33,3 +36,8 @@ COPY --from=build-stage /app/.next/standalone /app
 COPY --from=build-stage /app/.next/static /app/.next/static
 COPY --from=build-stage /app/public /app/public
 COPY --from=build-stage /app/build_timestamp.txt /app/build_timestamp.txt
+
+# run the web server.
+CMD ["node", "server.js"]
+
+LABEL org.opencontainers.image.source https://github.com/codersforcauses/coexist
