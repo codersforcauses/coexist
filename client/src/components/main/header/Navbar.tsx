@@ -8,7 +8,7 @@ import { useAuth } from "@/context/AuthProvider";
 import { DropDownNav } from "./DropDown";
 
 const onHoverStyle =
-  "rounded border-b-4 border-transparent px-2 hover:border-[#5C764B] hover:opacity-80";
+  "border-b-4 border-transparent px-2 hover:border-[#5C764B] hover:opacity-80";
 const outlineStyle =
   "rounded-lg border-2 border-white p-1 px-4 hover:opacity-70";
 
