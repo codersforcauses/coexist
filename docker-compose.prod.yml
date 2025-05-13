@@ -17,11 +17,11 @@ services:
   server:
     container_name: coexist-server
     image: ghcr.io/codersforcauses/coexist-server
-    build:
-      context: .
-      dockerfile: ./docker/server/Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: ./docker/server/Dockerfile
     restart: unless-stopped
-    volume:
+    volumes:
       - /var/www/coexist.codersforcauses.org/static:/var/www/coexist.codersforcauses.org/static
     env_file: ./server/.env
     depends_on:
@@ -32,9 +32,9 @@ services:
   client:
     container_name: coexist-client
     image: ghcr.io/codersforcauses/coexist-client
-    build:
-      context: .
-      dockerfile: ./docker/client/Dockerfile.prod
+    # build:
+    #   context: .
+    #   dockerfile: ./docker/client/Dockerfile.prod
     restart: unless-stopped
     env_file: ./client/.env
     environment:
@@ -44,13 +44,28 @@ services:
     ports:
       - "3000:3000"
 
-  # watchtower:
-  #   image: containrrr/watchtower
-  #   container_name: coexist_watchtower
-  #   restart: unless-stopped
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #   command: --interval 30
+  nginx:
+    # build:
+    #   context: ./docker/nginx
+    #   dockerfile: Dockerfile
+    image: ghcr.io/codersforcauses/coexist-nginx:latest
+    container_name: coexist-nginx
+    restart: unless-stopped
+    volumes:
+      - /var/www/coexist.codersforcauses.org/static:/var/www/coexist.codersforcauses.org/static
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: coexist_watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $HOME/.docker/config.json:/config.json
+    command: --interval 30
 
 volumes:
   db-data:

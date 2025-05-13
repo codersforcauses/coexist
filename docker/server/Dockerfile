@@ -24,7 +24,7 @@ RUN mkdir -p /var/log/accesslogs
 
 # Copy the application files
 COPY ./server/pyproject.toml ./server/poetry.lock ./
-RUN poetry install --no-dev --no-interaction --no-ansi
+RUN poetry install --without dev --no-root --no-interaction --no-ansi
 
 COPY ./server/ ./
 
@@ -42,4 +42,4 @@ RUN chmod +x /entrypoint.sh
 # Start the application
 ENTRYPOINT ["/entrypoint.sh"]
 
-LABEL org.opencontainers.image.source https://github.com/codersforcauses/coexist
+LABEL org.opencontainers.image.source=https://github.com/codersforcauses/coexist
